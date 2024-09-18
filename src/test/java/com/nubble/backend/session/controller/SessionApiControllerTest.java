@@ -50,12 +50,12 @@ class SessionApiControllerTest {
 
         String cookieName = "SESSION";
         String sessionId = UUID.randomUUID().toString();
-        SessionCreationInfo sessionCreationInfo = SessionCreationInfo.builder()
+        SessionCreationInfo info = SessionCreationInfo.builder()
                 .cookieName(cookieName)
                 .sessionId(sessionId)
                 .build();
         given(sessionService.create(command))
-                .willReturn(sessionCreationInfo);
+                .willReturn(info);
 
         MockHttpServletRequestBuilder requestBuilder = post("/sessions")
                 .contentType(MediaType.APPLICATION_JSON)

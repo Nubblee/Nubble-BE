@@ -26,20 +26,20 @@ public class SessionApiController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> issue(@RequestBody SessionIssuanceRequest request) {
         SessionCreationCommand command = sessionCommandMapper.fromRequest(request);
-        SessionCreationInfo sessionCreationInfo = sessionService.create(command);
+        SessionCreationInfo info = sessionService.create(command);
 
-        ResponseCookie sessionCookie = generateSessionCookie(sessionCreationInfo);
+        ResponseCookie sessionCookie = generateSessionCookie(info);
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, sessionCookie.toString())
                 .build();
     }
 
-    private static ResponseCookie generateSessionCookie(SessionCreationInfo sessionCreationInfo) {
-        return ResponseCookie.from(sessionCreationInfo.cookieName())
-                .value(sessionCreationInfo.sessionId())
-                .maxAge(sessionCreationInfo.maxAgeSeconds())
-                .path(sessionCreationInfo.path())
-                .httpOnly(sessionCreationInfo.httpOnly())
+    private static ResponseCookie generateSessionCookie(SessionCreationInfo info) {
+        return ResponseCookie.from(info.cookieName())
+                .value(info.sessionId())
+                .maxAge(info.maxAgeSeconds())
+                .path(info.path())
+                .httpOnly(info.httpOnly())
                 .build();
     }
 }
