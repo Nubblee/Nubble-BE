@@ -1,8 +1,8 @@
 package com.nubble.backend.session.controller;
 
-import com.nubble.backend.session.controller.SessionRequest.SessionIssuanceRequest;
-import com.nubble.backend.session.service.SessionCommand.SessionCreationCommand;
-import com.nubble.backend.session.service.SessionInfo.SessionCreationInfo;
+import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
+import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
+import com.nubble.backend.session.service.SessionInfo.SessionCreateInfo;
 import com.nubble.backend.session.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -24,9 +24,9 @@ public class SessionApiController {
     private final SessionCommandMapper sessionCommandMapper;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> issue(@RequestBody SessionIssuanceRequest request) {
-        SessionCreationCommand command = sessionCommandMapper.fromRequest(request);
-        SessionCreationInfo info = sessionService.create(command);
+    public ResponseEntity<Void> issueSession(@RequestBody SessionIssueRequest request) {
+        SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
+        SessionCreateInfo info = sessionService.createSession(command);
 
         ResponseCookie sessionCookie = generateSessionCookie(info);
         return ResponseEntity.status(HttpStatus.OK)
@@ -34,7 +34,7 @@ public class SessionApiController {
                 .build();
     }
 
-    private static ResponseCookie generateSessionCookie(SessionCreationInfo info) {
+    private static ResponseCookie generateSessionCookie(SessionCreateInfo info) {
         return ResponseCookie.from(info.cookieName())
                 .value(info.sessionId())
                 .maxAge(info.maxAgeSeconds())

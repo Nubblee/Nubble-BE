@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SessionCommand {
 
-    public record SessionCreationCommand(
+    public record SessionCreateCommand(
             String userName,
             String password
     ) {

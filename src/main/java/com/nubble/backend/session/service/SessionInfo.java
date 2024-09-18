@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class SessionInfo {
 
     @Builder
-    public record SessionCreationInfo(
+    public record SessionCreateInfo(
             String userId,
             String cookieName,
             String sessionId,

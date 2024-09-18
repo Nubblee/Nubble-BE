@@ -7,9 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.session.controller.SessionRequest.SessionIssuanceRequest;
-import com.nubble.backend.session.service.SessionCommand.SessionCreationCommand;
-import com.nubble.backend.session.service.SessionInfo.SessionCreationInfo;
+import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
+import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
+import com.nubble.backend.session.service.SessionInfo.SessionCreateInfo;
 import com.nubble.backend.session.service.SessionService;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -40,21 +40,21 @@ class SessionApiControllerTest {
 
     @DisplayName("아이디와 비밀번호가 매칭되면 세션쿠키를 발급합니다.")
     @Test
-    void issue_success() throws Exception {
+    void issue_Session_success() throws Exception {
         // given
-        SessionIssuanceRequest request = SessionIssuanceRequest.builder()
+        SessionIssueRequest request = SessionIssueRequest.builder()
                 .userId("user")
                 .password("1234")
                 .build();
-        SessionCreationCommand command = sessionCommandMapper.fromRequest(request);
+        SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
 
         String cookieName = "SESSION";
         String sessionId = UUID.randomUUID().toString();
-        SessionCreationInfo info = SessionCreationInfo.builder()
+        SessionCreateInfo info = SessionCreateInfo.builder()
                 .cookieName(cookieName)
                 .sessionId(sessionId)
                 .build();
-        given(sessionService.create(command))
+        given(sessionService.createSession(command))
                 .willReturn(info);
 
         MockHttpServletRequestBuilder requestBuilder = post("/sessions")
