@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.session.controller.SessionRequest.Issuance;
+import com.nubble.backend.session.controller.SessionRequest.SessionIssuanceRequest;
 import com.nubble.backend.session.service.SessionCommand.SessionCreationCommand;
 import com.nubble.backend.session.service.SessionInfo.SessionCreationInfo;
 import com.nubble.backend.session.service.SessionService;
@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class SessionControllerTest {
+class SessionApiControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,7 +42,7 @@ class SessionControllerTest {
     @Test
     void issue_success() throws Exception {
         // given
-        SessionRequest.Issuance request = Issuance.builder()
+        SessionIssuanceRequest request = SessionIssuanceRequest.builder()
                 .userId("user")
                 .password("1234")
                 .build();

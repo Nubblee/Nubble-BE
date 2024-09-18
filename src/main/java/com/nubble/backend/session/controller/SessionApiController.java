@@ -1,5 +1,6 @@
 package com.nubble.backend.session.controller;
 
+import com.nubble.backend.session.controller.SessionRequest.SessionIssuanceRequest;
 import com.nubble.backend.session.service.SessionCommand.SessionCreationCommand;
 import com.nubble.backend.session.service.SessionInfo.SessionCreationInfo;
 import com.nubble.backend.session.service.SessionService;
@@ -17,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/sessions")
 @RequiredArgsConstructor
-public class SessionController {
+public class SessionApiController {
 
     private final SessionService sessionService;
     private final SessionCommandMapper sessionCommandMapper;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> issue(@RequestBody SessionRequest.Issuance request) {
+    public ResponseEntity<Void> issue(@RequestBody SessionIssuanceRequest request) {
         SessionCreationCommand command = sessionCommandMapper.fromRequest(request);
         SessionCreationInfo sessionCreationInfo = sessionService.create(command);
 

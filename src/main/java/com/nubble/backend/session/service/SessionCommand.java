@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 public class SessionCommand {
 
     public record SessionCreationCommand(
-            String userId,
+            String userName,
             String password
     ) {
 

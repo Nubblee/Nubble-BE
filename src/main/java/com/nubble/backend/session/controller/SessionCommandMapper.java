@@ -1,8 +1,10 @@
 package com.nubble.backend.session.controller;
 
+import com.nubble.backend.session.controller.SessionRequest.SessionIssuanceRequest;
 import com.nubble.backend.session.service.SessionCommand.SessionCreationCommand;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
@@ -11,5 +13,7 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.ERROR
 )
 public interface SessionCommandMapper {
-    SessionCreationCommand fromRequest(SessionRequest.Issuance request);
+
+    @Mapping(target = "userName", source = "userId")
+    SessionCreationCommand fromRequest(SessionIssuanceRequest request);
 }
