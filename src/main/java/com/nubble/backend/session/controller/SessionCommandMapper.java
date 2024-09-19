@@ -14,6 +14,6 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface SessionCommandMapper {
 
-    @Mapping(target = "userName", source = "userId")
+    @Mapping(target = "username", source = "userId")
     SessionCreateCommand fromRequest(SessionIssueRequest request);
 }

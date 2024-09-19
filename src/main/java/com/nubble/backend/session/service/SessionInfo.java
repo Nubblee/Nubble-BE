@@ -9,7 +9,7 @@ public class SessionInfo {
 
     @Builder
     public record SessionCreateInfo(
-            String userId,
+            Long userId,
             String cookieName,
             String sessionId,
             long maxAgeSeconds,
