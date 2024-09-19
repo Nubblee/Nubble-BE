@@ -18,6 +18,7 @@ public class SessionService {
     private final UserRepository userRepository;
     private final AbstractSessionIdGenerator sessionIdGenerator;
     private final SessionRepository sessionRepository;
+    private final SessionInfoMapper sessionInfoMapper;
 
     @Transactional
     public SessionCreateInfo createSession(SessionCreateCommand command) {
@@ -30,9 +31,6 @@ public class SessionService {
                 .build();
         sessionRepository.save(newSession);
 
-        return SessionCreateInfo.builder()
-                .userId(user.getId())
-                .sessionId(newSession.getAccessId())
-                .build();
+        return sessionInfoMapper.toSessionCreateInfo(newSession);
     }
 }
