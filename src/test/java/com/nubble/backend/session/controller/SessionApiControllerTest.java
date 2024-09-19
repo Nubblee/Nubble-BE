@@ -46,7 +46,7 @@ class SessionApiControllerTest {
     void issue_Session_success() throws Exception {
         // given
         SessionIssueRequest request = SessionIssueRequest.builder()
-                .userId("user")
+                .username("user")
                 .password("1234")
                 .build();
         SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
