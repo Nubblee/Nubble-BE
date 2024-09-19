@@ -30,7 +30,6 @@ public class SessionService {
                 .build();
         sessionRepository.save(newSession);
 
-        // todo: 세션Entity를 쿠키 외부 속성값들 + 생성된 세선ID로 만든다.
         return SessionCreateInfo.builder()
                 .userId(user.getId())
                 .sessionId(newSession.getAccessId())

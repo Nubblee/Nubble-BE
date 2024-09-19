@@ -10,14 +10,7 @@ public class SessionInfo {
     @Builder
     public record SessionCreateInfo(
             Long userId,
-            String cookieName,
-            String sessionId,
-            long maxAgeSeconds,
-            String path,
-            String domain,
-            boolean secure,
-            boolean httpOnly,
-            String sameSite
+            String sessionId
     ) {
 
     }

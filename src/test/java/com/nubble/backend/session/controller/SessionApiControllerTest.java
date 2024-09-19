@@ -38,6 +38,9 @@ class SessionApiControllerTest {
     @Autowired
     private SessionCommandMapper sessionCommandMapper;
 
+    @Autowired
+    private SessionCookieProperties sessionCookieProperties;
+
     @DisplayName("아이디와 비밀번호가 매칭되면 세션쿠키를 발급합니다.")
     @Test
     void issue_Session_success() throws Exception {
@@ -48,10 +51,8 @@ class SessionApiControllerTest {
                 .build();
         SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
 
-        String cookieName = "SESSION";
         String sessionId = UUID.randomUUID().toString();
         SessionCreateInfo info = SessionCreateInfo.builder()
-                .cookieName(cookieName)
                 .sessionId(sessionId)
                 .build();
         given(sessionService.createSession(command))
@@ -64,7 +65,7 @@ class SessionApiControllerTest {
         // when & then
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(cookie().value(cookieName, sessionId))
+                .andExpect(cookie().value(sessionCookieProperties.getName(), sessionId))
                 .andDo(print());
     }
 }

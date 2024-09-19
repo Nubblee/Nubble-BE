@@ -22,24 +22,21 @@ public class SessionApiController {
 
     private final SessionService sessionService;
     private final SessionCommandMapper sessionCommandMapper;
+    private final SessionCookieProperties sessionCookieProperties;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> issueSession(@RequestBody SessionIssueRequest request) {
         SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
         SessionCreateInfo info = sessionService.createSession(command);
 
-        ResponseCookie sessionCookie = generateSessionCookie(info);
+        ResponseCookie sessionCookie = ResponseCookie.from(sessionCookieProperties.getName())
+                .value(info.sessionId())
+                .maxAge(sessionCookieProperties.getMaxAge())
+                .path(sessionCookieProperties.getPath())
+                .httpOnly(sessionCookieProperties.isHttpOnly())
+                .build();
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, sessionCookie.toString())
-                .build();
-    }
-
-    private static ResponseCookie generateSessionCookie(SessionCreateInfo info) {
-        return ResponseCookie.from(info.cookieName())
-                .value(info.sessionId())
-                .maxAge(info.maxAgeSeconds())
-                .path(info.path())
-                .httpOnly(info.httpOnly())
                 .build();
     }
 }
