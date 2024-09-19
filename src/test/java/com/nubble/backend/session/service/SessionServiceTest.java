@@ -3,10 +3,13 @@ package com.nubble.backend.session.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
+import com.nubble.backend.session.domain.Session;
+import com.nubble.backend.session.respository.SessionRepository;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.session.service.SessionInfo.SessionCreateInfo;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.repository.UserRepository;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +31,8 @@ class SessionServiceTest {
 
     @MockBean
     private AbstractSessionIdGenerator sessionIdGenerator;
+    @Autowired
+    private SessionRepository sessionRepository;
 
     @DisplayName("username, password와 매핑되는 User가 있다면, 새로운 세션을 발급합니다.")
     @Test
@@ -54,7 +59,11 @@ class SessionServiceTest {
         // then
         Assertions.assertAll(
                 () -> assertThat(actual.userId()).isEqualTo(user.getId()),
-                () -> assertThat(actual.sessionId()).isEqualTo(newSessionId)
-        );
+                () -> assertThat(actual.sessionId()).isEqualTo(newSessionId),
+                () -> {
+                    Optional<Session> byAccessId = sessionRepository.findByAccessId(newSessionId);
+                    assertThat(byAccessId).isPresent();
+                    assertThat(byAccessId.get().getAccessId()).isEqualTo(newSessionId);
+                });
     }
 }
