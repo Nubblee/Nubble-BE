@@ -1,6 +1,7 @@
 package com.nubble.backend.session.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.session.service.SessionInfo.SessionCreateInfo;
@@ -12,8 +13,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 class SessionServiceTest {
 
     @Autowired
@@ -21,6 +25,9 @@ class SessionServiceTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @MockBean
+    private AbstractSessionIdGenerator sessionIdGenerator;
 
     @DisplayName("username, password와 매핑되는 User가 있다면, 새로운 세션을 발급합니다.")
     @Test
@@ -38,6 +45,8 @@ class SessionServiceTest {
                 .build();
 
         String newSessionId = UUID.randomUUID().toString();
+        given(sessionIdGenerator.generateUniqueSessionId())
+                .willReturn(newSessionId);
 
         // when
         SessionCreateInfo actual = sessionService.createSession(command);
