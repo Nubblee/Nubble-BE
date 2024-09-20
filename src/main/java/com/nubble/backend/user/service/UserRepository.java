@@ -1,4 +1,4 @@
-package com.nubble.backend.user.repository;
+package com.nubble.backend.user.service;
 
 import com.nubble.backend.user.domain.User;
 import java.util.Optional;

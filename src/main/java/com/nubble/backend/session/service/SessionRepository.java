@@ -1,4 +1,4 @@
-package com.nubble.backend.session.respository;
+package com.nubble.backend.session.service;
 
 import com.nubble.backend.session.domain.Session;
 import java.util.Optional;

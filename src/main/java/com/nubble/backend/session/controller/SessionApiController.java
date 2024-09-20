@@ -2,7 +2,7 @@ package com.nubble.backend.session.controller;
 
 import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
-import com.nubble.backend.session.service.SessionInfo.SessionCreateInfo;
+import com.nubble.backend.session.service.SessionInfo;
 import com.nubble.backend.session.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +27,7 @@ public class SessionApiController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> issueSession(@RequestBody SessionIssueRequest request) {
         SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
-        SessionCreateInfo info = sessionService.createSession(command);
+        SessionInfo info = sessionService.createSession(command);
 
         ResponseCookie sessionCookie = ResponseCookie.from(sessionCookieProperties.getName())
                 .value(info.sessionId())

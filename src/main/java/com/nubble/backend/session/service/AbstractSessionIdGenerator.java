@@ -1,6 +1,5 @@
 package com.nubble.backend.session.service;
 
-import com.nubble.backend.session.respository.SessionRepository;
 import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
