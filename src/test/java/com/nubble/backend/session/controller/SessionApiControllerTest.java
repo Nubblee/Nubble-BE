@@ -1,6 +1,7 @@
 package com.nubble.backend.session.controller;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
@@ -11,6 +12,7 @@ import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.session.service.SessionInfo;
 import com.nubble.backend.session.service.SessionService;
+import jakarta.servlet.http.Cookie;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,6 +68,20 @@ class SessionApiControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(cookie().value(sessionCookieProperties.getName(), sessionId))
+                .andDo(print());
+    }
+
+    @DisplayName("유효한 세션을 가지고 있을 경우, ok를 반환합니다.")
+    @Test
+    void validateSession() throws Exception {
+        // given
+        String validSessionId = UUID.randomUUID().toString();
+        MockHttpServletRequestBuilder requestBuilder = get("/sessions/validate")
+                .cookie(new Cookie(sessionCookieProperties.getName(), validSessionId));
+
+        // when & then
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }
