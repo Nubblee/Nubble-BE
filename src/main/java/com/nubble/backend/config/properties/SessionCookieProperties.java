@@ -1,4 +1,4 @@
-package com.nubble.backend.session.controller;
+package com.nubble.backend.config.properties;
 
 import java.time.Duration;
 import lombok.Getter;

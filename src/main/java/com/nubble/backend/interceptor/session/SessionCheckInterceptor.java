@@ -1,6 +1,6 @@
 package com.nubble.backend.interceptor.session;
 
-import com.nubble.backend.session.controller.SessionCookieProperties;
+import com.nubble.backend.config.properties.SessionCookieProperties;
 import com.nubble.backend.session.service.SessionService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
