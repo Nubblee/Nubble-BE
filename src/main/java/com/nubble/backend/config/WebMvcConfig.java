@@ -1,12 +1,18 @@
 package com.nubble.backend.config;
 
+import com.nubble.backend.interceptor.session.SessionCheckInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfig {
+@RequiredArgsConstructor
+public class WebMvcConfig implements WebMvcConfigurer {
+
+    private final SessionCheckInterceptor sessionCheckInterceptor;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -20,5 +26,11 @@ public class CorsConfig {
                         .allowCredentials(true);
             }
         };
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(sessionCheckInterceptor)
+                .addPathPatterns("/**");
     }
 }

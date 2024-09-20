@@ -1,5 +1,6 @@
 package com.nubble.backend.session.controller;
 
+import com.nubble.backend.interceptor.session.SessionRequired;
 import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.session.service.SessionInfo;
@@ -41,8 +42,9 @@ public class SessionApiController {
                 .build();
     }
 
+    @SessionRequired
     @GetMapping("/validate")
     public ResponseEntity<Void> validateSession() {
-        throw new UnsupportedOperationException("아직 구현되지 않았습니다.");
+        return ResponseEntity.ok().build();
     }
 }

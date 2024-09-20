@@ -30,4 +30,13 @@ public class SessionService {
 
         return SessionInfo.fromDomain(newSession);
     }
+
+    public void validateSession(String sessionId) {
+        if (sessionId == null) {
+            throw new RuntimeException("세션이 존재하지 않습니다.");
+        }
+        if (sessionRepository.findByAccessId(sessionId).isEmpty()) {
+            throw new RuntimeException("유효하지 않은 세션입니다.");
+        }
+    }
 }
