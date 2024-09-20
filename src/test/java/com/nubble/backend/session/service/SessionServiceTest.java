@@ -1,6 +1,7 @@
 package com.nubble.backend.session.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.BDDMockito.given;
 
 import com.nubble.backend.session.domain.Session;
@@ -63,5 +64,28 @@ class SessionServiceTest {
                     assertThat(byAccessId).isPresent();
                     assertThat(byAccessId.get().getAccessId()).isEqualTo(newSessionId);
                 });
+    }
+
+    @DisplayName("유효한 세션의 accessId이라면 아무런 예외도 발생하지 않습니다.")
+    @Test
+    void validateSession_success() {
+        // given
+        User user = User.builder()
+                .username("user")
+                .password("1234")
+                .build();
+        userRepository.save(user);
+
+        String validSessionAccessId = UUID.randomUUID().toString();
+        Session session = Session.builder()
+                .user(user)
+                .accessId(validSessionAccessId)
+                .build();
+        sessionRepository.save(session);
+
+        // when & then
+        assertThatCode(() ->
+                sessionService.validateSession(validSessionAccessId))
+                .doesNotThrowAnyException();
     }
 }
