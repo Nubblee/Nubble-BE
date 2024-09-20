@@ -2,7 +2,6 @@ package com.nubble.backend.session.service;
 
 import com.nubble.backend.session.domain.Session;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
-import com.nubble.backend.session.service.SessionInfo.SessionCreateInfo;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,10 +16,9 @@ public class SessionService {
     private final UserRepository userRepository;
     private final AbstractSessionIdGenerator sessionIdGenerator;
     private final SessionRepository sessionRepository;
-    private final SessionInfoMapper sessionInfoMapper;
 
     @Transactional
-    public SessionCreateInfo createSession(SessionCreateCommand command) {
+    public SessionInfo createSession(SessionCreateCommand command) {
         User user = userRepository.findByUsernameAndPassword(command.username(), command.password())
                 .orElseThrow(() -> new EntityNotFoundException("유저를 찾지 못했습니다."));
 
@@ -30,6 +28,6 @@ public class SessionService {
                 .build();
         sessionRepository.save(newSession);
 
-        return sessionInfoMapper.toSessionCreateInfo(newSession);
+        return SessionInfo.fromDomain(newSession);
     }
 }

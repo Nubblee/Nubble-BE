@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
-import com.nubble.backend.session.service.SessionInfo.SessionCreateInfo;
+import com.nubble.backend.session.service.SessionInfo;
 import com.nubble.backend.session.service.SessionService;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +52,7 @@ class SessionApiControllerTest {
         SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
 
         String sessionId = UUID.randomUUID().toString();
-        SessionCreateInfo info = SessionCreateInfo.builder()
+        SessionInfo info = SessionInfo.builder()
                 .sessionId(sessionId)
                 .build();
         given(sessionService.createSession(command))

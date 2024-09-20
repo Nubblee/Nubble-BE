@@ -5,7 +5,6 @@ import static org.mockito.BDDMockito.given;
 
 import com.nubble.backend.session.domain.Session;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
-import com.nubble.backend.session.service.SessionInfo.SessionCreateInfo;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.util.Optional;
@@ -53,7 +52,7 @@ class SessionServiceTest {
                 .willReturn(newSessionId);
 
         // when
-        SessionCreateInfo actual = sessionService.createSession(command);
+        SessionInfo actual = sessionService.createSession(command);
 
         // then
         Assertions.assertAll(
