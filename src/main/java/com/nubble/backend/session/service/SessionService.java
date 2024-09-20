@@ -1,11 +1,10 @@
 package com.nubble.backend.session.service;
 
 import com.nubble.backend.session.domain.Session;
-import com.nubble.backend.session.respository.SessionRepository;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.session.service.SessionInfo.SessionCreateInfo;
 import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.repository.UserRepository;
+import com.nubble.backend.user.service.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
