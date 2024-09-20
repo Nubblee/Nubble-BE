@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,5 +39,10 @@ public class SessionApiController {
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, sessionCookie.toString())
                 .build();
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<Void> validateSession() {
+        throw new UnsupportedOperationException("아직 구현되지 않았습니다.");
     }
 }
