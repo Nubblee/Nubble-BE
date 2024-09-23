@@ -8,6 +8,7 @@ import com.nubble.backend.session.domain.Session;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
@@ -80,6 +81,7 @@ class SessionServiceTest {
         Session session = Session.builder()
                 .user(user)
                 .accessId(validSessionAccessId)
+                .expireAt(LocalDateTime.now().plusDays(1))
                 .build();
         sessionRepository.save(session);
 
