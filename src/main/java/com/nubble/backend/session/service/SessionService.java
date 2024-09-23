@@ -5,6 +5,7 @@ import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ public class SessionService {
         Session newSession = Session.builder()
                 .accessId(sessionIdGenerator.generateUniqueSessionId())
                 .user(user)
+                .expireAt(LocalDateTime.now().plusMonths(1)) // todo 설정 필드를 통해 뽑아야 함
                 .build();
         sessionRepository.save(newSession);
 
