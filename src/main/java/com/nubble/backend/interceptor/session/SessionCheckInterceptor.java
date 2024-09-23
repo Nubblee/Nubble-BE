@@ -1,6 +1,5 @@
 package com.nubble.backend.interceptor.session;
 
-import com.nubble.backend.config.properties.SessionCookieProperties;
 import com.nubble.backend.session.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +12,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @RequiredArgsConstructor
 public class SessionCheckInterceptor implements HandlerInterceptor {
 
-    private final SessionCookieProperties sessionCookieProperties;
     private final SessionService sessionService;
 
     @Override
