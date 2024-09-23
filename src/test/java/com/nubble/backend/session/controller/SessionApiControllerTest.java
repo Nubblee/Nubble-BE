@@ -60,7 +60,7 @@ class SessionApiControllerTest {
         given(sessionService.createSession(command))
                 .willReturn(info);
 
-        MockHttpServletRequestBuilder requestBuilder = post("/sessions")
+        MockHttpServletRequestBuilder requestBuilder = post("/auth/sessions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request));
 
@@ -79,7 +79,7 @@ class SessionApiControllerTest {
     void validateSession() throws Exception {
         // given
         String validSessionId = UUID.randomUUID().toString();
-        MockHttpServletRequestBuilder requestBuilder = get("/sessions/validate")
+        MockHttpServletRequestBuilder requestBuilder = get("/auth/sessions/validate")
                 .header("SESSION-ID", validSessionId);
 
         // when & then

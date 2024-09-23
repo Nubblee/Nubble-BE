@@ -27,6 +27,6 @@ public class SessionCheckInterceptor implements HandlerInterceptor {
     }
 
     private String getSessionIdFromHeader(HttpServletRequest request) {
-        return request.getHeader("session");
+        return request.getHeader("SESSION-ID"); // todo 전역에서 관리할 수 있도록 변경
     }
 }
