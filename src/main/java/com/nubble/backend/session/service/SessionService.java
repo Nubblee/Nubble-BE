@@ -33,6 +33,7 @@ public class SessionService {
         return SessionInfo.fromDomain(newSession);
     }
 
+    // todo validator 빈을 만들어 분리
     @Transactional(readOnly = true)
     public void validateSession(String sessionAccessId) {
         if (sessionAccessId == null) {

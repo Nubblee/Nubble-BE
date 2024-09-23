@@ -13,7 +13,6 @@ import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.session.service.SessionInfo;
 import com.nubble.backend.session.service.SessionService;
-import jakarta.servlet.http.Cookie;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -85,7 +84,7 @@ class SessionApiControllerTest {
         // given
         String validSessionId = UUID.randomUUID().toString();
         MockHttpServletRequestBuilder requestBuilder = get("/sessions/validate")
-                .cookie(new Cookie(sessionCookieProperties.getName(), validSessionId));
+                .header("SESSION-ID", validSessionId);
 
         // when & then
         mockMvc.perform(requestBuilder)
