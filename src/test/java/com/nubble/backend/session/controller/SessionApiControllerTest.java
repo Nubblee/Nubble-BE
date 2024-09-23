@@ -4,7 +4,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +14,7 @@ import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.session.service.SessionInfo;
 import com.nubble.backend.session.service.SessionService;
 import jakarta.servlet.http.Cookie;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,10 @@ class SessionApiControllerTest {
         SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
 
         String sessionId = UUID.randomUUID().toString();
+        LocalDateTime expireAt = LocalDateTime.now().plusMonths(1);
         SessionInfo info = SessionInfo.builder()
+                .userId(1L)
+                .expireAt(expireAt)
                 .sessionId(sessionId)
                 .build();
         given(sessionService.createSession(command))
@@ -67,8 +71,11 @@ class SessionApiControllerTest {
 
         // when & then
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk())
-                .andExpect(cookie().value(sessionCookieProperties.getName(), sessionId))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.userId").value(1L))
+                .andExpect(jsonPath("$.headerName").value("SESSION-ID"))
+                .andExpect(jsonPath("$.sessionId").value(sessionId))
+                .andExpect(jsonPath("$.expirationTimeMs").isNumber())
                 .andDo(print());
     }
 
