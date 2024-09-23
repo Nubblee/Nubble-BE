@@ -4,16 +4,15 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.config.properties.SessionCookieProperties;
 import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.session.service.SessionInfo;
 import com.nubble.backend.session.service.SessionService;
-import jakarta.servlet.http.Cookie;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,9 +40,6 @@ class SessionApiControllerTest {
     @Autowired
     private SessionCommandMapper sessionCommandMapper;
 
-    @Autowired
-    private SessionCookieProperties sessionCookieProperties;
-
     @DisplayName("아이디와 비밀번호가 매칭되면 세션쿠키를 발급합니다.")
     @Test
     void issue_Session_success() throws Exception {
@@ -55,20 +51,26 @@ class SessionApiControllerTest {
         SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
 
         String sessionId = UUID.randomUUID().toString();
+        LocalDateTime expireAt = LocalDateTime.now().plusMonths(1);
         SessionInfo info = SessionInfo.builder()
+                .userId(1L)
+                .expireAt(expireAt)
                 .sessionId(sessionId)
                 .build();
         given(sessionService.createSession(command))
                 .willReturn(info);
 
-        MockHttpServletRequestBuilder requestBuilder = post("/sessions")
+        MockHttpServletRequestBuilder requestBuilder = post("/auth/sessions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request));
 
         // when & then
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk())
-                .andExpect(cookie().value(sessionCookieProperties.getName(), sessionId))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.userId").value(1L))
+                .andExpect(jsonPath("$.headerName").value("SESSION-ID"))
+                .andExpect(jsonPath("$.sessionId").value(sessionId))
+                .andExpect(jsonPath("$.expirationTimeMs").isNumber())
                 .andDo(print());
     }
 
@@ -77,8 +79,8 @@ class SessionApiControllerTest {
     void validateSession() throws Exception {
         // given
         String validSessionId = UUID.randomUUID().toString();
-        MockHttpServletRequestBuilder requestBuilder = get("/sessions/validate")
-                .cookie(new Cookie(sessionCookieProperties.getName(), validSessionId));
+        MockHttpServletRequestBuilder requestBuilder = get("/auth/sessions/validate")
+                .header("SESSION-ID", validSessionId);
 
         // when & then
         mockMvc.perform(requestBuilder)

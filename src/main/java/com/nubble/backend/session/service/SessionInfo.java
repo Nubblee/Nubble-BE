@@ -1,21 +1,21 @@
 package com.nubble.backend.session.service;
 
 import com.nubble.backend.session.domain.Session;
-import lombok.AccessLevel;
+import java.time.LocalDateTime;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-import org.hibernate.SessionBuilder;
 
 @Builder
 public record SessionInfo(
         Long userId,
-        String sessionId
-) {
+        String sessionId,
+        LocalDateTime expireAt
+        ) {
 
     public static SessionInfo fromDomain(Session session) {
         return SessionInfo.builder()
                 .userId(session.getUser().getId())
                 .sessionId(session.getAccessId())
+                .expireAt(session.getExpireAt())
                 .build();
     }
 }
