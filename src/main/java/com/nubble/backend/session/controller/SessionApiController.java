@@ -6,6 +6,7 @@ import com.nubble.backend.session.controller.SessionResponse.SessionIssueRespons
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.session.service.SessionInfo;
 import com.nubble.backend.session.service.SessionService;
+import jakarta.validation.Valid;
 import java.time.ZoneId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class SessionApiController {
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SessionIssueResponse> issueSession(@RequestBody SessionIssueRequest request) {
+    public ResponseEntity<SessionIssueResponse> issueSession(@Valid @RequestBody SessionIssueRequest request) {
         SessionCreateCommand command = sessionCommandMapper.fromRequest(request);
         SessionInfo info = sessionService.createSession(command);
 
