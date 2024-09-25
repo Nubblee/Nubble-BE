@@ -3,6 +3,7 @@ package com.nubble.backend.config;
 import com.nubble.backend.config.resolver.UserSessionResolver;
 import com.nubble.backend.interceptor.session.SessionCheckInterceptor;
 import com.nubble.backend.session.service.SessionRepository;
+import com.nubble.backend.session.service.SessionService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private final SessionRepository sessionRepository;
-    private final SessionCheckInterceptor sessionCheckInterceptor;
+    private final SessionService sessionService;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -35,7 +36,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(sessionCheckInterceptor)
+        registry.addInterceptor(new SessionCheckInterceptor(sessionService))
                 .addPathPatterns("/**");
     }
 
