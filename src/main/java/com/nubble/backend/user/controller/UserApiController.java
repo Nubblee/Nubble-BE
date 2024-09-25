@@ -4,6 +4,8 @@ import static com.nubble.backend.user.controller.UserResponse.LoggedInUserGetRes
 
 import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.interceptor.session.SessionRequired;
+import com.nubble.backend.user.service.UserInfo;
+import com.nubble.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserApiController {
 
+    private final UserService userService;
+
     @SessionRequired
     @GetMapping("/me")
     public ResponseEntity<LoggedInUserGetResponse> getLoggedInUser(UserSession userSession) {
+        UserInfo info = userService.getUser(userSession.userId());
+
         return ResponseEntity.ok()
                 .body(LoggedInUserGetResponse.builder()
-                        .username("user")
-                        .nickname("닉네임")
+                        .username(info.username())
+                        .nickname(info.nickname())
                         .build());
     }
 }
