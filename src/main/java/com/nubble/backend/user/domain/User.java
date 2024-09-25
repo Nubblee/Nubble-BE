@@ -28,9 +28,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String nickname;
+
     @Builder
-    public User(String username, String password) {
+    public User(String username, String password, String nickname) {
         this.username = username;
         this.password = password;
+        this.nickname = nickname;
     }
 }

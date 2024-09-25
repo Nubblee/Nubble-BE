@@ -17,6 +17,7 @@ public class UserService {
 
         return UserInfo.builder()
                 .username(foundUser.getUsername())
+                .nickname(foundUser.getNickname())
                 .build();
     }
 }

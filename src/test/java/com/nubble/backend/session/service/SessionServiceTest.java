@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.BDDMockito.given;
 
+import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.session.domain.Session;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
 import com.nubble.backend.user.domain.User;
@@ -38,9 +39,7 @@ class SessionServiceTest {
     @Test
     void createSession_success() {
         // given
-        User user = User.builder()
-                .username("user")
-                .password("1234")
+        User user = UserFixture.aUser()
                 .build();
         userRepository.save(user);
 
@@ -71,9 +70,7 @@ class SessionServiceTest {
     @Test
     void validateSession_success() {
         // given
-        User user = User.builder()
-                .username("user")
-                .password("1234")
+        User user = UserFixture.aUser()
                 .build();
         userRepository.save(user);
 

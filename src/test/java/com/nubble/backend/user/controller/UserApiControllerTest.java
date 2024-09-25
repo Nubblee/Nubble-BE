@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.session.service.SessionService;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
@@ -34,9 +35,7 @@ class UserApiControllerTest {
     @Test
     void getLoggedInUser_success() throws Exception {
         // given
-        User user = User.builder()
-                .username("user")
-                .password("1234")
+        User user = UserFixture.aUser()
                 .build();
         userRepository.save(user);
 
@@ -53,6 +52,6 @@ class UserApiControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.username").value(user.getUsername()))
-                .andExpect(jsonPath("$.nickname").value("닉네임"));
+                .andExpect(jsonPath("$.nickname").value(user.getNickname()));
     }
 }
