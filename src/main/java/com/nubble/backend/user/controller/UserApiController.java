@@ -7,6 +7,7 @@ import com.nubble.backend.interceptor.session.SessionRequired;
 import com.nubble.backend.user.service.UserInfo;
 import com.nubble.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class UserApiController {
     private final UserService userService;
 
     @SessionRequired
-    @GetMapping("/me")
+    @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LoggedInUserGetResponse> getLoggedInUser(UserSession userSession) {
         UserInfo info = userService.getUser(userSession.userId());
 
