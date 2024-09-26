@@ -1,5 +1,6 @@
 package com.nubble.backend.codingproblem.controller;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -7,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemCreateRequest;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemCreateResponse;
+import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.session.domain.Session;
@@ -25,9 +27,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
+@SpringBootTest // todo 컨트롤러 테스트 springbootTest 분리하기
 @AutoConfigureMockMvc
+@Transactional
 class CodingProblemApiControllerTest {
 
     @Autowired
@@ -51,12 +55,6 @@ class CodingProblemApiControllerTest {
     @Test
     void createProblem_success() throws Exception {
         // given
-        ProblemCreateRequest request = ProblemCreateRequest.builder()
-                .quizDate(LocalDate.now())
-                .problemTitle("새로운 문제")
-                .problemUrl("https:")
-                .build();
-
         User user = UserFixture.aUser().build();
         userRepository.save(user);
         Session session = Session.builder()
@@ -66,13 +64,24 @@ class CodingProblemApiControllerTest {
                 .build();
         sessionRepository.save(session);
 
+        ProblemCreateRequest request = ProblemCreateRequest.builder()
+                .quizDate(LocalDate.now())
+                .problemTitle("새로운 문제")
+                .problemUrl("https:")
+                .build();
+
+        ProblemCreateCommand command = problemCommandMapper.of(request, user.getId());
+        long newProblemId = 1L;
+        given(codingProblemService.createProblem(command))
+                .willReturn(newProblemId);
+
         MockHttpServletRequestBuilder requestBuilder = post("/coding-problems")
                 .header("SESSION-ID", session.getAccessId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request));
 
         ProblemCreateResponse expectedResponse = ProblemCreateResponse.builder()
-                .problemId(1L)
+                .problemId(newProblemId)
                 .build();
         String responseJson = objectMapper.writeValueAsString(expectedResponse);
 
