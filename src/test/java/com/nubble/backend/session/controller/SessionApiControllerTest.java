@@ -72,7 +72,7 @@ class SessionApiControllerTest {
                 .andExpect(jsonPath("$.userId").value(1L))
                 .andExpect(jsonPath("$.headerName").value("SESSION-ID"))
                 .andExpect(jsonPath("$.sessionId").value(sessionId))
-                .andExpect(jsonPath("$.expirationTimeMs").isNumber())
+                .andExpect(jsonPath("$.expirationEpochMs").isNumber())
                 .andDo(print());
     }
 

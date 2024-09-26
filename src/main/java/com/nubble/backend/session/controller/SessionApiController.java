@@ -38,7 +38,7 @@ public class SessionApiController {
                         .userId(info.userId())
                         .headerName("SESSION-ID") // todo 전역으로 관리해야 됨
                         .sessionId(info.sessionId())
-                        .expirationTimeMs(convertToEpochMilli(info)) // todo 에포크 컨버터 빈을 통해 함수를 사용하도록 수정
+                        .expirationEpochMs(convertToEpochMilli(info)) // todo 에포크 컨버터 빈을 통해 함수를 사용하도록 수정
                         .build());
     }
 

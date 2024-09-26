@@ -12,7 +12,7 @@ public class SessionResponse {
             Long userId,
             String headerName,
             String sessionId,
-            long expirationTimeMs
+            long expirationEpochMs
     ) {
 
     }
