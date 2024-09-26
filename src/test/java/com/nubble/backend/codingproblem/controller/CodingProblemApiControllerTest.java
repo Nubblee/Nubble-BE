@@ -7,12 +7,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemCreateRequest;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemCreateResponse;
+import com.nubble.backend.codingproblem.service.CodingProblemService;
+import com.nubble.backend.fixture.UserFixture;
+import com.nubble.backend.session.domain.Session;
+import com.nubble.backend.session.service.SessionRepository;
+import com.nubble.backend.user.domain.User;
+import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -27,6 +36,17 @@ class CodingProblemApiControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private SessionRepository sessionRepository;
+
+    @MockBean
+    private CodingProblemService codingProblemService;
+
+    @Autowired
+    private CodingProblemCommandMapper problemCommandMapper;
+    @Autowired
+    private UserRepository userRepository;
+
     @DisplayName("코딩테스트 문제를 생성한다.")
     @Test
     void createProblem_success() throws Exception {
@@ -37,7 +57,17 @@ class CodingProblemApiControllerTest {
                 .problemUrl("https:")
                 .build();
 
+        User user = UserFixture.aUser().build();
+        userRepository.save(user);
+        Session session = Session.builder()
+                .user(user)
+                .accessId(UUID.randomUUID().toString())
+                .expireAt(LocalDateTime.now().plusDays(1))
+                .build();
+        sessionRepository.save(session);
+
         MockHttpServletRequestBuilder requestBuilder = post("/coding-problems")
+                .header("SESSION-ID", session.getAccessId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request));
 
