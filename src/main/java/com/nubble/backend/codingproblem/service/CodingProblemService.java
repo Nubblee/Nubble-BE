@@ -5,6 +5,7 @@ import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCrea
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,5 +30,16 @@ public class CodingProblemService {
                 .build();
 
         return problemRepository.save(newProblem).getId();
+    }
+
+    @Transactional
+    public void deleteProblem(Long problemId, Long userId) {
+        CodingProblem problem = problemRepository.findById(problemId)
+                .orElseThrow(() -> new EntityNotFoundException("코딩테스트 문제가 존재하지 않습니다."));
+
+        if (!Objects.equals(problem.getUser().getId(), userId)) {
+            throw new RuntimeException("문제를 등록한 사람만 삭제할 수 있습니다.");
+        }
+        problemRepository.delete(problem);
     }
 }

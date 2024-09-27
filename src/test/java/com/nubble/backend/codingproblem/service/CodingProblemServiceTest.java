@@ -1,6 +1,7 @@
 package com.nubble.backend.codingproblem.service;
 
 import static com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.user.domain.User;
@@ -45,5 +46,25 @@ class CodingProblemServiceTest {
 
         // then
         Assertions.assertThat(problemRepository.findById(newProblemId)).isPresent();
+    }
+
+    @DisplayName("문제를 등록한 사람은 문제를 삭제할 수 있습니다.")
+    @Test
+    void deleteProblem() {
+        // given
+        User user = UserFixture.aUser().build();
+        userRepository.save(user);
+
+        ProblemCreateCommand command = ProblemCreateCommand.builder()
+                .quizDate(LocalDate.now())
+                .problemTitle("할로윈의 양아치")
+                .problemUrl("https://www.acmicpc.net/problem/20303")
+                .userId(user.getId())
+                .build();
+        Long problemId = problemService.createProblem(command);
+
+        // when & then
+        assertThatCode(() -> problemService.deleteProblem(problemId, user.getId()))
+                .doesNotThrowAnyException();
     }
 }

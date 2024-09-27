@@ -41,6 +41,7 @@ public class CodingProblemApiController {
     @SessionRequired
     @DeleteMapping("/{problemId}")
     public ResponseEntity<Void> deleteProblem(@PathVariable Long problemId, UserSession userSession) {
+        problemService.deleteProblem(problemId, userSession.userId());
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .build();
     }
