@@ -2,13 +2,17 @@ package com.nubble.backend.codingproblem.controller;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemCreateRequest;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemCreateResponse;
+import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemGetResponse;
+import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemGetResponses;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
 import com.nubble.backend.fixture.UserFixture;
@@ -18,6 +22,7 @@ import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,7 +95,8 @@ class CodingProblemApiControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(responseJson));
+                .andExpect(content().json(responseJson))
+                .andDo(print());
     }
 
     @DisplayName("로그인한 유저가 코딩테스트 문제를 삭제한다.")
@@ -113,6 +119,35 @@ class CodingProblemApiControllerTest {
 
         // when & then
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(print());
+    }
+
+    @DisplayName("비회원도 모든 코딩테스트 문제들을 가져올 수 있다.")
+    @Test
+    void getAllProblems() throws Exception {
+        // given
+        ProblemGetResponse problem1 = ProblemGetResponse.builder()
+                .problemId(1L)
+                .quizDate(LocalDate.now())
+                .problemTitle("LV.2 귤 까먹기")
+                .build();
+        ProblemGetResponse problem2 = ProblemGetResponse.builder()
+                .problemId(2L)
+                .quizDate(LocalDate.now())
+                .problemTitle("LV.2 귤 까먹기")
+                .build();
+        ProblemGetResponses response = ProblemGetResponses.builder()
+                .problems(List.of(problem1, problem2))
+                .build();
+        String responseJson = objectMapper.writeValueAsString(response);
+
+        MockHttpServletRequestBuilder requilestBuilder = get("/coding-problems");
+
+        // when & then
+        mockMvc.perform(requilestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseJson))
+                .andDo(print());
     }
 }
