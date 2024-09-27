@@ -1,6 +1,7 @@
 package com.nubble.backend.codingproblem.controller;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,7 +52,7 @@ class CodingProblemApiControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    @DisplayName("코딩테스트 문제를 생성한다.")
+    @DisplayName("로그인한 유저가 코딩테스트 문제를 등록한다.")
     @Test
     void createProblem_success() throws Exception {
         // given
@@ -90,5 +91,28 @@ class CodingProblemApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(responseJson));
+    }
+
+    @DisplayName("로그인한 유저가 코딩테스트 문제를 삭제한다.")
+    @Test
+    void test() throws Exception {
+        // given
+        // todo UserSession 발급의 중복이 발생, 한 번에 처리하는 클래스 필요
+        User user = UserFixture.aUser().build();
+        userRepository.save(user);
+        Session session = Session.builder()
+                .user(user)
+                .accessId(UUID.randomUUID().toString())
+                .expireAt(LocalDateTime.now().plusDays(1))
+                .build();
+        sessionRepository.save(session);
+
+        Long problemId = 1L;
+        MockHttpServletRequestBuilder requestBuilder = delete("/coding-problems/{problemId}", problemId)
+                .header("SESSION-ID", session.getAccessId());
+
+        // when & then
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isNoContent());
     }
 }
