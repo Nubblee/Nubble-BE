@@ -2,6 +2,7 @@ package com.nubble.backend.codingproblem.service;
 
 import com.nubble.backend.codingproblem.domain.CodingProblem;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
+import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemDeleteCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,11 +34,11 @@ public class CodingProblemService {
     }
 
     @Transactional
-    public void deleteProblem(Long problemId, Long userId) {
-        CodingProblem problem = problemRepository.findById(problemId)
+    public void deleteProblem(ProblemDeleteCommand command) {
+        CodingProblem problem = problemRepository.findById(command.problemId())
                 .orElseThrow(() -> new EntityNotFoundException("코딩테스트 문제가 존재하지 않습니다."));
 
-        if (!Objects.equals(problem.getUser().getId(), userId)) {
+        if (!Objects.equals(problem.getUser().getId(), command.userId())) {
             throw new RuntimeException("문제를 등록한 사람만 삭제할 수 있습니다.");
         }
         problemRepository.delete(problem);

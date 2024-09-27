@@ -13,8 +13,14 @@ public class CodingProblemCommand {
             Long userId,
             LocalDate quizDate,
             String problemTitle,
-            String problemUrl
-    ) {
+            String problemUrl) {
+        
+    }
+
+    @Builder
+    public record ProblemDeleteCommand(
+            Long userId,
+            Long problemId) {
 
     }
 }
