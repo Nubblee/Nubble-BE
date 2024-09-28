@@ -6,6 +6,7 @@ import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemDele
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,11 @@ public class CodingProblemService {
             throw new RuntimeException("문제를 등록한 사람만 삭제할 수 있습니다.");
         }
         problemRepository.delete(problem);
+    }
+
+    public List<CodingProblemInfo> findAllProblems() {
+        return problemRepository.findAll().stream()
+                .map(CodingProblemInfo::fromDomain)
+                .toList();
     }
 }

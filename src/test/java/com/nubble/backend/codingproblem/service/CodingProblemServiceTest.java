@@ -1,6 +1,7 @@
 package com.nubble.backend.codingproblem.service;
 
 import static com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemDeleteCommand;
@@ -8,7 +9,7 @@ import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDate;
-import org.assertj.core.api.Assertions;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ class CodingProblemServiceTest {
         Long newProblemId = problemService.createProblem(command);
 
         // then
-        Assertions.assertThat(problemRepository.findById(newProblemId)).isPresent();
+        assertThat(problemRepository.findById(newProblemId)).isPresent();
     }
 
     @DisplayName("문제를 등록한 사람은 문제를 삭제할 수 있습니다.")
@@ -71,5 +72,33 @@ class CodingProblemServiceTest {
         // when & then
         assertThatCode(() -> problemService.deleteProblem(command))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("모든 코딩테스트 문제를 조회합니다.")
+    @Test
+    void findAllProblems_success() {
+        // given
+        for (int ui = 1; ui <= 2; ui++) {
+            User user = UserFixture.aUser()
+                    .withUsername("user%d".formatted(ui))
+                    .build();
+            userRepository.save(user);
+
+            for (int pi = 1; pi <= 5; pi++) {
+                ProblemCreateCommand command = ProblemCreateCommand.builder()
+                        .userId(user.getId())
+                        .quizDate(LocalDate.now())
+                        .problemTitle("%s가 만든 %d번째 문제".formatted(user.getNickname(), pi))
+                        .problemUrl("https://www.acmicpc.net/problem/20303")
+                        .build();
+                problemService.createProblem(command);
+            }
+        }
+
+        // when
+        List<CodingProblemInfo> actualAllProblems = problemService.findAllProblems();
+
+        // then
+        assertThat(actualAllProblems).hasSize(10);
     }
 }
