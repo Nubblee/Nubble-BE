@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemCreateRequest;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemCreateResponse;
-import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemGetResponse;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemGetResponses;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
+import com.nubble.backend.codingproblem.service.CodingProblemInfo;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.session.domain.Session;
@@ -50,12 +50,16 @@ class CodingProblemApiControllerTest {
     private SessionRepository sessionRepository;
 
     @MockBean
-    private CodingProblemService codingProblemService;
+    private CodingProblemService problemService;
 
     @Autowired
     private CodingProblemCommandMapper problemCommandMapper;
+
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CodingProblemResponseMapper problemResponseMapper;
 
     @DisplayName("로그인한 유저가 코딩테스트 문제를 등록한다.")
     @Test
@@ -78,7 +82,7 @@ class CodingProblemApiControllerTest {
 
         ProblemCreateCommand command = problemCommandMapper.of(request, user.getId());
         long newProblemId = 1L;
-        given(codingProblemService.createProblem(command))
+        given(problemService.createProblem(command))
                 .willReturn(newProblemId);
 
         MockHttpServletRequestBuilder requestBuilder = post("/coding-problems")
@@ -127,27 +131,32 @@ class CodingProblemApiControllerTest {
     @Test
     void getAllProblems() throws Exception {
         // given
-        ProblemGetResponse problem1 = ProblemGetResponse.builder()
+        CodingProblemInfo info1 = CodingProblemInfo.builder()
                 .problemId(1L)
                 .quizDate(LocalDate.now())
-                .problemTitle("LV.2 귤 까먹기")
+                .problemTitle("퇴사 2")
+                .url("https://www.acmicpc.net/problem/15486")
                 .build();
-        ProblemGetResponse problem2 = ProblemGetResponse.builder()
+        CodingProblemInfo info2 = CodingProblemInfo.builder()
                 .problemId(2L)
                 .quizDate(LocalDate.now())
-                .problemTitle("LV.2 귤 까먹기")
+                .problemTitle("내리막 길")
+                .url("https://www.acmicpc.net/problem/1520")
                 .build();
-        ProblemGetResponses response = ProblemGetResponses.builder()
-                .problems(List.of(problem1, problem2))
-                .build();
-        String responseJson = objectMapper.writeValueAsString(response);
+        List<CodingProblemInfo> infos = List.of(info1, info2);
+
+        given(problemService.findAllProblems())
+                .willReturn(infos);
+
+        ProblemGetResponses responses = problemResponseMapper.toProblemGetResponses(infos);
+        String responsesJson = objectMapper.writeValueAsString(responses);
 
         MockHttpServletRequestBuilder requilestBuilder = get("/coding-problems");
 
         // when & then
         mockMvc.perform(requilestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json(responseJson))
+                .andExpect(content().json(responsesJson))
                 .andDo(print());
     }
 }

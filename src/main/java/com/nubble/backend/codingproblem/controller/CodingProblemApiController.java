@@ -2,13 +2,12 @@ package com.nubble.backend.codingproblem.controller;
 
 import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemCreateRequest;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemCreateResponse;
-import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemGetResponse;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemGetResponses;
+import com.nubble.backend.codingproblem.service.CodingProblemInfo;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
 import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.interceptor.session.SessionRequired;
 import jakarta.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +28,7 @@ public class CodingProblemApiController {
 
     private final CodingProblemService problemService;
     private final CodingProblemCommandMapper problemCommandMapper;
+    private final CodingProblemResponseMapper problemResponseMapper;
 
     @SessionRequired
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -53,20 +53,9 @@ public class CodingProblemApiController {
 
     @GetMapping
     public ResponseEntity<ProblemGetResponses> getAllProblems() {
-        ProblemGetResponse problem1 = ProblemGetResponse.builder()
-                .problemId(1L)
-                .quizDate(LocalDate.now())
-                .problemTitle("LV.2 귤 까먹기")
-                .build();
-        ProblemGetResponse problem2 = ProblemGetResponse.builder()
-                .problemId(2L)
-                .quizDate(LocalDate.now())
-                .problemTitle("LV.2 귤 까먹기")
-                .build();
+        List<CodingProblemInfo> infos = problemService.findAllProblems();
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ProblemGetResponses.builder()
-                        .problems(List.of(problem1, problem2))
-                        .build());
+                .body(problemResponseMapper.toProblemGetResponses(infos));
     }
 }
