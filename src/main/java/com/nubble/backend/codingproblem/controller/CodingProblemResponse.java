@@ -26,7 +26,7 @@ public class CodingProblemResponse {
     }
 
     @Builder
-    public record ProblemGetResponses(
+    public record ProblemSearchResponse(
             List<ProblemGetResponse> problems
     ) {
 

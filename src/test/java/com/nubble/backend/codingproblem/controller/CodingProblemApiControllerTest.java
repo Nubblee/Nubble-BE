@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemCreateRequest;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemCreateResponse;
-import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemGetResponses;
+import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemSearchResponse;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
 import com.nubble.backend.codingproblem.service.CodingProblemInfo;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
@@ -127,9 +127,9 @@ class CodingProblemApiControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("비회원도 모든 코딩테스트 문제들을 가져올 수 있다.")
+    @DisplayName("비회원이 특정 쿼리의 코딩테스트 문제들을 가져올 수 있다.")
     @Test
-    void getAllProblems() throws Exception {
+    void searchProblems() throws Exception {
         // given
         CodingProblemInfo info1 = CodingProblemInfo.builder()
                 .problemId(1L)
@@ -148,13 +148,12 @@ class CodingProblemApiControllerTest {
         given(problemService.findAllProblems())
                 .willReturn(infos);
 
-        ProblemGetResponses responses = problemResponseMapper.toProblemGetResponses(infos);
+        ProblemSearchResponse responses = problemResponseMapper.toProblemSearchResponse(infos);
         String responsesJson = objectMapper.writeValueAsString(responses);
 
-        MockHttpServletRequestBuilder requilestBuilder = get("/coding-problems");
-
+        MockHttpServletRequestBuilder requestBuilder = get("/coding-problems");
         // when & then
-        mockMvc.perform(requilestBuilder)
+        mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().json(responsesJson))
                 .andDo(print());

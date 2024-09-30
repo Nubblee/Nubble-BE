@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.lang.Nullable;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CodingProblemRequest {
@@ -22,6 +23,14 @@ public class CodingProblemRequest {
 
             @URL(protocol = "https")
             String problemUrl
+    ) {
+
+    }
+
+    public record ProblemSearchRequest(
+            @Nullable
+            @DateTimeFormat(iso = ISO.DATE)
+            LocalDate quizDate
     ) {
 
     }
