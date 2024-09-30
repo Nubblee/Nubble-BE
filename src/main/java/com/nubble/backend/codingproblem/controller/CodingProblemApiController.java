@@ -53,9 +53,9 @@ public class CodingProblemApiController {
                 .build();
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProblemSearchResponse> searchProblems(@Valid @ModelAttribute ProblemSearchRequest request) {
-        List<CodingProblemInfo> infos = problemService.findAllProblems();
+        List<CodingProblemInfo> infos = problemService.searchProblems(problemCommandMapper.toProblemSearchCommand(request));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(problemResponseMapper.toProblemSearchResponse(infos));

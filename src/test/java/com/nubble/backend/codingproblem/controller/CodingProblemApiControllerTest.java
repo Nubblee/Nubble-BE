@@ -13,6 +13,7 @@ import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemC
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemCreateResponse;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemSearchResponse;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
+import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemSearchCommand;
 import com.nubble.backend.codingproblem.service.CodingProblemInfo;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
 import com.nubble.backend.fixture.UserFixture;
@@ -145,7 +146,7 @@ class CodingProblemApiControllerTest {
                 .build();
         List<CodingProblemInfo> infos = List.of(info1, info2);
 
-        given(problemService.findAllProblems())
+        given(problemService.searchProblems(ProblemSearchCommand.builder().build()))
                 .willReturn(infos);
 
         ProblemSearchResponse responses = problemResponseMapper.toProblemSearchResponse(infos);

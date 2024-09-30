@@ -1,8 +1,10 @@
 package com.nubble.backend.codingproblem.controller;
 
 import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemCreateRequest;
+import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemSearchRequest;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemDeleteCommand;
+import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemSearchCommand;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -18,4 +20,6 @@ public interface CodingProblemCommandMapper {
     ProblemCreateCommand of(ProblemCreateRequest request, long userId);
 
     ProblemDeleteCommand of(Long problemId, long userId);
+
+    ProblemSearchCommand toProblemSearchCommand(ProblemSearchRequest request);
 }
