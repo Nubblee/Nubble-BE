@@ -37,7 +37,7 @@ public class CodingProblemApiController {
             UserSession userSession) {
         Long problemId = problemService.createProblem(problemCommandMapper.of(request, userSession.userId()));
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ProblemCreateResponse.builder()
                         .problemId(problemId)
                         .build());
