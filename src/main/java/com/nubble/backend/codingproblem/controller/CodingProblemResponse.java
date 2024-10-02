@@ -20,7 +20,8 @@ public class CodingProblemResponse {
     public record ProblemGetResponse(
             long problemId,
             LocalDate quizDate,
-            String problemTitle
+            String problemTitle,
+            String url
     ) {
 
     }

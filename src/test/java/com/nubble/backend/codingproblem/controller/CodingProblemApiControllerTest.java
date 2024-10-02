@@ -128,7 +128,7 @@ class CodingProblemApiControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("비회원이 특정 쿼리의 코딩테스트 문제들을 가져올 수 있다.")
+    @DisplayName("파라미터에 맞는 코딩테스트 문제들을 가져올 수 있다.")
     @Test
     void searchProblems() throws Exception {
         // given
