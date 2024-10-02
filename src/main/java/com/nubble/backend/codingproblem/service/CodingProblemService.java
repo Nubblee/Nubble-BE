@@ -3,6 +3,7 @@ package com.nubble.backend.codingproblem.service;
 import com.nubble.backend.codingproblem.domain.CodingProblem;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCreateCommand;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemDeleteCommand;
+import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemSearchCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CodingProblemService {
 
     private final CodingProblemRepository problemRepository;
-
     private final UserRepository userRepository;
+    private final CodingProblemConditionMapper problemConditionMapper;
 
     @Transactional
     public Long createProblem(ProblemCreateCommand command) {
@@ -45,8 +46,11 @@ public class CodingProblemService {
         problemRepository.delete(problem);
     }
 
-    public List<CodingProblemInfo> findAllProblems() {
-        return problemRepository.findAll().stream()
+    @Transactional
+    public List<CodingProblemInfo> searchProblems(ProblemSearchCommand command) {
+        ProblemSearchCondition condition = problemConditionMapper.toProblemSearchCondition(command);
+
+        return problemRepository.searchProblems(condition).stream()
                 .map(CodingProblemInfo::fromDomain)
                 .toList();
     }

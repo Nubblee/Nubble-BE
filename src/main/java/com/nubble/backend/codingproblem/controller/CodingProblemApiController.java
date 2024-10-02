@@ -1,8 +1,9 @@
 package com.nubble.backend.codingproblem.controller;
 
 import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemCreateRequest;
+import com.nubble.backend.codingproblem.controller.CodingProblemRequest.ProblemSearchRequest;
 import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemCreateResponse;
-import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemGetResponses;
+import com.nubble.backend.codingproblem.controller.CodingProblemResponse.ProblemSearchResponse;
 import com.nubble.backend.codingproblem.service.CodingProblemInfo;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
 import com.nubble.backend.config.resolver.UserSession;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,11 +53,11 @@ public class CodingProblemApiController {
                 .build();
     }
 
-    @GetMapping
-    public ResponseEntity<ProblemGetResponses> getAllProblems() {
-        List<CodingProblemInfo> infos = problemService.findAllProblems();
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProblemSearchResponse> searchProblems(@Valid @ModelAttribute ProblemSearchRequest request) {
+        List<CodingProblemInfo> infos = problemService.searchProblems(problemCommandMapper.toProblemSearchCommand(request));
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(problemResponseMapper.toProblemGetResponses(infos));
+                .body(problemResponseMapper.toProblemSearchResponse(infos));
     }
 }

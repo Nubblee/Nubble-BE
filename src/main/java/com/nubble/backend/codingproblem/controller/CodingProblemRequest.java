@@ -25,4 +25,11 @@ public class CodingProblemRequest {
     ) {
 
     }
+
+    public record ProblemSearchRequest(
+            @DateTimeFormat(iso = ISO.DATE)
+            LocalDate quizDate
+    ) {
+
+    }
 }

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemDeleteCommand;
+import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemSearchCommand;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
@@ -74,9 +75,9 @@ class CodingProblemServiceTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("모든 코딩테스트 문제를 조회합니다.")
+    @DisplayName("매개변수의 모든 값이 null인 경우, 모든 코딩테스트 문제를 조회합니다.")
     @Test
-    void findAllProblems_success() {
+    void searchProblems_shouldReturnAllProblems_whenSearchCommandIsEmpty() {
         // given
         for (int ui = 1; ui <= 2; ui++) {
             User user = UserFixture.aUser()
@@ -95,10 +96,47 @@ class CodingProblemServiceTest {
             }
         }
 
+        ProblemSearchCommand command = ProblemSearchCommand.builder()
+                .build();
+
         // when
-        List<CodingProblemInfo> actualAllProblems = problemService.findAllProblems();
+        List<CodingProblemInfo> actualAllProblems = problemService.searchProblems(command);
 
         // then
         assertThat(actualAllProblems).hasSize(10);
+    }
+
+    @DisplayName("퀴즈 날짜가 명시되어 있을 경우, 해당 날짜의 문제만 가져옵니다.")
+    @Test
+    void searchProblems_shouldReturnProblemsForSpecificDate_whenQuizDateIsProvided() {
+        // given
+        for (int ui = 1; ui <= 2; ui++) {
+            User user = UserFixture.aUser()
+                    .withUsername("user%d".formatted(ui))
+                    .build();
+            userRepository.save(user);
+
+            for (int pi = 1; pi <= 5; pi++) {
+                ProblemCreateCommand command = ProblemCreateCommand.builder()
+                        .userId(user.getId())
+                        .quizDate(LocalDate.now().plusDays(pi))
+                        .problemTitle("%s가 만든 %d번째 문제".formatted(user.getNickname(), pi))
+                        .problemUrl("https://www.acmicpc.net/problem/20303")
+                        .build();
+                problemService.createProblem(command);
+            }
+        }
+
+        LocalDate targetQuizDate = LocalDate.now().plusDays(1);
+        ProblemSearchCommand command = ProblemSearchCommand.builder()
+                .quizDate(targetQuizDate)
+                .build();
+
+        // when
+        List<CodingProblemInfo> actual = problemService.searchProblems(command);
+
+        // then
+        assertThat(actual).hasSize(2);
+        assertThat(actual.getFirst().quizDate()).isEqualTo(targetQuizDate);
     }
 }
