@@ -1,10 +1,11 @@
 package com.nubble.backend.file.controller;
 
+import com.nubble.backend.file.controller.FileResponse.FileUploadResponse;
+import com.nubble.backend.file.service.FileCommand.FileUploadCommand;
+import com.nubble.backend.file.service.FileInfo;
 import com.nubble.backend.file.service.FileService;
 import com.nubble.backend.interceptor.session.SessionRequired;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileApiController {
 
     private final FileService fileService;
+    private final FileCommandMapper fileCommandMapper;
+    private final FileResponseMapper fileResponseMapper;
 
     @SessionRequired
     @PostMapping(
@@ -27,15 +30,11 @@ public class FileApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<FileUploadResponse> uploadFile(@RequestParam("file") MultipartFile file) {
+        FileUploadCommand command = fileCommandMapper.toFileUploadCommand(file);
+        FileInfo info = fileService.uploadFile(command);
 
+        FileUploadResponse response = fileResponseMapper.toFileUploadResponse(info);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(FileUploadResponse.builder().build());
-    }
-
-    @Builder
-    public record FileUploadResponse(
-            String fileName,
-            String baseUrl
-    ) {
+                .body(response);
     }
 }
