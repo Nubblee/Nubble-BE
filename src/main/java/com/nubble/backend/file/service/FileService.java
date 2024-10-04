@@ -13,16 +13,12 @@ public class FileService {
     private final FileUploader fileUploader;
 
     public FileInfo uploadFile(FileUploadCommand command) {
-        // 확장자를 추출합니다.
         String extensionName = fileExtensionExtractor.extract(command.fileName());
 
-        // UUID를 이용해서 새로운 파일명을 만듭니다.
         String uuid = uuidGenerator.generateId().toString();
 
-        // 새로운 파일명 + 확장자를 합쳐서 새로운 파일명을 만듭니다.
         String newFileName = uuid + extensionName;
 
-        // fileUploader에게 fileupload를 요청합니다.
         fileUploader.upload(newFileName, command.fileData());
         return FileInfo.builder()
                 .fileName(newFileName)
