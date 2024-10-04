@@ -1,0 +1,12 @@
+### 세션 발급 요청
+POST http://localhost:8080/auth/sessions
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "1234"
+}
+
+### 세션 유효성 검증 요청
+GET http://localhost:8080/auth/sessions/validate
+SESSION-ID: 11660e50-6df9-4549-a033-a989e52de9d1
