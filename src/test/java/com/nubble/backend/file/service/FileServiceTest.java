@@ -1,9 +1,7 @@
-package com.nubble.backend.file.Service;
+package com.nubble.backend.file.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.nubble.backend.file.Service.FileService.FileInfo;
-import com.nubble.backend.file.Service.FileService.FileUploadCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,7 @@ class FileServiceTest {
     @Test
     void uploadFile_success() {
         // given
-        FileUploadCommand command = FileUploadCommand.builder()
+        FileCommand.FileUploadCommand command = FileCommand.FileUploadCommand.builder()
                 .fileName("temp.txt")
                 .fileData("Hello World".getBytes())
                 .build();
