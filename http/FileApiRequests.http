@@ -1,0 +1,11 @@
+### 파일 업로드 요청
+POST http://localhost:8080/files
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary5f933a2f236e43e18cec967ecc8a210b
+SESSION-ID: 11660e50-6df9-4549-a033-a989e52de9d1
+
+------WebKitFormBoundary5f933a2f236e43e18cec967ecc8a210b
+Content-Disposition: form-data; name="file"; filename="sample.txt"
+Content-Type: text/plain
+
+Hello world!
+------WebKitFormBoundary5f933a2f236e43e18cec967ecc8a210b--
