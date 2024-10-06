@@ -13,4 +13,12 @@ public class PostRequest {
             String content) {
 
     }
+
+    @Builder
+    public record PostPublishRequest(
+            String thumbnailUrl,
+            String description
+    ) {
+
+    }
 }

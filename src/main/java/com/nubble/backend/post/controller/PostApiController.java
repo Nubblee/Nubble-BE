@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +32,8 @@ public class PostApiController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @SessionRequired
     public ResponseEntity<PostCreateResponse> createPost(
-            @Valid @RequestBody PostCreateRequest request, UserSession userSession) {
+            @Valid @RequestBody PostCreateRequest request, UserSession userSession
+    ) {
         PostCreateCommand command = postCommandMapper.toPostCreateCommand(request, userSession.userId());
         long newPostId = postService.createPost(command);
 
@@ -38,4 +41,19 @@ public class PostApiController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(response);
     }
+
+    @PatchMapping(
+            path = "/{postId}/publish",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @SessionRequired
+    public ResponseEntity<Void> publishPost(
+            @Valid @RequestBody PostRequest.PostPublishRequest request,
+            @PathVariable Long postId,
+            UserSession userSession
+    ) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .build();
+    }
+
+
 }
