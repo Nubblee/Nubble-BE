@@ -1,5 +1,6 @@
 package com.nubble.backend.post.controller;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -8,6 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
+import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
+import com.nubble.backend.post.service.PostService;
 import com.nubble.backend.session.domain.Session;
 import com.nubble.backend.session.service.SessionRepository;
 import com.nubble.backend.user.domain.User;
@@ -19,12 +22,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class PostApiControllerTest {
 
     @Autowired
@@ -38,6 +44,12 @@ class PostApiControllerTest {
 
     @Autowired
     private SessionRepository sessionRepository;
+
+    @Autowired
+    private PostCommandMapper postCommandMapper;
+
+    @MockBean
+    private PostService postService;
 
     @DisplayName("로그인된 유저가 게시글을 작성합니다.")
     @Test
@@ -58,13 +70,18 @@ class PostApiControllerTest {
                 .build();
         String requestJson = objectMapper.writeValueAsString(request);
 
+        PostCreateCommand command = postCommandMapper.toPostCreateCommand(request, user.getId());
+        long newPostId = 1L;
+        given(postService.createPost(command))
+                .willReturn(newPostId);
+
         MockHttpServletRequestBuilder requestBuilder = post("/posts")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("SESSION-ID", session.getAccessId())
                 .content(requestJson);
 
         PostCreateResponse response = PostCreateResponse.builder()
-                .postId(1L)
+                .postId(newPostId)
                 .build();
         String responseJson = objectMapper.writeValueAsString(response);
 

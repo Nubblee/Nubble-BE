@@ -4,6 +4,8 @@ import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.interceptor.session.SessionRequired;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
+import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
+import com.nubble.backend.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,19 +16,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequiredArgsConstructor
-@RequestMapping("/posts")
 @Controller
+@RequestMapping("/posts")
+@RequiredArgsConstructor
 public class PostApiController {
 
-    @SessionRequired
+    private final PostService postService;
+    private final PostCommandMapper postCommandMapper;
+    private final PostResponseMapper postResponseMapper;
+
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @SessionRequired
     public ResponseEntity<PostCreateResponse> createPost(
             @Valid @RequestBody PostCreateRequest request, UserSession userSession) {
-        PostCreateResponse response = PostCreateResponse.builder().build();
+        PostCreateCommand command = postCommandMapper.toPostCreateCommand(request, userSession.userId());
+        long newPostId = postService.createPost(command);
 
+        PostCreateResponse response = PostCreateResponse.builder()
+                .postId(newPostId)
+                .build();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(response);
     }
