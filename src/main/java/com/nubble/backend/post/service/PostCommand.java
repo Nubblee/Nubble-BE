@@ -15,4 +15,14 @@ public class PostCommand {
     ) {
 
     }
+
+    @Builder
+    public record PostPublishCommand(
+            long userId,
+            long postId,
+            String thumbnailUrl,
+            String description
+    ) {
+
+    }
 }

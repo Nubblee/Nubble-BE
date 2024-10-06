@@ -6,6 +6,7 @@ import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
+import com.nubble.backend.post.service.PostCommand.PostPublishCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.util.Optional;
@@ -53,7 +54,41 @@ class PostServiceTest {
         assertThat(postOptional.get().getContent()).isEqualTo(command.content());
         assertThat(postOptional.get().getUser().getId()).isEqualTo(user.getId());
         assertThat(postOptional.get().getStatus()).isEqualTo(PostStatus.DRAFT);
-        assertThat(postOptional.get().getThumbnail()).isNull();
+        assertThat(postOptional.get().getThumbnailUrl()).isNull();
         assertThat(postOptional.get().getDescription()).isNull();
+    }
+
+    @DisplayName("게시글의 주인이 게시글을 게시합니다.")
+    @Test
+    void test() {
+        // given
+        User user = UserFixture.aUser().build();
+        userRepository.save(user);
+
+        PostCreateCommand postCreateCommand = PostCreateCommand.builder()
+                .title("제목입니다.")
+                .content("내용입니다.")
+                .userId(user.getId())
+                .build();
+        long postId = postService.createPost(postCreateCommand);
+
+        PostPublishCommand postPublishCommand = PostPublishCommand.builder()
+                .userId(user.getId())
+                .postId(postId)
+                .thumbnailUrl("https://example.com/thumbnail.jpg")
+                .description("설명입니다.")
+                .build();
+
+        // when
+        PostInfo postInfo = postService.publishPost(postPublishCommand);
+
+        // then
+        assertThat(postInfo.postId()).isEqualTo(postId);
+        assertThat(postInfo.title()).isEqualTo(postCreateCommand.title());
+        assertThat(postInfo.content()).isEqualTo(postCreateCommand.content());
+        assertThat(postInfo.userId()).isEqualTo(user.getId());
+        assertThat(postInfo.thumbnailUrl()).isEqualTo(postPublishCommand.thumbnailUrl());
+        assertThat(postInfo.description()).isEqualTo(postPublishCommand.description());
+        assertThat(postInfo.postStatus()).isEqualTo("PUBLISHED");
     }
 }
