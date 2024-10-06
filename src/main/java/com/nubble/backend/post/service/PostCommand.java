@@ -10,7 +10,8 @@ public class PostCommand {
     @Builder
     public record PostCreateCommand(
             String title,
-            String content
+            String content,
+            long userId
     ) {
 
     }

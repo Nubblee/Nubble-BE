@@ -2,6 +2,8 @@ package com.nubble.backend.post.service;
 
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
+import com.nubble.backend.user.domain.User;
+import com.nubble.backend.user.service.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,12 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public long createPost(PostCreateCommand command) {
+        User user = userRepository.findById(command.userId())
+                .orElseThrow(() -> new RuntimeException("유저가 존재하지 않습니다."));
+
         Post newPost = Post.builder()
                 .title(command.title())
                 .content(command.content())
+                .user(user)
                 .build();
 
         return postRepository.save(newPost)
