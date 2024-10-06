@@ -1,6 +1,11 @@
 package com.nubble.backend.post.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.nubble.backend.post.domain.Post;
+import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +18,9 @@ class PostServiceTest {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private PostRepository postRepository;
 
     @DisplayName("게시글을 생성한다.")
     @Test
@@ -27,6 +35,14 @@ class PostServiceTest {
         long newPostId = postService.createPost(command);
 
         // then
-        // todo 게시글 저장소에 command 내용으로 작성된 게시글이 저장되어 있어야 한다.
+        Optional<Post> postOptional = postRepository.findById(newPostId);
+
+        assertThat(postOptional).isPresent();
+        assertThat(postOptional.get().getId()).isEqualTo(newPostId);
+        assertThat(postOptional.get().getTitle()).isEqualTo(command.title());
+        assertThat(postOptional.get().getContent()).isEqualTo(command.content());
+        assertThat(postOptional.get().getStatus()).isEqualTo(PostStatus.DRAFT);
+        assertThat(postOptional.get().getThumbnail()).isNull();
+        assertThat(postOptional.get().getDescription()).isNull();
     }
 }
