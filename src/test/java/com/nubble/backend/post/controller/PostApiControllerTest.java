@@ -48,6 +48,9 @@ class PostApiControllerTest {
     @Autowired
     private PostCommandMapper postCommandMapper;
 
+    @Autowired
+    private PostResponseMapper postResponseMapper;
+
     @MockBean
     private PostService postService;
 
@@ -80,9 +83,7 @@ class PostApiControllerTest {
                 .header("SESSION-ID", session.getAccessId())
                 .content(requestJson);
 
-        PostCreateResponse response = PostCreateResponse.builder()
-                .postId(newPostId)
-                .build();
+        PostCreateResponse response = postResponseMapper.toPostCreateResponse(newPostId);
         String responseJson = objectMapper.writeValueAsString(response);
 
         // when & then

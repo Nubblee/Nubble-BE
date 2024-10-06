@@ -34,9 +34,7 @@ public class PostApiController {
         PostCreateCommand command = postCommandMapper.toPostCreateCommand(request, userSession.userId());
         long newPostId = postService.createPost(command);
 
-        PostCreateResponse response = PostCreateResponse.builder()
-                .postId(newPostId)
-                .build();
+        PostCreateResponse response = postResponseMapper.toPostCreateResponse(newPostId);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(response);
     }
