@@ -31,6 +31,7 @@ public class PostService {
                 .getId();
     }
 
+    // todo publishPost -> updatePost로 변경, 모든 변수들을 변경할 수 있도록 수정, PostValidationHandler 객체를 만들어 검증 수행
     @Transactional
     public PostInfo publishPost(PostPublishCommand command) {
         Post post = postRepository.findById(command.postId())

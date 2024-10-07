@@ -5,6 +5,7 @@ import com.nubble.backend.interceptor.session.SessionRequired;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
+import com.nubble.backend.post.service.PostCommand.PostPublishCommand;
 import com.nubble.backend.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,7 @@ public class PostApiController {
                 .body(response);
     }
 
+    // todo patch /{postId} 로 수정하기
     @PatchMapping(
             path = "/{postId}/publish",
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,9 +53,10 @@ public class PostApiController {
             @PathVariable Long postId,
             UserSession userSession
     ) {
+        PostPublishCommand command = postCommandMapper.toPostPublishCommand(request, postId, userSession.userId());
+        postService.publishPost(command);
+
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
     }
-
-
 }
