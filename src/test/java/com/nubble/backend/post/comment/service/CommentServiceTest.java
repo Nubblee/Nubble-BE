@@ -2,6 +2,7 @@ package com.nubble.backend.post.comment.service;
 
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
+import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand.MemberCommentCreateCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import org.assertj.core.api.Assertions;
@@ -28,7 +29,7 @@ class CommentServiceTest {
         User user = UserFixture.aUser().build();
         userRepository.save(user);
 
-        CommentCreateCommand command = CommentCreateCommand.builder()
+        CommentCreateCommand command = MemberCommentCreateCommand.builder()
                 .content("댓글 내용입니다.")
                 .userId(user.getId())
                 .build();

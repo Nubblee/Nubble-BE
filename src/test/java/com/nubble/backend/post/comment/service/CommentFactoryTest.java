@@ -4,6 +4,7 @@ import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.comment.domain.Comment;
 import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
+import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand.MemberCommentCreateCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import org.assertj.core.api.Assertions;
@@ -23,18 +24,18 @@ class CommentFactoryTest {
 
     @DisplayName("회원 댓글을 생성합니다.")
     @Test
-    void genearteMemberComment_success() {
+    void generateMemberComment_success() {
         // given
         User user = UserFixture.aUser().build();
         userRepository.save(user);
 
-        CommentCreateCommand command = CommentCreateCommand.builder()
+        CommentCreateCommand command = MemberCommentCreateCommand.builder()
                 .content("댓글 내용입니다.")
                 .userId(user.getId())
                 .build();
 
         // when
-        Comment comment = commentFactory.genearteComment(command);
+        Comment comment = commentFactory.generateComment(command);
 
         // then
         Assertions.assertThat(comment).isInstanceOf(MemberComment.class);

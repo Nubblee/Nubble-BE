@@ -13,7 +13,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     public Long createComment(CommentCreateCommand command) {
-        Comment newComment = commentFactory.genearteComment(command);
+        Comment newComment = commentFactory.generateComment(command);
         return commentRepository.save(newComment)
                 .getId();
     }

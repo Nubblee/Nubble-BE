@@ -1,11 +1,8 @@
 package com.nubble.backend.post.comment.service;
 
 import com.nubble.backend.post.comment.domain.Comment;
-import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
-import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.service.UserRepository;
-import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,16 +10,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CommentFactory {
 
-    private final UserRepository userRepository;
+    private final List<CommentGenerator<? extends Comment>> commentGenerators;
 
-    public Comment genearteComment(CommentCreateCommand command) {
-        User user = userRepository.findById(command.userId())
-                .orElseThrow(() -> new RuntimeException("유저가 존재하지 않습니다."));
-
-        return MemberComment.builder()
-                .content(command.content())
-                .user(user)
-                .createdAt(LocalDateTime.now())
-                .build();
+    public Comment generateComment(CommentCreateCommand command) {
+        return commentGenerators.stream()
+                .filter(creator -> creator.supports(command))
+                .findFirst()
+                .map(creator -> creator.generate(command))
+                .orElseThrow(() -> new IllegalArgumentException("적합한 CommentCreator를 찾을 수 없습니다."));
     }
 }
