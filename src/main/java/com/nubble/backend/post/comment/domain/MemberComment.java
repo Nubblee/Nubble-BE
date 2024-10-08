@@ -10,12 +10,14 @@ import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("MEMBER")
+@Getter
 public class MemberComment extends Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
