@@ -1,7 +1,8 @@
-package com.nubble.backend.post.comment.service;
+package com.nubble.backend.post.comment.service.remover;
 
 import com.nubble.backend.post.comment.domain.Comment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
+import com.nubble.backend.post.comment.service.CommentRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

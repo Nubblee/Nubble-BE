@@ -1,4 +1,4 @@
-package com.nubble.backend.post.comment.service;
+package com.nubble.backend.post.comment.service.remover;
 
 import com.nubble.backend.post.comment.domain.Comment;
 import com.nubble.backend.post.comment.domain.MemberComment;

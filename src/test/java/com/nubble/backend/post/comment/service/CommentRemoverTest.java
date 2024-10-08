@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand.MemberCommentDeleteCommand;
+import com.nubble.backend.post.comment.service.remover.CommentRemover;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;
