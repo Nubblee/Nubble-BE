@@ -1,12 +1,18 @@
 package com.nubble.backend.post.comment.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.nubble.backend.fixture.UserFixture;
+import com.nubble.backend.post.comment.domain.GuestComment;
+import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,6 +32,8 @@ class CommentServiceTest {
 
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     @DisplayName("회원 댓글을 생성합니다.")
     @Test
@@ -52,7 +60,7 @@ class CommentServiceTest {
         Long newCommentId = commentService.createComment(command);
 
         // then
-        Assertions.assertThat(newCommentId).isNotNull();
+        assertThat(newCommentId).isNotNull();
     }
 
     @DisplayName("회원 댓글을 삭제합니다.")
@@ -88,5 +96,49 @@ class CommentServiceTest {
         Assertions.assertThatCode(() ->
                         commentService.deleteComment(command))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("게시글의 모든 댓글을 가져옵니다.")
+    @Test
+    void findAllByPostId_shouldReturnAllCommentsForPost() {
+        // given
+        User user = UserFixture.aUser().build();
+        userRepository.save(user);
+
+        Post post = Post.builder()
+                .user(user)
+                .title("제목입니다.")
+                .content("게시글 내용입니다.")
+                .build();
+        postRepository.save(post);
+
+        MemberComment memberComment = MemberComment.builder()
+                .post(post)
+                .content("회원 댓글")
+                .createdAt(LocalDateTime.now())
+                .user(user)
+                .build();
+        commentRepository.save(memberComment);
+
+        GuestComment guestComment = GuestComment.builder()
+                .content("게스트 댓글")
+                .createdAt(LocalDateTime.now())
+                .guestName("게스트")
+                .guestPassword("password")
+                .build();
+        commentRepository.save(guestComment);
+
+        // when
+        List<CommentInfo> result = commentService.findAllByPostId(post.getId());
+
+        // then
+        assertThat(result).hasSize(2)
+                .anySatisfy(comment -> {
+                    assertThat(comment.content()).isEqualTo("회원 댓글");
+                    assertThat(comment.type()).isEqualTo(CommentType.MEMBER);})
+                .anySatisfy(comment -> {
+                    assertThat(comment.content()).isEqualTo("게스트 댓글");
+                    assertThat(comment.type()).isEqualTo(CommentType.GUEST);
+                });
     }
 }

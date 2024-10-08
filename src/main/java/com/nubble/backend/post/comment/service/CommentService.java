@@ -7,6 +7,7 @@ import com.nubble.backend.post.comment.service.factory.CommentFactory;
 import com.nubble.backend.post.comment.service.remover.CommentRemover;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,5 +37,10 @@ public class CommentService {
                 .orElseThrow(() -> new RuntimeException("댓글이 존재하지 않습니다."));
 
         commentRemover.remove(comment, command);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CommentInfo> findAllByPostId(long postId) {
+        return null;
     }
 }
