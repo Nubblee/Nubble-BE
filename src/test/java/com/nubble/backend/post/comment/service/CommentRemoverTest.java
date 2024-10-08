@@ -5,8 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.comment.domain.GuestComment;
 import com.nubble.backend.post.comment.domain.MemberComment;
-import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand.GuestCommentDeleteCommand;
-import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand.MemberCommentDeleteCommand;
+import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
 import com.nubble.backend.post.comment.service.remover.CommentRemover;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
@@ -44,9 +43,10 @@ class CommentRemoverTest {
                 .build();
         commentRepository.save(comment);
 
-        MemberCommentDeleteCommand command = MemberCommentDeleteCommand.builder()
+        CommentDeleteCommand command = CommentDeleteCommand.builder()
                 .userId(user.getId())
                 .commentId(comment.getId())
+                .type(CommentType.MEMBER)
                 .build();
 
         // when & then
@@ -67,10 +67,11 @@ class CommentRemoverTest {
                 .build();
         commentRepository.save(comment);
 
-        GuestCommentDeleteCommand command = GuestCommentDeleteCommand.builder()
+        CommentDeleteCommand command = CommentDeleteCommand.builder()
                 .commentId(comment.getId())
                 .guestName(comment.getGuestName())
                 .guestPassword(comment.getGuestPassword())
+                .type(CommentType.GUEST)
                 .build();
 
         // when & then

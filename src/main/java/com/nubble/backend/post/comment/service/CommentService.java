@@ -26,7 +26,7 @@ public class CommentService {
 
     @Transactional
     public void deleteComment(CommentDeleteCommand command) {
-        Comment comment = commentRepository.findById(command.getCommentId())
+        Comment comment = commentRepository.findById(command.commentId())
                 .orElseThrow(() -> new RuntimeException("댓글이 존재하지 않습니다."));
 
         commentRemover.remove(comment, command);

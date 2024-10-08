@@ -3,7 +3,6 @@ package com.nubble.backend.post.comment.service;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
-import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand.MemberCommentDeleteCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import org.assertj.core.api.Assertions;
@@ -56,9 +55,10 @@ class CommentServiceTest {
                 .type(CommentType.MEMBER)
                 .build());
 
-        CommentDeleteCommand command = MemberCommentDeleteCommand.builder()
+        CommentDeleteCommand command = CommentDeleteCommand.builder()
                 .userId(user.getId())
                 .commentId(commentId)
+                .type(CommentType.MEMBER)
                 .build();
 
         // when & then

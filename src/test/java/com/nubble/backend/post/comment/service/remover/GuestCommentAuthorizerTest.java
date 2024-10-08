@@ -3,7 +3,8 @@ package com.nubble.backend.post.comment.service.remover;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import com.nubble.backend.post.comment.domain.GuestComment;
-import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand.GuestCommentDeleteCommand;
+import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
+import com.nubble.backend.post.comment.service.CommentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,9 +22,10 @@ class GuestCommentAuthorizerTest {
                 .guestPassword("1234")
                 .build();
 
-        GuestCommentDeleteCommand command = GuestCommentDeleteCommand.builder()
+        CommentDeleteCommand command = CommentDeleteCommand.builder()
                 .guestName(comment.getGuestName())
                 .guestPassword(comment.getGuestPassword())
+                .type(CommentType.GUEST)
                 .build();
 
         // when & then
