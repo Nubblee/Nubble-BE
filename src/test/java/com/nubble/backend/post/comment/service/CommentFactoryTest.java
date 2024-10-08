@@ -7,8 +7,6 @@ import com.nubble.backend.post.comment.domain.Comment;
 import com.nubble.backend.post.comment.domain.GuestComment;
 import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
-import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand.GuestCommentCreateCommand;
-import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand.MemberCommentCreateCommand;
 import com.nubble.backend.post.comment.service.factory.CommentFactory;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
@@ -35,9 +33,10 @@ class CommentFactoryTest {
         User user = UserFixture.aUser().build();
         userRepository.save(user);
 
-        CommentCreateCommand command = MemberCommentCreateCommand.builder()
+        CommentCreateCommand command = CommentCreateCommand.builder()
                 .content("댓글 내용입니다.")
                 .userId(user.getId())
+                .type(CommentType.MEMBER)
                 .build();
 
         // when
@@ -51,10 +50,11 @@ class CommentFactoryTest {
     @Test
     void test() {
         // given
-        CommentCreateCommand command = GuestCommentCreateCommand.builder()
+        CommentCreateCommand command = CommentCreateCommand.builder()
                 .content("댓글 내용입니다.")
                 .guestName("guest")
                 .guestPassword("1234")
+                .type(CommentType.GUEST)
                 .build();
 
         // when

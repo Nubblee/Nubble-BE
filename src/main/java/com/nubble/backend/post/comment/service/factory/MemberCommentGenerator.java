@@ -2,7 +2,7 @@ package com.nubble.backend.post.comment.service.factory;
 
 import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
-import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand.MemberCommentCreateCommand;
+import com.nubble.backend.post.comment.service.CommentType;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;
@@ -17,27 +17,20 @@ public class MemberCommentGenerator implements CommentGenerator<MemberComment> {
 
     @Override
     public boolean supports(CommentCreateCommand command) {
-
-        return command instanceof MemberCommentCreateCommand;
+        return command.type() == CommentType.MEMBER;
     }
 
     @Override
     public MemberComment generate(CommentCreateCommand command) {
-        if (command instanceof MemberCommentCreateCommand memberCommand) {
-            User user = userRepository.findById(memberCommand.getUserId())
-                    .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        User user = userRepository.findById(command.userId())
+                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
 
-            return generateMemberComment(memberCommand, user);
-        }
-
-        throw new IllegalArgumentException(
-                "잘못된 명령 유형입니다. 예상된 타입: %s, 실제 타입: %s"
-                        .formatted(MemberCommentCreateCommand.class, command.getClass()));
+        return generateMemberComment(command, user);
     }
 
-    private static MemberComment generateMemberComment(MemberCommentCreateCommand memberCommand, User user) {
+    private static MemberComment generateMemberComment(CommentCreateCommand memberCommand, User user) {
         return MemberComment.builder()
-                .content(memberCommand.getContent())
+                .content(memberCommand.content())
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .build();

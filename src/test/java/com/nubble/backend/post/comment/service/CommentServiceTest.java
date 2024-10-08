@@ -2,7 +2,6 @@ package com.nubble.backend.post.comment.service;
 
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
-import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand.MemberCommentCreateCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand.MemberCommentDeleteCommand;
 import com.nubble.backend.user.domain.User;
@@ -31,9 +30,10 @@ class CommentServiceTest {
         User user = UserFixture.aUser().build();
         userRepository.save(user);
 
-        CommentCreateCommand command = MemberCommentCreateCommand.builder()
+        CommentCreateCommand command = CommentCreateCommand.builder()
                 .content("댓글 내용입니다.")
                 .userId(user.getId())
+                .type(CommentType.MEMBER)
                 .build();
 
         // when
@@ -50,9 +50,10 @@ class CommentServiceTest {
         User user = UserFixture.aUser().build();
         userRepository.save(user);
 
-        long commentId = commentService.createComment(MemberCommentCreateCommand.builder()
+        long commentId = commentService.createComment(CommentCreateCommand.builder()
                 .content("댓글 내용입니다.")
                 .userId(user.getId())
+                .type(CommentType.MEMBER)
                 .build());
 
         CommentDeleteCommand command = MemberCommentDeleteCommand.builder()
