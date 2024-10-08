@@ -55,5 +55,18 @@ public class CommentCommand {
                 this.userId = userId;
             }
         }
+
+        @Getter
+        public static class GuestCommentDeleteCommand extends CommentDeleteCommand {
+            private final String guestName;
+            private final String guestPassword;
+
+            @Builder
+            public GuestCommentDeleteCommand(long commentId, String guestName, String guestPassword) {
+                super(commentId);
+                this.guestName = guestName;
+                this.guestPassword = guestPassword;
+            }
+        }
     }
 }

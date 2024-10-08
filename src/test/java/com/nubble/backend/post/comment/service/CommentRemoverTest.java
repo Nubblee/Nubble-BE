@@ -3,7 +3,9 @@ package com.nubble.backend.post.comment.service;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import com.nubble.backend.fixture.UserFixture;
+import com.nubble.backend.post.comment.domain.GuestComment;
 import com.nubble.backend.post.comment.domain.MemberComment;
+import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand.GuestCommentDeleteCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand.MemberCommentDeleteCommand;
 import com.nubble.backend.post.comment.service.remover.CommentRemover;
 import com.nubble.backend.user.domain.User;
@@ -45,6 +47,30 @@ class CommentRemoverTest {
         MemberCommentDeleteCommand command = MemberCommentDeleteCommand.builder()
                 .userId(user.getId())
                 .commentId(comment.getId())
+                .build();
+
+        // when & then
+        assertThatCode(() ->
+                commentRemover.remove(comment, command))
+                .doesNotThrowAnyException();
+    }
+
+    @DisplayName("비회원 댓글을 삭제합니다.")
+    @Test
+    void remove_shouldRemoveGuestComment_withoutExceptions() {
+        // given
+        GuestComment comment = GuestComment.builder()
+                .guestName("guest")
+                .guestPassword("1234")
+                .createdAt(LocalDateTime.now())
+                .content("Guest comment content")
+                .build();
+        commentRepository.save(comment);
+
+        GuestCommentDeleteCommand command = GuestCommentDeleteCommand.builder()
+                .commentId(comment.getId())
+                .guestName(comment.getGuestName())
+                .guestPassword(comment.getGuestPassword())
                 .build();
 
         // when & then

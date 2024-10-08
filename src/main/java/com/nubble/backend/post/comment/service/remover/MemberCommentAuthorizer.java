@@ -11,7 +11,8 @@ public class MemberCommentAuthorizer implements CommentAuthorizer {
 
     @Override
     public boolean supports(Comment comment, CommentDeleteCommand command) {
-        return comment instanceof MemberComment && command instanceof MemberCommentDeleteCommand;
+        return comment instanceof MemberComment
+                && command instanceof MemberCommentDeleteCommand;
     }
 
     @Override
