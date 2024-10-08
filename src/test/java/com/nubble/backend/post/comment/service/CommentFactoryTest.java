@@ -1,6 +1,8 @@
 package com.nubble.backend.post.comment.service;
 
 import com.nubble.backend.fixture.UserFixture;
+import com.nubble.backend.post.comment.domain.Comment;
+import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
@@ -9,21 +11,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@Transactional
-class CommentServiceTest {
+class CommentFactoryTest {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private CommentService commentService;
+    private CommentFactory commentFactory;
 
-    @DisplayName("댓글을 생성합니다.")
+    @DisplayName("회원 댓글을 생성합니다.")
     @Test
-    void createComment_success() {
+    void genearteMemberComment_success() {
         // given
         User user = UserFixture.aUser().build();
         userRepository.save(user);
@@ -34,9 +34,9 @@ class CommentServiceTest {
                 .build();
 
         // when
-        Long newCommentId = commentService.createComment(command);
+        Comment comment = commentFactory.genearteComment(command);
 
         // then
-        Assertions.assertThat(newCommentId).isNotNull();
+        Assertions.assertThat(comment).isInstanceOf(MemberComment.class);
     }
 }
