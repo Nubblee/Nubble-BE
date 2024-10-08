@@ -38,4 +38,22 @@ public class CommentCommand {
             }
         }
     }
+
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @Getter
+    public abstract static class CommentDeleteCommand {
+
+        private final long commentId;
+
+        @Getter
+        public static class MemberCommentDeleteCommand extends CommentDeleteCommand {
+            private final long userId;
+
+            @Builder
+            public MemberCommentDeleteCommand(long commentId, long userId) {
+                super(commentId);
+                this.userId = userId;
+            }
+        }
+    }
 }

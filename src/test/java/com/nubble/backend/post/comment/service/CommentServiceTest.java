@@ -3,6 +3,8 @@ package com.nubble.backend.post.comment.service;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand.MemberCommentCreateCommand;
+import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
+import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand.MemberCommentDeleteCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import org.assertj.core.api.Assertions;
@@ -39,5 +41,28 @@ class CommentServiceTest {
 
         // then
         Assertions.assertThat(newCommentId).isNotNull();
+    }
+
+    @DisplayName("회원 댓글을 삭제합니다.")
+    @Test
+    void test() {
+        // given
+        User user = UserFixture.aUser().build();
+        userRepository.save(user);
+
+        long commentId = commentService.createComment(MemberCommentCreateCommand.builder()
+                .content("댓글 내용입니다.")
+                .userId(user.getId())
+                .build());
+
+        CommentDeleteCommand command = MemberCommentDeleteCommand.builder()
+                .userId(user.getId())
+                .commentId(commentId)
+                .build();
+
+        // when & then
+        Assertions.assertThatCode(() ->
+                        commentService.deleteComment(command))
+                .doesNotThrowAnyException();
     }
 }
