@@ -9,6 +9,7 @@ import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand.GuestCommentCreateCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand.MemberCommentCreateCommand;
+import com.nubble.backend.post.comment.service.factory.CommentFactory;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import org.junit.jupiter.api.DisplayName;

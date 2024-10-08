@@ -1,4 +1,4 @@
-package com.nubble.backend.post.comment.service;
+package com.nubble.backend.post.comment.service.factory;
 
 import com.nubble.backend.post.comment.domain.GuestComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
