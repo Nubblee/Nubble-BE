@@ -1,5 +1,6 @@
 package com.nubble.backend.post.comment.service;
 
+import com.nubble.backend.post.comment.domain.Comment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 public class CommentService {
 
     private final CommentFactory commentFactory;
+    private final CommentRepository commentRepository;
 
     public Long createComment(CommentCreateCommand command) {
-        return commentFactory.genearteComment(command)
+        Comment newComment = commentFactory.genearteComment(command);
+        return commentRepository.save(newComment)
                 .getId();
     }
 }
