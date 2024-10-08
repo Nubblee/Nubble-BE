@@ -22,9 +22,9 @@ class CommentServiceTest {
     @Autowired
     private CommentService commentService;
 
-    @DisplayName("댓글을 생성합니다.")
+    @DisplayName("회원 댓글을 생성합니다.")
     @Test
-    void createComment_success() {
+    void createComment_validUser_success() {
         // given
         User user = UserFixture.aUser().build();
         userRepository.save(user);
