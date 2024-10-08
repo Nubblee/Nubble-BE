@@ -3,6 +3,8 @@ package com.nubble.backend.post.comment.service;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
+import com.nubble.backend.post.domain.Post;
+import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import org.assertj.core.api.Assertions;
@@ -22,6 +24,9 @@ class CommentServiceTest {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private PostRepository postRepository;
+
     @DisplayName("회원 댓글을 생성합니다.")
     @Test
     void createComment_validUser_success() {
@@ -29,7 +34,15 @@ class CommentServiceTest {
         User user = UserFixture.aUser().build();
         userRepository.save(user);
 
+        Post post = Post.builder()
+                .user(user)
+                .title("제목입니다.")
+                .content("게시글 내용입니다.")
+                .build();
+        postRepository.save(post);
+
         CommentCreateCommand command = CommentCreateCommand.builder()
+                .postId(post.getId())
                 .content("댓글 내용입니다.")
                 .userId(user.getId())
                 .type(CommentType.MEMBER)
@@ -49,11 +62,21 @@ class CommentServiceTest {
         User user = UserFixture.aUser().build();
         userRepository.save(user);
 
-        long commentId = commentService.createComment(CommentCreateCommand.builder()
+        Post post = Post.builder()
+                .user(user)
+                .title("제목입니다.")
+                .content("게시글 내용입니다.")
+                .build();
+        postRepository.save(post);
+
+        CommentCreateCommand commentCreateCommand = CommentCreateCommand.builder()
+                .postId(post.getId())
                 .content("댓글 내용입니다.")
                 .userId(user.getId())
                 .type(CommentType.MEMBER)
-                .build());
+                .build();
+
+        long commentId = commentService.createComment(commentCreateCommand);
 
         CommentDeleteCommand command = CommentDeleteCommand.builder()
                 .userId(user.getId())

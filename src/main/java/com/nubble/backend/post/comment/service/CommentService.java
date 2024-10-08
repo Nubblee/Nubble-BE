@@ -5,6 +5,8 @@ import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateComma
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
 import com.nubble.backend.post.comment.service.factory.CommentFactory;
 import com.nubble.backend.post.comment.service.remover.CommentRemover;
+import com.nubble.backend.post.domain.Post;
+import com.nubble.backend.post.service.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,13 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentService {
 
+    private final PostRepository postRepository;
     private final CommentFactory commentFactory;
     private final CommentRepository commentRepository;
     private final CommentRemover commentRemover;
 
     @Transactional
     public long createComment(CommentCreateCommand command) {
-        Comment newComment = commentFactory.generateComment(command);
+        Post post = postRepository.findById(command.postId())
+                .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
+
+        Comment newComment = commentFactory.generateComment(post, command);
         return commentRepository.save(newComment)
                 .getId();
     }

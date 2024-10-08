@@ -1,5 +1,6 @@
 package com.nubble.backend.post.comment.domain;
 
+import com.nubble.backend.post.domain.Post;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import java.time.LocalDateTime;
@@ -18,8 +19,9 @@ public class GuestComment extends Comment {
     private String guestPassword;
 
     @Builder
-    public GuestComment(String content, LocalDateTime createdAt, String guestName, String guestPassword) {
-        super(content, createdAt);
+    public GuestComment(String content, LocalDateTime createdAt, Post post, String guestName,
+            String guestPassword) {
+        super(content, createdAt, post);
         this.guestName = guestName;
         this.guestPassword = guestPassword;
     }

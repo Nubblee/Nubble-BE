@@ -9,6 +9,7 @@ public class CommentCommand {
 
     @Builder
     public record CommentCreateCommand(
+            long postId,
             long userId,
             String content,
             String guestName,

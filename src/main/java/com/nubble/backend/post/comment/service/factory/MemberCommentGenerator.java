@@ -3,6 +3,7 @@ package com.nubble.backend.post.comment.service.factory;
 import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.post.comment.service.CommentType;
+import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;
@@ -21,15 +22,16 @@ public class MemberCommentGenerator implements CommentGenerator<MemberComment> {
     }
 
     @Override
-    public MemberComment generate(CommentCreateCommand command) {
+    public MemberComment generate(Post post, CommentCreateCommand command) {
         User user = userRepository.findById(command.userId())
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
 
-        return generateMemberComment(command, user);
+        return generateMemberComment(post, command, user);
     }
 
-    private static MemberComment generateMemberComment(CommentCreateCommand memberCommand, User user) {
+    private static MemberComment generateMemberComment(Post post, CommentCreateCommand memberCommand, User user) {
         return MemberComment.builder()
+                .post(post)
                 .content(memberCommand.content())
                 .createdAt(LocalDateTime.now())
                 .user(user)

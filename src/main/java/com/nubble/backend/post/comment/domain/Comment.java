@@ -1,5 +1,6 @@
 package com.nubble.backend.post.comment.domain;
 
+import com.nubble.backend.post.domain.Post;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
@@ -8,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,8 +32,13 @@ public abstract class Comment {
 
     private LocalDateTime createdAt;
 
-    protected Comment(String content, LocalDateTime createdAt) {
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    protected Comment(String content, LocalDateTime createdAt, Post post) {
         this.content = content;
         this.createdAt = createdAt;
+        this.post = post;
     }
 }
