@@ -19,4 +19,10 @@ public class CommentRequest {
     ) {
 
     }
+
+    public record GuestCommentDeleteRequest(
+            String guestName,
+            String guestPassword
+    ) {
+    }
 }
