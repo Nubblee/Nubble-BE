@@ -1,0 +1,22 @@
+package com.nubble.backend.post.comment.controller;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class CommentRequest {
+
+    public record MemberCommentCreateRequest(
+            String content
+    ) {
+
+    }
+
+    public record GuestCommentCreateRequest(
+            String content,
+            String guestName,
+            String guestPassword
+    ) {
+
+    }
+}
