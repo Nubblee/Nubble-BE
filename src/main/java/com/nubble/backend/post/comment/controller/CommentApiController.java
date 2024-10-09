@@ -5,7 +5,9 @@ import com.nubble.backend.interceptor.session.SessionRequired;
 import com.nubble.backend.post.comment.controller.CommentRequest.GuestCommentCreateRequest;
 import com.nubble.backend.post.comment.controller.CommentRequest.MemberCommentCreateRequest;
 import com.nubble.backend.post.comment.controller.CommentResponse.CommentCreateResponse;
-import com.nubble.backend.post.comment.controller.CommentResponse.MemberCommentCreateResponse;
+import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
+import com.nubble.backend.post.comment.service.CommentService;
+import com.nubble.backend.post.comment.service.CommentType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,8 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class CommentApiController {
 
+    private final CommentCommandMapper commentCommandMapper;
+    private final CommentService commentService;
+    private final CommentResponseMapper commentResponseMapper;
+
     @PostMapping(
-            path = "/{postId}/member-comments"
+            path = "/{postId}/member-comments",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @SessionRequired
@@ -33,20 +39,27 @@ public class CommentApiController {
             @PathVariable Long postId,
             UserSession userSession
     ) {
+        CommentCreateCommand command = commentCommandMapper.toCommentCreateCommand(
+                request, postId, userSession.userId(), CommentType.MEMBER);
+        long commentId = commentService.createComment(command);
+
         return ResponseEntity.status(HttpStatus.OK)
-                .body(CommentCreateResponse.builder().build());
+                .body(commentResponseMapper.toCommentCreateResponse(commentId));
     }
 
     @PostMapping(
-            path = "/{postId}/guest-comments"
+            path = "/{postId}/guest-comments",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommentCreateResponse> createMemberComment(
             @Valid @RequestBody GuestCommentCreateRequest request,
             @PathVariable Long postId
     ) {
+        CommentCreateCommand command = commentCommandMapper.toCommentCreateCommand(request, postId);
+        long commentId = commentService.createComment(command);
+
         return ResponseEntity.status(HttpStatus.OK)
-                .body(CommentCreateResponse.builder().build());
+                .body(commentResponseMapper.toCommentCreateResponse(commentId));
     }
 
 }
