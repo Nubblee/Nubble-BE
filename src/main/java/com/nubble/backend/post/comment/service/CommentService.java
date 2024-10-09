@@ -1,6 +1,8 @@
 package com.nubble.backend.post.comment.service;
 
 import com.nubble.backend.post.comment.domain.Comment;
+import com.nubble.backend.post.comment.domain.GuestComment;
+import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentDeleteCommand;
 import com.nubble.backend.post.comment.service.factory.CommentFactory;
@@ -41,6 +43,31 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public List<CommentInfo> findAllByPostId(long postId) {
-        return null;
+        return commentRepository.findAllByPostId(postId).stream()
+                .map(this::mapCommentToCommentInfo)
+                .toList();
+    }
+
+    // todo 임시 매퍼이므로 분리하여야 함
+    private CommentInfo mapCommentToCommentInfo(Comment comment) {
+        if (comment instanceof MemberComment memberComment) {
+            return CommentInfo.builder()
+                    .commentId(memberComment.getId())
+                    .content(memberComment.getContent())
+                    .createdAt(memberComment.getCreatedAt())
+                    .userId(memberComment.getUser().getId())
+                    .userName(memberComment.getUser().getNickname())
+                    .type(CommentType.MEMBER)
+                    .build();
+        } else if (comment instanceof GuestComment guestComment) {
+            return CommentInfo.builder()
+                    .commentId(guestComment.getId())
+                    .content(guestComment.getContent())
+                    .createdAt(guestComment.getCreatedAt())
+                    .guestName(guestComment.getGuestName())
+                    .type(CommentType.GUEST)
+                    .build();
+        }
+        throw new RuntimeException("CommentInfo로 매핑할 수 없습니다.");
     }
 }

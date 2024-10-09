@@ -121,8 +121,9 @@ class CommentServiceTest {
         commentRepository.save(memberComment);
 
         GuestComment guestComment = GuestComment.builder()
+                .post(post)
                 .content("게스트 댓글")
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now().plusMinutes(1))
                 .guestName("게스트")
                 .guestPassword("password")
                 .build();
@@ -132,13 +133,16 @@ class CommentServiceTest {
         List<CommentInfo> result = commentService.findAllByPostId(post.getId());
 
         // then
-        assertThat(result).hasSize(2)
-                .anySatisfy(comment -> {
-                    assertThat(comment.content()).isEqualTo("회원 댓글");
-                    assertThat(comment.type()).isEqualTo(CommentType.MEMBER);})
-                .anySatisfy(comment -> {
-                    assertThat(comment.content()).isEqualTo("게스트 댓글");
-                    assertThat(comment.type()).isEqualTo(CommentType.GUEST);
-                });
+        assertThat(result).hasSize(2);
+
+        assertThat(result.get(0)).satisfies(comment -> {
+            assertThat(comment.content()).isEqualTo("게스트 댓글");
+            assertThat(comment.type()).isEqualTo(CommentType.GUEST);
+        });
+
+        assertThat(result.get(1)).satisfies(comment -> {
+            assertThat(comment.content()).isEqualTo("회원 댓글");
+            assertThat(comment.type()).isEqualTo(CommentType.MEMBER);
+        });
     }
 }
