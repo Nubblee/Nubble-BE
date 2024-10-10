@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.comment.controller.CommentRequest.GuestCommentCreateRequest;
+import com.nubble.backend.post.comment.controller.CommentRequest.GuestCommentDeleteRequest;
 import com.nubble.backend.post.comment.controller.CommentRequest.MemberCommentCreateRequest;
 import com.nubble.backend.post.comment.controller.CommentResponse.CommentCreateResponse;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
@@ -57,7 +58,7 @@ class CommentApiControllerTest {
 
     @DisplayName("멤버가 게시글에 댓글을 작성합니다.")
     @Test
-    void createMemberComment_shouldCreateNewComment_whenAuthorizedMemberRequest() throws Exception {
+    void createMemberComment_shouldCreateNewComment_whenAuthenticatedRequest() throws Exception {
         // given
         User user = UserFixture.aUser().build();
         userRepository.save(user);
@@ -102,7 +103,7 @@ class CommentApiControllerTest {
 
     @DisplayName("게스트가 게시글에 댓글을 작성합니다.")
     @Test
-    void createGuestComment_shouldCreateNewComment_whenGuestAuthorizationRequest() throws Exception {
+    void createGuestComment_shouldCreateNewComment() throws Exception {
         // given
         Long postId = 123L;
 
@@ -155,6 +156,31 @@ class CommentApiControllerTest {
         MockHttpServletRequestBuilder requestBuilder = delete("/posts/{postId}/comments/member/{commentId}", postId,
                 commentId)
                 .header("SESSION-ID", session.getAccessId());
+
+        // when & then
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(""))
+                .andDo(print());
+    }
+
+    @DisplayName("게스트가 인증을 통해 게스트 댓글을 삭제합니다.")
+    @Test
+    void deleteGuestComment_shouldDeleteGuestComment_whenGuestIsAuthenticated() throws Exception {
+        // given
+        GuestCommentDeleteRequest request = GuestCommentDeleteRequest.builder()
+                .guestName("게스트 이름")
+                .guestPassword("1234")
+                .build();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        Long postId = 123L;
+        Long commentId = 123123L;
+
+        MockHttpServletRequestBuilder requestBuilder = delete("/posts/{postId}/comments/guest/{commentId}", postId,
+                commentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson);
 
         // when & then
         mockMvc.perform(requestBuilder)
