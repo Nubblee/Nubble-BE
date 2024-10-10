@@ -2,6 +2,7 @@ package com.nubble.backend.post.comment.controller;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -13,7 +14,9 @@ import com.nubble.backend.post.comment.controller.CommentRequest.GuestCommentCre
 import com.nubble.backend.post.comment.controller.CommentRequest.GuestCommentDeleteRequest;
 import com.nubble.backend.post.comment.controller.CommentRequest.MemberCommentCreateRequest;
 import com.nubble.backend.post.comment.controller.CommentResponse.CommentCreateResponse;
+import com.nubble.backend.post.comment.controller.CommentResponse.CommentFindResponses;
 import com.nubble.backend.post.comment.service.CommentCommand.CommentCreateCommand;
+import com.nubble.backend.post.comment.service.CommentInfo;
 import com.nubble.backend.post.comment.service.CommentService;
 import com.nubble.backend.post.comment.service.CommentType;
 import com.nubble.backend.session.domain.Session;
@@ -21,6 +24,7 @@ import com.nubble.backend.session.service.SessionRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,6 +59,9 @@ class CommentApiControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private CommentResponseMapper commentResponseMapper;
 
     @DisplayName("멤버가 게시글에 댓글을 작성합니다.")
     @Test
@@ -186,6 +193,46 @@ class CommentApiControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(""))
+                .andDo(print());
+    }
+
+    @DisplayName("게시글의 모든 댓글을 가져옵니다.")
+    @Test
+    void findAllCommentsByPostId_shouldFindAllCommentsByPostId() throws Exception {
+        // given
+        Long postId = 123L;
+        List<CommentInfo> commentInfos = List.of(
+                CommentInfo.builder()
+                        .commentId(1L)
+                        .content("댓글 내용1")
+                        .createdAt(LocalDateTime.now())
+                        .userId(1L)
+                        .userName("사용자1")
+                        .type(CommentType.MEMBER)
+                        .build(),
+                CommentInfo.builder()
+                        .commentId(2L)
+                        .content("댓글 내용2")
+                        .createdAt(LocalDateTime.now())
+                        .userId(2L)
+                        .userName("사용자2")
+                        .type(CommentType.GUEST)
+                        .build()
+        );
+
+        given(commentService.findAllByPostId(postId))
+                .willReturn(commentInfos);
+
+        CommentFindResponses responses = commentResponseMapper.toCommentFindResponses(commentInfos);
+        String responsesJson = objectMapper.writeValueAsString(responses);
+
+        MockHttpServletRequestBuilder requestBuilder = get("/posts/{postId}/comments", postId);
+
+        // when & then
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(responsesJson))
                 .andDo(print());
     }
 }
