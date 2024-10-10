@@ -57,7 +57,7 @@ public class CommentApiController {
             path = "/guest",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommentCreateResponse> createMemberComment(
+    public ResponseEntity<CommentCreateResponse> createGuestComment(
             @PathVariable Long postId,
             @Valid @RequestBody GuestCommentCreateRequest request
     ) {
