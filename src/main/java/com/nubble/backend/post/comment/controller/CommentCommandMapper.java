@@ -17,7 +17,9 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface CommentCommandMapper {
 
-    CommentCreateCommand toCommentCreateCommand(MemberCommentCreateRequest request, Long postId, Long userId, CommentType type);
+    // todo builder 패턴을 이용하여 인자 받기, CommentCreateCommand를 Member, Guest로 분리하기
+    CommentCreateCommand toCommentCreateCommand(MemberCommentCreateRequest request, Long postId, Long userId,
+            CommentType type);
 
     CommentCreateCommand toCommentCreateCommand(GuestCommentCreateRequest request, Long postId);
 
