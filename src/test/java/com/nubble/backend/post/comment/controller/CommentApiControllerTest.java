@@ -1,6 +1,7 @@
 package com.nubble.backend.post.comment.controller;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -131,6 +132,34 @@ class CommentApiControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(responseJson))
+                .andDo(print());
+    }
+
+    @DisplayName("멤버가 자신이 작성한 댓글을 작성합니다.")
+    @Test
+    void deleteMemberComment_shouldDeleteMemberOwnComment() throws Exception {
+        // given
+        User user = UserFixture.aUser().build();
+        userRepository.save(user);
+
+        Session session = Session.builder()
+                .user(user)
+                .accessId(UUID.randomUUID().toString())
+                .expireAt(LocalDateTime.now().plusDays(1))
+                .build();
+        sessionRepository.save(session);
+
+        Long postId = 123L;
+        Long commentId = 123123L;
+
+        MockHttpServletRequestBuilder requestBuilder = delete("/posts/{postId}/comments/member/{commentId}", postId,
+                commentId)
+                .header("SESSION-ID", session.getAccessId());
+
+        // when & then
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(""))
                 .andDo(print());
     }
 }
