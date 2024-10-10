@@ -26,9 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-// todo 해당 컨트롤러의 테스트 코드 만들어야 함
 @Controller
-@RequestMapping("/posts")
+@RequestMapping("/posts/{postId}/comments")
 @RequiredArgsConstructor
 public class CommentApiController {
 
@@ -37,7 +36,7 @@ public class CommentApiController {
     private final CommentResponseMapper commentResponseMapper;
 
     @PostMapping(
-            path = "/{postId}/member-comments",
+            path = "/member",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @SessionRequired
@@ -55,7 +54,7 @@ public class CommentApiController {
     }
 
     @PostMapping(
-            path = "/{postId}/guest-comments",
+            path = "/guest",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommentCreateResponse> createMemberComment(
@@ -69,7 +68,7 @@ public class CommentApiController {
                 .body(commentResponseMapper.toCommentCreateResponse(commentId));
     }
 
-    @DeleteMapping("/member-comments/{commentId}")
+    @DeleteMapping("/member/{commentId}")
     @SessionRequired
     public ResponseEntity<Void> deleteMemberComment(
             @PathVariable Long commentId, UserSession userSession
@@ -83,7 +82,7 @@ public class CommentApiController {
     }
 
     @DeleteMapping(
-            path = "/guest-comments/{commentId}",
+            path = "/guest/{commentId}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteGuestComment(
             @PathVariable Long commentId, @Valid @RequestBody GuestCommentDeleteRequest request
@@ -96,9 +95,7 @@ public class CommentApiController {
                 .build();
     }
 
-    @GetMapping(
-            path = "/{postId}/comments",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommentFindResponses> findAllCommentsByPostId(@PathVariable Long postId) {
         List<CommentInfo> commentInfos = commentService.findAllByPostId(postId);
 

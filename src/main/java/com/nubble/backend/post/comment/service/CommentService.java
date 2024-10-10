@@ -28,6 +28,7 @@ public class CommentService {
         Post post = postRepository.findById(command.postId())
                 .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
 
+        // todo 게시글이 댓글을 등록할 수 있는 상태일 때만 댓글을 등록합니다.
         Comment newComment = commentFactory.generateComment(post, command);
         return commentRepository.save(newComment)
                 .getId();
