@@ -10,22 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BoardService {
 
-    public final BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
+    private final BoardInfoMapper boardInfoMapper;
 
     @Transactional(readOnly = true)
     public List<BoardInfo.BoardDto> findBoardByCategoryId(long categoryId) {
         List<Board> boards = boardRepository.findAllByCategoryId(categoryId);
 
         return boards.stream()
-                .map(this::mapToBoardDto)
+                .map(boardInfoMapper::toBoardDto)
                 .toList();
-    }
-
-    private BoardInfo.BoardDto mapToBoardDto(Board board) {
-        return BoardInfo.BoardDto.builder()
-                .boardId(board.getId())
-                .boardName(board.getName())
-                .categoryId(board.getCategory().getId())
-                .build();
     }
 }
