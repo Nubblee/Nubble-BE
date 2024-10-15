@@ -9,8 +9,8 @@ public class BoardInfo {
 
     @Builder
     public record BoardDto(
-            long boardId,
-            String boardName,
+            long id,
+            String name,
             long categoryId
     ) {
     }

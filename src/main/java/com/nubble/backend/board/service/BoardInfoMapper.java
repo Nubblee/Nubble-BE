@@ -13,8 +13,6 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface BoardInfoMapper {
 
-    @Mapping(target = "boardId", source = "id")
-    @Mapping(target = "boardName", source = "name")
     @Mapping(target = "categoryId", source = "category.id")
     BoardInfo.BoardDto toBoardDto(Board board);
 }

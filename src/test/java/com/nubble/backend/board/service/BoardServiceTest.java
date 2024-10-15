@@ -59,6 +59,6 @@ class BoardServiceTest {
 
         // 카테고리와 매핑된 게시판이 반환되었는지 검증한다.
         assertThat(result).hasSize(2)
-                .allMatch(dto -> dto.boardName().startsWith("반환되는 게시판"));
+                .allMatch(dto -> dto.name().startsWith("반환되는 게시판"));
     }
 }

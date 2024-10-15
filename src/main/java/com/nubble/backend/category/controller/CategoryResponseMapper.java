@@ -1,5 +1,6 @@
 package com.nubble.backend.category.controller;
 
+import com.nubble.backend.board.service.BoardInfo;
 import com.nubble.backend.category.service.CategoryInfo;
 import java.util.List;
 import org.mapstruct.InjectionStrategy;
@@ -25,6 +26,18 @@ public interface CategoryResponseMapper {
 
         return CategoryResponse.CategoriesDto.builder()
                 .categories(categories)
+                .build();
+    }
+
+    CategoryResponse.BoardDto toBoardDto(BoardInfo.BoardDto info);
+
+    default CategoryResponse.BoardsDto toBoardsDto(List<BoardInfo.BoardDto> infos) {
+        List<CategoryResponse.BoardDto> list = infos.stream()
+                .map(this::toBoardDto)
+                .toList();
+
+        return CategoryResponse.BoardsDto.builder()
+                .boards(list)
                 .build();
     }
 }

@@ -22,4 +22,17 @@ public class CategoryResponse {
     ) {
 
     }
+
+    @Builder
+    public record BoardDto(
+            long id,
+            String name
+    ) {
+    }
+
+    @Builder
+    public record BoardsDto(
+            List<BoardDto> boards
+    ) {
+    }
 }
