@@ -35,7 +35,7 @@ class CategoryServiceTest {
         categoryRepository.save(child);
 
         // 루트 카테고리를 가져온다.
-        List<CategoryInfo> categoryInfos = categoryService.findRootCategory();
+        List<CategoryInfo.CategoryDto> categoryInfos = categoryService.findRootCategory();
 
         // 루트 카테고리만 가져오므로 총 1개를 가져와야 한다.
         assertThat(categoryInfos).hasSize(1);

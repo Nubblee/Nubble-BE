@@ -16,15 +16,15 @@ public interface CategoryResponseMapper {
 
     @Mapping(target = "categoryId", source = "id")
     @Mapping(target = "categoryName", source = "name")
-    CategoryResponse.CategoryDto toCategoryFindResponse(CategoryInfo info);
+    CategoryResponse.CategoryDto toCategoryFindResponse(CategoryInfo.CategoryDto info);
 
-    default CategoryResponse.CategoriesDto toCategoryFindResponses(List<CategoryInfo> infos) {
-        List<CategoryResponse.CategoryDto> list = infos.stream()
+    default CategoryResponse.CategoriesDto toCategoryFindResponses(List<CategoryInfo.CategoryDto> infos) {
+        List<CategoryResponse.CategoryDto> categories = infos.stream()
                 .map(this::toCategoryFindResponse)
                 .toList();
 
         return CategoryResponse.CategoriesDto.builder()
-                .categories(list)
+                .categories(categories)
                 .build();
     }
 }

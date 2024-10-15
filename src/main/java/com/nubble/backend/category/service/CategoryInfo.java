@@ -1,11 +1,17 @@
 package com.nubble.backend.category.service;
 
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-@Builder
-public record CategoryInfo(
-        long id,
-        String name
-) {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class CategoryInfo {
+
+    @Builder
+    public record CategoryDto(
+            long id,
+            String name
+    ) {
+    }
 
 }

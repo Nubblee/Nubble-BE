@@ -21,7 +21,7 @@ public class CategoryApiController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryResponse.CategoriesDto> findCategories() {
-        List<CategoryInfo> infos = categoryService.findRootCategory();
+        List<CategoryInfo.CategoryDto> infos = categoryService.findRootCategory();
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(categoryResponseMapper.toCategoryFindResponses(infos));

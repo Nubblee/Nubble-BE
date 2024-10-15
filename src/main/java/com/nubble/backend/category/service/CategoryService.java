@@ -11,7 +11,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryInfoMapper categoryInfoMapper;
 
-    public List<CategoryInfo> findRootCategory() {
+    public List<CategoryInfo.CategoryDto> findRootCategory() {
         return categoryRepository.findAllByParentCategoryIsNull().stream()
                 .map(categoryInfoMapper::toCategoryInfo)
                 .toList();

@@ -12,5 +12,5 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface CategoryInfoMapper {
 
-    CategoryInfo toCategoryInfo(Category c);
+    CategoryInfo.CategoryDto toCategoryInfo(Category c);
 }

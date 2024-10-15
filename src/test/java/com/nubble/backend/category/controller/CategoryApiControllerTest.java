@@ -41,16 +41,16 @@ class CategoryApiControllerTest {
     @DisplayName("모든 루트 카테고리를 반환한다.")
     @Test
     void findCategories_success() throws Exception {
-        // 저장되어 있는 루트 카테고리들
-        CategoryInfo rootCategory1 = CategoryInfo.builder()
+        // 저장되어 있는 루트 카테고리들의 정보
+        CategoryInfo.CategoryDto rootCategory1 = CategoryInfo.CategoryDto.builder()
                 .id(1L)
                 .name("코딩테스트")
                 .build();
-        CategoryInfo rootCategory2 = CategoryInfo.builder()
+        CategoryInfo.CategoryDto rootCategory2 = CategoryInfo.CategoryDto.builder()
                 .id(1L)
                 .name("스터디")
                 .build();
-        List<CategoryInfo> infos = List.of(rootCategory1, rootCategory2);
+        List<CategoryInfo.CategoryDto> infos = List.of(rootCategory1, rootCategory2);
 
         // 컨트롤러에 요청이 들어오면 서비스를 통해 저장된 루트 카테고리들을 가져온다.
         given(categoryService.findRootCategory())
