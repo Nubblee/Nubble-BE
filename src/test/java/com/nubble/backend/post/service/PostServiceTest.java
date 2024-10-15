@@ -2,6 +2,10 @@ package com.nubble.backend.post.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.nubble.backend.board.domain.Board;
+import com.nubble.backend.board.service.BoardRepository;
+import com.nubble.backend.category.domain.Category;
+import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
@@ -10,6 +14,7 @@ import com.nubble.backend.post.service.PostCommand.PostPublishCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +34,28 @@ class PostServiceTest {
     @Autowired
     private UserRepository userRepository;
 
+    private Board board;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
+
+    @BeforeEach
+    void setup() {
+        Category category = Category.builder()
+                .name("루트 카테고리")
+                .build();
+        categoryRepository.save(category);
+
+        board = Board.builder()
+                .category(category)
+                .name("게시판 이름")
+                .build();
+        boardRepository.save(board);
+    }
+
     @DisplayName("게시글을 생성한다.")
     @Test
     void createPost_success() {
@@ -40,6 +67,7 @@ class PostServiceTest {
                 .title("제목입니다.")
                 .content("내용입니다.")
                 .userId(user.getId())
+                .boardId(board.getId())
                 .build();
 
         // when
@@ -69,6 +97,7 @@ class PostServiceTest {
                 .title("제목입니다.")
                 .content("내용입니다.")
                 .userId(user.getId())
+                .boardId(board.getId())
                 .build();
         long postId = postService.createPost(postCreateCommand);
 

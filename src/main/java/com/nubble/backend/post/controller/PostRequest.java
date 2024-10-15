@@ -10,8 +10,9 @@ public class PostRequest {
     @Builder
     public record PostCreateRequest(
             String title,
-            String content) {
-
+            String content,
+            Long boardId) {
+        
     }
 
     @Builder

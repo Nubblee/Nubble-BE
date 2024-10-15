@@ -2,6 +2,10 @@ package com.nubble.backend.comment.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.nubble.backend.board.domain.Board;
+import com.nubble.backend.board.service.BoardRepository;
+import com.nubble.backend.category.domain.Category;
+import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.comment.domain.GuestComment;
 import com.nubble.backend.comment.domain.MemberComment;
 import com.nubble.backend.comment.service.CommentCommand.CommentCreateCommand;
@@ -14,6 +18,7 @@ import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +37,31 @@ class CommentServiceTest {
 
     @Autowired
     private PostRepository postRepository;
+
     @Autowired
     private CommentRepository commentRepository;
+
+    private Board board;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
+
+    @BeforeEach
+    void setup() {
+        Category category = Category.builder()
+                .name("루트 카테고리")
+                .build();
+        categoryRepository.save(category);
+
+        board = Board.builder()
+                .category(category)
+                .name("게시판 이름")
+                .build();
+        boardRepository.save(board);
+    }
 
     @DisplayName("회원 댓글을 생성합니다.")
     @Test
@@ -46,6 +74,7 @@ class CommentServiceTest {
                 .user(user)
                 .title("제목입니다.")
                 .content("게시글 내용입니다.")
+                .board(board)
                 .build();
         postRepository.save(post);
 
@@ -74,6 +103,7 @@ class CommentServiceTest {
                 .user(user)
                 .title("제목입니다.")
                 .content("게시글 내용입니다.")
+                .board(board)
                 .build();
         postRepository.save(post);
 
@@ -109,6 +139,7 @@ class CommentServiceTest {
                 .user(user)
                 .title("제목입니다.")
                 .content("게시글 내용입니다.")
+                .board(board)
                 .build();
         postRepository.save(post);
 
