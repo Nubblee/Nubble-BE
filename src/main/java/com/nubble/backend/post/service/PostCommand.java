@@ -11,7 +11,8 @@ public class PostCommand {
     public record PostCreateCommand(
             String title,
             String content,
-            long userId
+            long userId,
+            long boardId
     ) {
 
     }

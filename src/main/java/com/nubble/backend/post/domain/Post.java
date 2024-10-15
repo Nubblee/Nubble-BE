@@ -1,5 +1,6 @@
 package com.nubble.backend.post.domain;
 
+import com.nubble.backend.board.domain.Board;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,12 +44,17 @@ public class Post {
     @Enumerated(value = EnumType.STRING)
     private PostStatus status;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id", nullable = false)
+    private Board board;
+
     @Builder
-    public Post(String title, String content, User user) {
+    public Post(String title, String content, User user, Board board) {
         this.title = title;
         this.content = content;
         this.user = user;
         status = PostStatus.DRAFT;
+        this.board = board;
     }
 
     public void publish() {

@@ -1,5 +1,7 @@
 package com.nubble.backend.post.service;
 
+import com.nubble.backend.board.domain.Board;
+import com.nubble.backend.board.service.BoardRepository;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostCommand.PostPublishCommand;
@@ -15,16 +17,20 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     @Transactional
     public long createPost(PostCreateCommand command) {
         User user = userRepository.findById(command.userId())
                 .orElseThrow(() -> new RuntimeException("유저가 존재하지 않습니다."));
+        Board board = boardRepository.findById(command.boardId())
+                .orElseThrow(() -> new RuntimeException("게시판이 존재하지 않습니다."));
 
         Post newPost = Post.builder()
                 .title(command.title())
                 .content(command.content())
                 .user(user)
+                .board(board)
                 .build();
 
         return postRepository.save(newPost)
