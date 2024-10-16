@@ -1,5 +1,6 @@
 package com.nubble.backend.post.controller;
 
+import com.nubble.backend.post.shared.PostStatusDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,11 @@ public class PostRequest {
     public record PostCreateRequest(
             String title,
             String content,
-            Long boardId) {
-        
+            Long boardId,
+            PostStatusDto status,
+            String thumbnailUrl,
+            String description) {
+
     }
 
     @Builder

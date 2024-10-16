@@ -3,6 +3,7 @@ package com.nubble.backend.post.service;
 import com.nubble.backend.board.domain.Board;
 import com.nubble.backend.board.service.BoardRepository;
 import com.nubble.backend.post.domain.Post;
+import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostCommand.PostPublishCommand;
 import com.nubble.backend.user.domain.User;
@@ -31,6 +32,9 @@ public class PostService {
                 .content(command.content())
                 .user(user)
                 .board(board)
+                .status(PostStatus.valueOf(command.status().name()))
+                .thumbnailUrl(command.thumbnailUrl())
+                .description(command.description())
                 .build();
 
         return postRepository.save(newPost)
