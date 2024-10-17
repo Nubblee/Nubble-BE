@@ -49,12 +49,30 @@ public class Post {
     private Board board;
 
     @Builder
-    public Post(String title, String content, User user, Board board) {
+    protected Post(
+            String title,
+            String content,
+            User user,
+            String thumbnailUrl,
+            String description,
+            PostStatus status,
+            Board board) {
         this.title = title;
         this.content = content;
         this.user = user;
-        status = PostStatus.DRAFT;
+        this.thumbnailUrl = thumbnailUrl;
+        this.description = description;
+        this.status = status;
         this.board = board;
+
+        if (this.status == PostStatus.PUBLISHED) {
+            if (thumbnailUrl == null || thumbnailUrl.isEmpty()) {
+                throw new RuntimeException("게시한 상태에서는 썸네일 URL이 필요합니다.");
+            }
+            if (description == null || description.isEmpty()) {
+                throw new RuntimeException("게시한 상태에서는 설명이 필요합니다.");
+            }
+        }
     }
 
     public void publish() {
