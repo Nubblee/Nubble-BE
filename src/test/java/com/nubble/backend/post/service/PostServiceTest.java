@@ -16,6 +16,7 @@ import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.util.Optional;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -127,7 +128,7 @@ class PostServiceTest {
 
     @DisplayName("게시글의 주인이 임시 게시글을 수정합니다.")
     @Test
-    void update_shouldUpdatePost() {
+    void updatePost_shouldUpdatePost() {
         // 임시 게시글을 생성한다.
         PostCreateCommand postCreateCommand = PostCreateCommand.builder()
                 .title("제목입니다.")
@@ -169,7 +170,7 @@ class PostServiceTest {
 
     @DisplayName("임시 게시글을 게시한다.")
     @Test
-    void test() {
+    void updatePost_shouldBePublished() {
         // 임시 게시글을 생성한다.
         PostCreateCommand postCreateCommand = PostCreateCommand.builder()
                 .title("제목입니다.")
@@ -196,12 +197,45 @@ class PostServiceTest {
 
         postService.updatePost(postUpdateCommand);
 
-        // 업데이트된 내용을 검증한다.
+        // 게시되었는지 검증한다.
         Optional<Post> postOptional = postRepository.findById(postId);
 
         assertThat(postOptional).isPresent();
         PostAssert.assertThat(postOptional.get())
                 .hasId(postUpdateCommand.postId())
                 .hasStatus(PostStatus.valueOf(PostStatusDto.PUBLISHED.name()));
+    }
+
+    @DisplayName("게시글이 주인이 아니라면, 게시글을 업데이트할 수 없다.")
+    @Test
+    void updatePost_ShouldThrowException_whenNonPostOwner() {
+        // 임시 게시글을 생성한다.
+        PostCreateCommand postCreateCommand = PostCreateCommand.builder()
+                .title("제목입니다.")
+                .content("내용입니다.")
+                .userId(user.getId())
+                .boardId(board.getId())
+                .status(PostStatusDto.DRAFT)
+                .thumbnailUrl("https://example.com")
+                .description("요약 내용입니다.")
+                .build();
+        long postId = postService.createPost(postCreateCommand);
+
+        long nonPostOwnerId = user.getId() + 1;
+        PostUpdateCommand postUpdateCommand = PostUpdateCommand.builder()
+                .postId(postId)
+                .title(postCreateCommand.title())
+                .content(postCreateCommand.content())
+                .userId(nonPostOwnerId)
+                .boardId(board.getId())
+                .status(PostStatusDto.DRAFT)
+                .thumbnailUrl(postCreateCommand.thumbnailUrl())
+                .description(postCreateCommand.description())
+                .build();
+
+        // 게시글을 업데이트하지만, 게시글의 주인이 아니므로 예외를 발생시킨다.
+        Assertions.assertThatThrownBy(() -> postService.updatePost(postUpdateCommand))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("게시글의 주인이 아닙니다.");
     }
 }
