@@ -94,6 +94,37 @@ class PostServiceTest {
                 .hasDescription(null);
     }
 
+    @DisplayName("게시 상태의 게시글을 생성한다.")
+    @Test
+    void createPost_shouldCreatePostWithPublishedStatus() {
+        // given
+        PostCreateCommand command = PostCreateCommand.builder()
+                .title("제목입니다.")
+                .content("내용입니다.")
+                .userId(user.getId())
+                .boardId(board.getId())
+                .status(PostStatusDto.PUBLISHED)
+                .thumbnailUrl("https://example.com")
+                .description("요약 내용입니다.")
+                .build();
+
+        // when
+        long newPostId = postService.createPost(command);
+
+        // then
+        Optional<Post> postOptional = postRepository.findById(newPostId);
+
+        assertThat(postOptional).isPresent();
+        PostAssert.assertThat(postOptional.get())
+                .hasId(newPostId)
+                .hasTitle(command.title())
+                .hasContent(command.content())
+                .hasUserId(user.getId())
+                .hasStatus(PostStatus.valueOf(command.status().name()))
+                .hasThumbnailUrl(command.thumbnailUrl())
+                .hasDescription(command.description());
+    }
+
     @DisplayName("게시글의 주인이 게시글을 게시합니다.")
     @Test
     void test() {
