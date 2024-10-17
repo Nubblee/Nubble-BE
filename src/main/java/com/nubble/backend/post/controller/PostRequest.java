@@ -22,19 +22,19 @@ public class PostRequest {
 
     @Builder
     public record PostCreateRequest(
-            @NotBlank
-            @Max(value = TITLE_MAX_LENGTH, message = TITLE_MAX_LENGTH_MESSAGE)
+            @NotBlank(message = "게시글 제목은 비어있을 수 없습니다.")
+            @Size(max = TITLE_MAX_LENGTH, message = TITLE_MAX_LENGTH_MESSAGE)
             String title,
 
-            @NotBlank
+            @NotBlank(message = "게시글 내용은 비어있을 수 없습니다.")
             @Size(max = CONTENT_MAX_LENGTH, message = CONTENT_MAX_LENGTH_MESSAGE)
             String content,
 
-            @NotBlank
+            @NotNull(message = "게시판 아이디는 null일 수 없습니다.")
             @Min(value = 1, message = "boardId는 최소 1이상 이어야 합니다.")
             Long boardId,
 
-            @NotNull(message = "게시글 상태는 필수입니다.")
+            @NotNull(message = "게시글 상태는 null일 수 없습니다.")
             PostStatusDto status,
 
             String thumbnailUrl,
