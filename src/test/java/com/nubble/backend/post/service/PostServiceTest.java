@@ -162,9 +162,46 @@ class PostServiceTest {
                 .hasId(postUpdateCommand.postId())
                 .hasTitle(postUpdateCommand.title())
                 .hasContent(postUpdateCommand.content())
-                .hasUserId(user.getId())
-                .hasStatus(PostStatus.valueOf(postUpdateCommand.status().name()))
+                .hasStatus(PostStatus.valueOf(PostStatusDto.DRAFT.name()))
                 .hasThumbnailUrl(postUpdateCommand.thumbnailUrl())
                 .hasDescription(postUpdateCommand.description());
+    }
+
+    @DisplayName("임시 게시글을 게시한다.")
+    @Test
+    void test() {
+        // 임시 게시글을 생성한다.
+        PostCreateCommand postCreateCommand = PostCreateCommand.builder()
+                .title("제목입니다.")
+                .content("내용입니다.")
+                .userId(user.getId())
+                .boardId(board.getId())
+                .status(PostStatusDto.DRAFT)
+                .thumbnailUrl("https://example.com")
+                .description("요약 내용입니다.")
+                .build();
+        long postId = postService.createPost(postCreateCommand);
+
+        // 게시글을 게시한다.
+        PostUpdateCommand postUpdateCommand = PostUpdateCommand.builder()
+                .postId(postId)
+                .title(postCreateCommand.title())
+                .content(postCreateCommand.content())
+                .userId(user.getId())
+                .boardId(board.getId())
+                .status(PostStatusDto.PUBLISHED)
+                .thumbnailUrl(postCreateCommand.thumbnailUrl())
+                .description(postCreateCommand.description())
+                .build();
+
+        postService.updatePost(postUpdateCommand);
+
+        // 업데이트된 내용을 검증한다.
+        Optional<Post> postOptional = postRepository.findById(postId);
+
+        assertThat(postOptional).isPresent();
+        PostAssert.assertThat(postOptional.get())
+                .hasId(postUpdateCommand.postId())
+                .hasStatus(PostStatus.valueOf(PostStatusDto.PUBLISHED.name()));
     }
 }
