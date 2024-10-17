@@ -5,7 +5,8 @@ import com.nubble.backend.board.service.BoardRepository;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
-import com.nubble.backend.post.service.PostCommand.PostPublishCommand;
+import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
+import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class PostService {
 
     // todo publishPost -> updatePost로 변경, 모든 변수들을 변경할 수 있도록 수정, PostValidationHandler 객체를 만들어 검증 수행
     @Transactional
-    public PostInfo publishPost(PostPublishCommand command) {
+    public PostInfo updatePost(PostUpdateCommand command) {
         Post post = postRepository.findById(command.postId())
                 .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
         post.validateOwner(command.userId());
@@ -59,7 +60,7 @@ public class PostService {
                 .userId(post.getUser().getId())
                 .thumbnailUrl(post.getThumbnailUrl())
                 .description(post.getDescription())
-                .postStatus(post.getStatus().name())
+                .postStatus(PostStatusDto.valueOf(post.getStatus().name()))
                 .build();
     }
 }

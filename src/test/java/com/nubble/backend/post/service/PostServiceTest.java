@@ -11,7 +11,7 @@ import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
-import com.nubble.backend.post.service.PostCommand.PostPublishCommand;
+import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
 import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
@@ -125,35 +125,46 @@ class PostServiceTest {
                 .hasDescription(command.description());
     }
 
-    @DisplayName("게시글의 주인이 게시글을 게시합니다.")
+    @DisplayName("게시글의 주인이 임시 게시글을 수정합니다.")
     @Test
-    void test() {
-        // given
+    void update_shouldUpdatePost() {
+        // 임시 게시글을 생성한다.
         PostCreateCommand postCreateCommand = PostCreateCommand.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
                 .userId(user.getId())
                 .boardId(board.getId())
+                .status(PostStatusDto.DRAFT)
+                .thumbnailUrl("https://example.com")
+                .description("요약 내용입니다.")
                 .build();
         long postId = postService.createPost(postCreateCommand);
 
-        PostPublishCommand postPublishCommand = PostPublishCommand.builder()
-                .userId(user.getId())
+        // 임시 게시글의 내용을 수정한다.
+        PostUpdateCommand postUpdateCommand = PostUpdateCommand.builder()
                 .postId(postId)
-                .thumbnailUrl("https://example.com/thumbnail.jpg")
-                .description("설명입니다.")
+                .title("수정된 제목")
+                .content("수정된 내용")
+                .userId(user.getId())
+                .boardId(board.getId())
+                .status(PostStatusDto.DRAFT)
+                .thumbnailUrl("https://example.com22")
+                .description("수정된 요약 내용")
                 .build();
 
-        // when
-        PostInfo postInfo = postService.publishPost(postPublishCommand);
+        postService.updatePost(postUpdateCommand);
 
-        // then
-        assertThat(postInfo.postId()).isEqualTo(postId);
-        assertThat(postInfo.title()).isEqualTo(postCreateCommand.title());
-        assertThat(postInfo.content()).isEqualTo(postCreateCommand.content());
-        assertThat(postInfo.userId()).isEqualTo(user.getId());
-        assertThat(postInfo.thumbnailUrl()).isEqualTo(postPublishCommand.thumbnailUrl());
-        assertThat(postInfo.description()).isEqualTo(postPublishCommand.description());
-        assertThat(postInfo.postStatus()).isEqualTo("PUBLISHED");
+        // 업데이트된 내용을 검증한다.
+        Optional<Post> postOptional = postRepository.findById(postId);
+
+        assertThat(postOptional).isPresent();
+        PostAssert.assertThat(postOptional.get())
+                .hasId(postUpdateCommand.postId())
+                .hasTitle(postUpdateCommand.title())
+                .hasContent(postUpdateCommand.content())
+                .hasUserId(user.getId())
+                .hasStatus(PostStatus.valueOf(postUpdateCommand.status().name()))
+                .hasThumbnailUrl(postUpdateCommand.thumbnailUrl())
+                .hasDescription(postUpdateCommand.description());
     }
 }

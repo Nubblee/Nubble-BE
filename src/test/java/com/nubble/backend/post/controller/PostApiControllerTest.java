@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
-import com.nubble.backend.post.controller.PostRequest.PostPublishRequest;
+import com.nubble.backend.post.controller.PostRequest.PostUpdateRequest;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostService;
@@ -133,7 +133,7 @@ class PostApiControllerTest {
     @Test
     void publishPost() throws Exception {
         // given
-        PostPublishRequest request = PostPublishRequest.builder()
+        PostUpdateRequest request = PostUpdateRequest.builder()
                 .thumbnailUrl("https://example.com/thumbnail.jpg")
                 .description("설명입니다.")
                 .build();

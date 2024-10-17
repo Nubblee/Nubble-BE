@@ -22,9 +22,13 @@ public class PostCommand {
     }
 
     @Builder
-    public record PostPublishCommand(
-            long userId,
+    public record PostUpdateCommand(
             long postId,
+            String title,
+            String content,
+            long userId,
+            long boardId,
+            PostStatusDto status,
             String thumbnailUrl,
             String description
     ) {
