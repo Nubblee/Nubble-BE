@@ -1,4 +1,4 @@
-package com.nubble.backend.fixture;
+package com.nubble.backend.fixture.domain;
 
 import com.nubble.backend.user.domain.User;
 

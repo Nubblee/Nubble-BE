@@ -6,7 +6,7 @@ import com.nubble.backend.comment.domain.GuestComment;
 import com.nubble.backend.comment.domain.MemberComment;
 import com.nubble.backend.comment.service.CommentCommand.CommentDeleteCommand;
 import com.nubble.backend.comment.service.remover.CommentRemover;
-import com.nubble.backend.fixture.UserFixture;
+import com.nubble.backend.fixture.domain.UserFixture;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;

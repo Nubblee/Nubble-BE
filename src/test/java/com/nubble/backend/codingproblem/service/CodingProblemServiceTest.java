@@ -6,7 +6,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemDeleteCommand;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemSearchCommand;
-import com.nubble.backend.fixture.UserFixture;
+import com.nubble.backend.fixture.domain.UserFixture;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDate;

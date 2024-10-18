@@ -16,7 +16,7 @@ import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemCrea
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemSearchCommand;
 import com.nubble.backend.codingproblem.service.CodingProblemInfo;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
-import com.nubble.backend.fixture.UserFixture;
+import com.nubble.backend.fixture.domain.UserFixture;
 import com.nubble.backend.session.domain.Session;
 import com.nubble.backend.session.service.SessionRepository;
 import com.nubble.backend.user.domain.User;

@@ -1,6 +1,6 @@
 package com.nubble.backend.fixture.service;
 
-import com.nubble.backend.fixture.PostFixture;
+import com.nubble.backend.fixture.domain.PostFixture;
 import com.nubble.backend.post.service.PostInfo;
 import com.nubble.backend.post.shared.PostStatusDto;
 

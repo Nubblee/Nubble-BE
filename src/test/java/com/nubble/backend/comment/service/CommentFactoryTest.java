@@ -11,7 +11,7 @@ import com.nubble.backend.comment.domain.GuestComment;
 import com.nubble.backend.comment.domain.MemberComment;
 import com.nubble.backend.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.comment.service.factory.CommentFactory;
-import com.nubble.backend.fixture.UserFixture;
+import com.nubble.backend.fixture.domain.UserFixture;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
