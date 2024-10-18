@@ -6,10 +6,8 @@ import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
-import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +20,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
+    private final PostInfoMapper postInfoMapper;
 
     @Transactional
     public long createPost(PostCreateCommand command) {
@@ -64,20 +63,10 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostInfo.PostDto> findPostsByBoardId(long boardId) {
-        return new ArrayList<>();
+        return postRepository.findAllByBoardId(boardId).stream()
+                .map(postInfoMapper::toPostDto)
+                .toList();
     }
 
-    public class PostInfo {
 
-        public record PostDto(
-                long id,
-                String title,
-                String content,
-                String thumbnailUrl,
-                String description,
-                PostStatusDto status,
-                long userId,
-                long boardId) {
-        }
-    }
 }

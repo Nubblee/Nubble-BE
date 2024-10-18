@@ -14,7 +14,7 @@ import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
-import com.nubble.backend.post.service.PostService.PostInfo.PostDto;
+import com.nubble.backend.post.service.PostInfo.PostDto;
 import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
