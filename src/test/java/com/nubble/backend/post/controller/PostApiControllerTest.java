@@ -1,8 +1,8 @@
 package com.nubble.backend.post.controller;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -129,28 +129,47 @@ class PostApiControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("")
+    @DisplayName("작성자가 게시글을 수정한다.")
     @Test
-    void publishPost() throws Exception {
-        // given
+    void updatePost_create() throws Exception {
         PostUpdateRequest request = PostUpdateRequest.builder()
+                .title("수정할 제목")
+                .content("수정할 내용")
+                .boardId(1L)
+                .status(PostStatusDto.PUBLISHED)
                 .thumbnailUrl("https://example.com/thumbnail.jpg")
                 .description("설명입니다.")
                 .build();
         String requestJson = objectMapper.writeValueAsString(request);
 
+        /*
+        HTTP Request:
+        PUT /posts/{postId}
+        Content-Type: application/json
+        SESSION-ID: {sessionAccessId}
+
+        {
+            "title": "수정할 제목",
+            "content": "수정할 내용",
+            "boardId": 1,
+            "status": "PUBLISHED",
+            "thumbnailUrl": "https://example.com/thumbnail.jpg",
+            "description": "설명입니다."
+        }
+         */
         Long postId = 1L;
-        MockHttpServletRequestBuilder requestBuilder = patch("/posts/{postId}/publish", postId)
+        MockHttpServletRequestBuilder requestBuilder = put("/posts/{postId}", postId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("SESSION-ID", session.getAccessId())
                 .content(requestJson);
 
-        // when & then
+        /*
+        HTTP Response:
+        HTTP/1.1 204 No Content
+         */
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andExpect(content().string(""))
                 .andDo(print());
     }
-
-
 }

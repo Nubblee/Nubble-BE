@@ -17,5 +17,5 @@ public interface PostCommandMapper {
 
     PostCreateCommand toPostCreateCommand(PostCreateRequest request, long userId);
 
-    PostUpdateCommand toPostPublishCommand(PostUpdateRequest request, Long postId, long userId);
+    PostUpdateCommand toPostUpdateCommand(PostUpdateRequest request, Long postId, long userId);
 }

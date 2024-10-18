@@ -1,6 +1,7 @@
 package com.nubble.backend.post.controller;
 
 import com.nubble.backend.post.shared.PostStatusDto;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -16,10 +17,11 @@ public class PostRequest {
     public static final int TITLE_MAX_LENGTH = 255;
     public static final int CONTENT_MAX_LENGTH = 255;
     public static final int DESCRIPTION_MAX_LENGTH = 500;
+    public static final int THUMBNAIL_MAX_LENGTH = 255;
     public static final String TITLE_MAX_LENGTH_MESSAGE = "게시글 제목의 길이는 최대 " + TITLE_MAX_LENGTH + "까지 가능합니다.";
     public static final String CONTENT_MAX_LENGTH_MESSAGE = "게시글 내용의 길이는 최대 " + TITLE_MAX_LENGTH + "까지 가능합니다.";
-    public static final String DESCRIPTION_MAX_LENGTH_MESSAGE =
-            "게시글 요약의 길이는 최대 " + DESCRIPTION_MAX_LENGTH + "까지 가능합니다.";
+    public static final String DESCRIPTION_MAX_LENGTH_MESSAGE = "게시글 요약의 길이는 최대 " + DESCRIPTION_MAX_LENGTH + "까지 가능합니다.";
+    public static final String THUMBNAIL_MAX_LENGTH_MESSAGE = "썸네일 URL의 길이는 최대 " + THUMBNAIL_MAX_LENGTH + "까지 가능합니다.";
 
     @Builder
     public record PostCreateRequest(
@@ -47,10 +49,6 @@ public class PostRequest {
 
     @Builder
     public record PostUpdateRequest(
-            @NotNull(message = "postId는 null일 수 없습니다.")
-            @Min(value = 1, message = "postId는 최소 1이상 이어야 합니다.")
-            Long postId,
-
             @NotBlank(message = "게시글 제목은 비어있을 수 없습니다.")
             @Size(max = TITLE_MAX_LENGTH, message = TITLE_MAX_LENGTH_MESSAGE)
             String title,
@@ -66,9 +64,12 @@ public class PostRequest {
             @NotNull(message = "게시글 상태는 null일 수 없습니다.")
             PostStatusDto status,
 
+            @Nullable
+            @Size(max =THUMBNAIL_MAX_LENGTH, message = THUMBNAIL_MAX_LENGTH_MESSAGE)
             String thumbnailUrl,
 
-            @Max(value = DESCRIPTION_MAX_LENGTH, message = DESCRIPTION_MAX_LENGTH_MESSAGE)
+            @Nullable
+            @Size(max = DESCRIPTION_MAX_LENGTH, message = DESCRIPTION_MAX_LENGTH_MESSAGE)
             String description
     ) {
 
