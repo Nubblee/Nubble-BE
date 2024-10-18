@@ -5,7 +5,7 @@ import com.nubble.backend.interceptor.session.SessionRequired;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
-import com.nubble.backend.post.service.PostCommand.PostPublishCommand;
+import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
 import com.nubble.backend.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -43,20 +43,19 @@ public class PostApiController {
                 .body(response);
     }
 
-    // todo patch /{postId} 로 수정하기
-    @PatchMapping(
-            path = "/{postId}/publish",
+    @PutMapping(
+            path = "/{postId}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     @SessionRequired
-    public ResponseEntity<Void> publishPost(
-            @Valid @RequestBody PostRequest.PostPublishRequest request,
+    public ResponseEntity<Void> updatePost(
+            @Valid @RequestBody PostRequest.PostUpdateRequest request,
             @PathVariable Long postId,
             UserSession userSession
     ) {
-        PostPublishCommand command = postCommandMapper.toPostPublishCommand(request, postId, userSession.userId());
-        postService.publishPost(command);
+        PostUpdateCommand command = postCommandMapper.toPostUpdateCommand(request, postId, userSession.userId());
+        postService.updatePost(command);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .build();
     }
 }

@@ -3,8 +3,9 @@ package com.nubble.backend.post.service;
 import com.nubble.backend.board.domain.Board;
 import com.nubble.backend.board.service.BoardRepository;
 import com.nubble.backend.post.domain.Post;
+import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
-import com.nubble.backend.post.service.PostCommand.PostPublishCommand;
+import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,31 +32,30 @@ public class PostService {
                 .content(command.content())
                 .user(user)
                 .board(board)
+                .status(PostStatus.valueOf(command.status().name()))
+                .thumbnailUrl(command.thumbnailUrl())
+                .description(command.description())
                 .build();
 
         return postRepository.save(newPost)
                 .getId();
     }
 
-    // todo publishPost -> updatePost로 변경, 모든 변수들을 변경할 수 있도록 수정, PostValidationHandler 객체를 만들어 검증 수행
     @Transactional
-    public PostInfo publishPost(PostPublishCommand command) {
+    public void updatePost(PostUpdateCommand command) {
         Post post = postRepository.findById(command.postId())
                 .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
+        Board board = boardRepository.findById(command.boardId())
+                .orElseThrow(() -> new RuntimeException("게시판이 존재하지 않습니다."));
         post.validateOwner(command.userId());
 
-        post.publish();
-        post.updateThumbnailUrl(command.thumbnailUrl());
-        post.updateDescription(command.description());
-
-        return PostInfo.builder()
-                .postId(post.getId())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .userId(post.getUser().getId())
-                .thumbnailUrl(post.getThumbnailUrl())
-                .description(post.getDescription())
-                .postStatus(post.getStatus().name())
-                .build();
+        post.update(
+                command.title(),
+                command.content(),
+                command.thumbnailUrl(),
+                command.description(),
+                PostStatus.valueOf(command.status().name()),
+                board
+        );
     }
 }

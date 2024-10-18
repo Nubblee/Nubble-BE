@@ -1,5 +1,6 @@
 package com.nubble.backend.post.service;
 
+import com.nubble.backend.post.shared.PostStatusDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -12,15 +13,22 @@ public class PostCommand {
             String title,
             String content,
             long userId,
-            long boardId
+            long boardId,
+            PostStatusDto status,
+            String thumbnailUrl,
+            String description
     ) {
 
     }
 
     @Builder
-    public record PostPublishCommand(
-            long userId,
+    public record PostUpdateCommand(
             long postId,
+            String title,
+            String content,
+            long userId,
+            long boardId,
+            PostStatusDto status,
             String thumbnailUrl,
             String description
     ) {
