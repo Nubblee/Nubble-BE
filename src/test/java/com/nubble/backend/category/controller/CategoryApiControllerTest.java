@@ -62,29 +62,28 @@ class CategoryApiControllerTest {
                 .willReturn(infos);
 
         /*
-          HTTP Request:
-          GET /categories HTTP/1.1
-          Host: localhost:8080
+        HTTP Request:
+        GET /categories
          */
         MockHttpServletRequestBuilder requestBuilder = get("/categories");
 
         /*
-           HTTP Response:
-          HTTP/1.1 200 OK
-          Content-Type: application/json
+        HTTP Response:
+        HTTP/1.1 200 OK
+        Content-Type: application/json
 
-          {
+        {
             "categories": [
-              {
-                "id": 1,
-                "name": "코딩테스트"
-              },
-              {
-                "id": 2,
-                "name": "스터디"
-              }
+                {
+                    "id": 1,
+                    "name": "코딩테스트"
+                },
+                {
+                    "id": 2,
+                    "name": "스터디"
+                }
             ]
-          }
+        }
          */
         CategoriesDto responses = categoryResponseMapper.toCategoryFindResponses(infos);
         mockMvc.perform(requestBuilder)

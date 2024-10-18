@@ -7,14 +7,19 @@ import com.nubble.backend.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.customassert.PostAssert;
+import com.nubble.backend.fixture.BoardFixture;
+import com.nubble.backend.fixture.PostFixture;
 import com.nubble.backend.fixture.UserFixture;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
+import com.nubble.backend.post.service.PostInfo.PostDto;
 import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +42,6 @@ class PostServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    private Board board;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -45,12 +49,14 @@ class PostServiceTest {
     @Autowired
     private BoardRepository boardRepository;
 
+    Category category;
+    private Board board;
     private User user;
 
     @BeforeEach
     void setup() {
         // 게시글이 속해있는 카테고리와 게시판을 생성한다.
-        Category category = Category.builder()
+        category = Category.builder()
                 .name("루트 카테고리")
                 .build();
         categoryRepository.save(category);
@@ -237,5 +243,44 @@ class PostServiceTest {
         Assertions.assertThatThrownBy(() -> postService.updatePost(postUpdateCommand))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("게시글의 주인이 아닙니다.");
+    }
+
+    @DisplayName("boardId와 매핑되어 있는 게시글들을 가져온다.")
+    @Test
+    void findPostsByBoardId_ShouldReturnPostsMappedToBoardId() {
+        // 가져오려는 게시판에 게시글을 작성한다.
+        int postCount = 5;
+        List<Post> posts = new ArrayList<>();
+        for (int i = 0; i < postCount; i++) {
+            Post post = PostFixture.aPost()
+                    .withBoard(board)
+                    .withUser(user)
+                    .build();
+            posts.add(post);
+        }
+        postRepository.saveAll(posts);
+
+        // 다른 게시판에 게시글을 작성한다.
+        Board otherBoard = BoardFixture.aBoard().withCategory(category)
+                .build();
+        boardRepository.save(otherBoard);
+
+        int otherPostCount = 3;
+        List<Post> otherPosts = new ArrayList<>();
+        for (int i = 0; i < otherPostCount; i++) {
+            Post post = PostFixture.aPost()
+                    .withBoard(otherBoard)
+                    .withUser(user)
+                    .build();
+            otherPosts.add(post);
+        }
+        postRepository.saveAll(otherPosts);
+
+        // 게시판과 매핑된 게시글을 가져온다.
+        List<PostDto> postsByBoardId = postService.findPostsByBoardId(board.getId());
+
+        // 매핑된 게시글들만 가져오는 것을 검증한다.
+        assertThat(postsByBoardId).hasSize(postCount)
+                .allMatch(post -> post.boardId() == board.getId());
     }
 }
