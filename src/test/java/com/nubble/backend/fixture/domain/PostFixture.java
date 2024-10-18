@@ -41,4 +41,9 @@ public class PostFixture {
         builder.board(board);
         return this;
     }
+
+    public PostFixture withStatus(PostStatus status) {
+        builder.status(status);
+        return this;
+    }
 }

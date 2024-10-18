@@ -283,4 +283,27 @@ class PostServiceTest {
         assertThat(postsByBoardId).hasSize(postCount)
                 .allMatch(post -> post.boardId() == board.getId());
     }
+
+    @DisplayName("게시글을 조회할 때, 임시 게시글은 가져오지 않는다.")
+    @Test
+    void findPostsByBoardId_ShouldReturnOnlyNonDraftPosts() {
+        // 가져오려는 게시판에 게시글을 작성한다.
+        int postCount = 5;
+        List<Post> posts = new ArrayList<>();
+        for (int i = 0; i < postCount; i++) {
+            Post post = PostFixture.aPost()
+                    .withBoard(board)
+                    .withUser(user)
+                    .withStatus(PostStatus.DRAFT)
+                    .build();
+            posts.add(post);
+        }
+        postRepository.saveAll(posts);
+
+        // 게시판과 매핑된 게시글을 가져온다.
+        List<PostDto> postsByBoardId = postService.findPostsByBoardId(board.getId());
+
+        // 매핑된 게시글들만 가져오는 것을 검증한다.
+        assertThat(postsByBoardId).isEmpty();
+    }
 }
