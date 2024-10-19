@@ -78,50 +78,32 @@ class PostApiControllerTest {
     @DisplayName("로그인된 유저가 임시 게시글을 작성합니다.")
     @Test
     void createPost_success() throws Exception {
-        // given
+        // http request
         PostCreateRequest request = PostCreateRequest.builder()
                 .title("제목입니다.")
                 .content("내용입니다")
                 .boardId(1L)
                 .status(PostStatusDto.DRAFT)
+                .thumbnailUrl(null)
+                .description(null)
                 .build();
-
-        PostCreateCommand command = postCommandMapper.toPostCreateCommand(request, user.getId());
-        long newPostId = 1L;
-        given(postService.createPost(command))
-                .willReturn(newPostId);
-
-        /*
-        HTTP Request:
-        POST /posts
-        Content-Type: application/json
-        SESSION-ID: {sessionAccessId}
-
-        {
-            "title": "제목입니다.",
-            "content": "내용입니다",
-            "boardId": 1,
-            "status": "DRAFT"
-        }
-        */
         String requestJson = objectMapper.writeValueAsString(request);
+
         MockHttpServletRequestBuilder requestBuilder = post("/posts")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("SESSION-ID", session.getAccessId())
                 .content(requestJson);
 
+        // post를 생성한다.
+        PostCreateCommand command = postCommandMapper.toPostCreateCommand(request, user.getId());
+        long newPostId = 1L;
+        given(postService.createPost(command))
+                .willReturn(newPostId);
+
+        // http response
         PostCreateResponse response = postResponseMapper.toPostCreateResponse(newPostId);
         String responseJson = objectMapper.writeValueAsString(response);
 
-        /*
-        HTTP Response:
-        HTTP/1.1 201 Created
-        Content-Type: application/json
-
-        {
-          "postId": 1
-        }
-        */
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
