@@ -7,6 +7,8 @@ import com.nubble.backend.board.domain.Board;
 import com.nubble.backend.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
+import com.nubble.backend.comment.service.CommentQuery.PostByIdQuery;
+import com.nubble.backend.comment.service.CommentQuery.UserByIdQuery;
 import com.nubble.backend.fixture.domain.BoardFixture;
 import com.nubble.backend.fixture.domain.PostFixture;
 import com.nubble.backend.fixture.domain.UserFixture;
@@ -14,11 +16,8 @@ import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.exception.DraftPostException;
 import com.nubble.backend.post.service.MemberCommentRepository;
-import com.nubble.backend.post.service.PostQuery;
 import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.service.UserQuery;
-import com.nubble.backend.user.service.UserQuery.ByIdQuery;
 import com.nubble.backend.user.service.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,9 +77,9 @@ class MemberCommandServiceTest {
 
     @Test
     void 게시된_게시글에_댓글을_작성한다() {
-        UserQuery.ByIdQuery userQuery = ByIdQuery.builder()
+        UserByIdQuery userQuery = UserByIdQuery.builder()
                 .id(user.getId()).build();
-        PostQuery.ByIdQuery postQuery = PostQuery.ByIdQuery.builder()
+        PostByIdQuery postQuery = PostByIdQuery.builder()
                 .id(post.getId()).build();
         MemberCommentCommand.CreateCommand command = MemberCommentCommand.CreateCommand.builder()
                 .comment("댓글 내용입니다.").build();
@@ -102,9 +101,9 @@ class MemberCommandServiceTest {
                 .build();
         postRepository.save(unpulishedPost);
 
-        UserQuery.ByIdQuery userQuery = ByIdQuery.builder()
+        UserByIdQuery userQuery = UserByIdQuery.builder()
                 .id(user.getId()).build();
-        PostQuery.ByIdQuery postQuery = PostQuery.ByIdQuery.builder()
+        PostByIdQuery postQuery = PostByIdQuery.builder()
                 .id(unpulishedPost.getId()).build();
         MemberCommentCommand.CreateCommand command = MemberCommentCommand.CreateCommand.builder()
                 .comment("댓글 내용입니다.").build();
