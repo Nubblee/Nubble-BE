@@ -31,7 +31,6 @@ public class MemberCommentGenerator implements CommentGenerator<MemberComment> {
 
     private static MemberComment generateMemberComment(Post post, CommentCreateCommand memberCommand, User user) {
         return MemberComment.builder()
-                .post(post)
                 .content(memberCommand.content())
                 .createdAt(LocalDateTime.now())
                 .user(user)

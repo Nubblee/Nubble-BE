@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class PostExceptionHandler {
 
-    @ExceptionHandler(PostNotPublishedException.class)
-    public ResponseEntity<ErrorResponse> handlePostNotPublishedException(PostNotPublishedException exception) {
+    @ExceptionHandler(DraftPostException.class)
+    public ResponseEntity<ErrorResponse> handle(DraftPostException exception) {
         ErrorResponse error = ErrorResponse.builder()
-                .errorCode("POST_NOT_PUBLISHED")
+                .errorCode("DRAFT_POST")
                 .message(exception.getMessage()).build();
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }

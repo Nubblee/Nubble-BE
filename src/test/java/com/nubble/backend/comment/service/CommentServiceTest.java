@@ -144,21 +144,21 @@ class CommentServiceTest {
         postRepository.save(post);
 
         MemberComment memberComment = MemberComment.builder()
-                .post(post)
                 .content("회원 댓글")
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .build();
         commentRepository.save(memberComment);
+        memberComment.assignPost(post);
 
         GuestComment guestComment = GuestComment.builder()
-                .post(post)
                 .content("게스트 댓글")
                 .createdAt(LocalDateTime.now().plusMinutes(1))
                 .guestName("게스트")
                 .guestPassword("password")
                 .build();
         commentRepository.save(guestComment);
+        guestComment.assignPost(post);
 
         // when
         List<CommentInfo> result = commentService.findAllByPostId(post.getId());

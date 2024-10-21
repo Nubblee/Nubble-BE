@@ -12,7 +12,7 @@ import com.nubble.backend.fixture.domain.PostFixture;
 import com.nubble.backend.fixture.domain.UserFixture;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
-import com.nubble.backend.post.exception.PostNotPublishedException;
+import com.nubble.backend.post.exception.DraftPostException;
 import com.nubble.backend.post.service.MemberCommentRepository;
 import com.nubble.backend.post.service.PostQuery;
 import com.nubble.backend.post.service.PostRepository;
@@ -98,7 +98,7 @@ class MemberCommandServiceTest {
         Post unpulishedPost = PostFixture.aPost()
                 .withBoard(board)
                 .withUser(user)
-                .withStatus(PostStatus.PUBLISHED)
+                .withStatus(PostStatus.DRAFT)
                 .build();
         postRepository.save(unpulishedPost);
 
@@ -112,6 +112,6 @@ class MemberCommandServiceTest {
         // 댓글을 작성한다.
         // 예외를 발생시킨다.
         assertThatThrownBy(() -> memberCommandService.create(userQuery, postQuery, command))
-                .isInstanceOf(PostNotPublishedException.class);
+                .isInstanceOf(DraftPostException.class);
     }
 }

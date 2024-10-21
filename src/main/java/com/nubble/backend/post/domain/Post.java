@@ -1,6 +1,7 @@
 package com.nubble.backend.post.domain;
 
 import com.nubble.backend.board.domain.Board;
+import com.nubble.backend.post.exception.DraftPostException;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -158,6 +159,12 @@ public class Post {
     public void validateOwner(Long userId) {
         if (!user.getId().equals(userId)) {
             throw new RuntimeException("게시글의 주인이 아닙니다.");
+        }
+    }
+
+    public void writeComment() {
+        if (status == PostStatus.DRAFT) {
+            throw new DraftPostException("임시글에는 댓글을 달 수 없습니다.");
         }
     }
 }

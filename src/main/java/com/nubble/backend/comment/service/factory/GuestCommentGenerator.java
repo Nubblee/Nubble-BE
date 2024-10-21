@@ -21,7 +21,6 @@ public class GuestCommentGenerator implements CommentGenerator<GuestComment> {
 
     private static GuestComment generateGuestComment(Post post, CommentCreateCommand guestCommand) {
         return GuestComment.builder()
-                .post(post)
                 .content(guestCommand.content())
                 .guestName(guestCommand.guestName())
                 .guestPassword(guestCommand.guestPassword())

@@ -1,9 +1,15 @@
 package com.nubble.backend.comment.service.member;
 
+import com.nubble.backend.comment.domain.MemberComment;
 import com.nubble.backend.comment.service.member.MemberCommentCommand.CreateCommand;
+import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.MemberCommentRepository;
 import com.nubble.backend.post.service.PostQuery;
+import com.nubble.backend.post.service.PostRepository;
+import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserQuery;
+import com.nubble.backend.user.service.UserRepository;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,13 +18,28 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberCommandService {
 
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
     private final MemberCommentRepository memberCommentRepository;
 
     @Transactional
     public long create(
             UserQuery.ByIdQuery userQuery,
             PostQuery.ByIdQuery postQuery,
-            CreateCommand memberCommentcommand) {
-        return 0;
+            CreateCommand memberCommentCommand) {
+        User user = userRepository.findById(userQuery.id())
+                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        Post post = postRepository.findById(postQuery.id())
+                .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
+
+        MemberComment newMemberComment = MemberComment.builder()
+                .content(memberCommentCommand.comment())
+                .createdAt(LocalDateTime.now())
+                .user(user)
+                .build();
+
+        newMemberComment.assignPost(post);
+        return memberCommentRepository.save(newMemberComment)
+                .getId();
     }
 }
