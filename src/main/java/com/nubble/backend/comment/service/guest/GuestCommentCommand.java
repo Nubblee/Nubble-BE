@@ -14,4 +14,12 @@ public class GuestCommentCommand {
     ) {
 
     }
+
+    @Builder
+    public record DeleteCommand(
+            String guestName,
+            String guestPassword
+    ) {
+
+    }
 }
