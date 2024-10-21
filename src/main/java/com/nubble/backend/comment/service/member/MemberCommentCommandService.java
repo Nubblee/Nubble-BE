@@ -7,7 +7,6 @@ import com.nubble.backend.comment.service.CommentQuery.UserByIdQuery;
 import com.nubble.backend.comment.service.member.MemberCommentCommand.CreateCommand;
 import com.nubble.backend.comment.service.member.MemberCommentCommand.DeleteCommand;
 import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.post.service.MemberCommentRepository;
 import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;

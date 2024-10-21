@@ -1,4 +1,4 @@
-package com.nubble.backend.post.service;
+package com.nubble.backend.comment.service.member;
 
 import com.nubble.backend.comment.domain.MemberComment;
 import org.springframework.data.jpa.repository.JpaRepository;

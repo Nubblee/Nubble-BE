@@ -11,7 +11,6 @@ import com.nubble.backend.comment.domain.MemberComment;
 import com.nubble.backend.comment.service.CommentQuery.CommentByIdQuery;
 import com.nubble.backend.comment.service.CommentQuery.PostByIdQuery;
 import com.nubble.backend.comment.service.CommentQuery.UserByIdQuery;
-import com.nubble.backend.comment.service.CommentRepository;
 import com.nubble.backend.comment.service.member.MemberCommentCommand.DeleteCommand;
 import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.fixture.domain.BoardFixture;
@@ -20,7 +19,6 @@ import com.nubble.backend.fixture.domain.UserFixture;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.exception.DraftPostException;
-import com.nubble.backend.post.service.MemberCommentRepository;
 import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
@@ -51,13 +49,14 @@ class MemberCommentCommandServiceTest {
     @Autowired
     private MemberCommentCommandService memberCommentCommandService;
 
-    private User user;
-    private Post post;
-    private Board board;
     @Autowired
     private MemberCommentRepository memberCommentRepository;
-    @Autowired
-    private CommentRepository commentRepository;
+
+    private User user;
+
+    private Post post;
+
+    private Board board;
 
     @BeforeEach
     void initializeData() {
