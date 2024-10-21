@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-class MemberCommandServiceTest {
+class MemberCommentCommandServiceTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -49,7 +49,7 @@ class MemberCommandServiceTest {
     private PostRepository postRepository;
 
     @Autowired
-    private MemberCommandService memberCommandService;
+    private MemberCommentCommandService memberCommentCommandService;
 
     private User user;
     private Post post;
@@ -94,7 +94,7 @@ class MemberCommandServiceTest {
         MemberCommentCommand.CreateCommand command = MemberCommentCommand.CreateCommand.builder()
                 .comment("댓글 내용입니다.").build();
 
-        long commentId = memberCommandService.create(userQuery, postQuery, command);
+        long commentId = memberCommentCommandService.create(userQuery, postQuery, command);
 
         // 댓글이 작성되었는지 확인한다.
         assertThat(memberCommentRepository.findById(commentId)).isPresent();
@@ -119,7 +119,7 @@ class MemberCommandServiceTest {
 
         // 댓글을 작성한다.
         // 예외를 발생시킨다.
-        assertThatThrownBy(() -> memberCommandService.create(userQuery, postQuery, command))
+        assertThatThrownBy(() -> memberCommentCommandService.create(userQuery, postQuery, command))
                 .isInstanceOf(DraftPostException.class);
     }
 
@@ -133,7 +133,7 @@ class MemberCommandServiceTest {
         MemberCommentCommand.CreateCommand createCommand = MemberCommentCommand.CreateCommand.builder()
                 .comment("댓글 내용입니다.").build();
 
-        long commentId = memberCommandService.create(userQuery, postQuery, createCommand);
+        long commentId = memberCommentCommandService.create(userQuery, postQuery, createCommand);
 
         // 댓글을 삭제한다.
         CommentByIdQuery commentQuery = CommentByIdQuery.builder()
@@ -141,7 +141,7 @@ class MemberCommandServiceTest {
         DeleteCommand deleteCommand = DeleteCommand.builder()
                 .userId(user.getId()).build();
 
-        memberCommandService.delete(commentQuery, deleteCommand);
+        memberCommentCommandService.delete(commentQuery, deleteCommand);
 
         // 삭제되었는지 확인한다.
         Optional<MemberComment> result = memberCommentRepository.findById(commentId);
@@ -158,7 +158,7 @@ class MemberCommandServiceTest {
         MemberCommentCommand.CreateCommand createCommand = MemberCommentCommand.CreateCommand.builder()
                 .comment("댓글 내용입니다.").build();
 
-        long commentId = memberCommandService.create(userQuery, postQuery, createCommand);
+        long commentId = memberCommentCommandService.create(userQuery, postQuery, createCommand);
 
         // 새로운 유저를 만든다.
         User otherUser = UserFixture.aUser()
@@ -174,7 +174,7 @@ class MemberCommandServiceTest {
         DeleteCommand deleteCommand = DeleteCommand.builder()
                 .userId(otherUser.getId()).build();
 
-        assertThatThrownBy(() -> memberCommandService.delete(commentQuery, deleteCommand))
+        assertThatThrownBy(() -> memberCommentCommandService.delete(commentQuery, deleteCommand))
                 .isInstanceOf(NoAuthorizationException.class);
     }
 }
