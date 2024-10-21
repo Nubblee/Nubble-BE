@@ -49,8 +49,10 @@ public class MemberCommandService {
     public void delete(
             CommentByIdQuery commentQuery,
             DeleteCommand command) {
-        // 댓글을 가져온다.
-        // 댓글의 작성자를 검증한다.
-        // 댓글을 삭제한다.
+        MemberComment memberComment = memberCommentRepository.findById(commentQuery.id())
+                .orElseThrow(() -> new RuntimeException("댓글이 존재하지 않습니다."));
+
+        memberComment.validateAuthor(command.userId());
+        memberCommentRepository.delete(memberComment);
     }
 }
