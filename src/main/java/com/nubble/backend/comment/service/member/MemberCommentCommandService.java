@@ -6,6 +6,7 @@ import com.nubble.backend.comment.service.CommentQuery.PostByIdQuery;
 import com.nubble.backend.comment.service.CommentQuery.UserByIdQuery;
 import com.nubble.backend.comment.service.member.MemberCommentCommand.CreateCommand;
 import com.nubble.backend.comment.service.member.MemberCommentCommand.DeleteCommand;
+import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
@@ -51,7 +52,9 @@ public class MemberCommentCommandService {
         MemberComment memberComment = memberCommentRepository.findById(commentQuery.id())
                 .orElseThrow(() -> new RuntimeException("댓글이 존재하지 않습니다."));
 
-        memberComment.validateAuthor(command.userId());
-        memberCommentRepository.delete(memberComment);
+        if (!memberComment.isAuthor(command.userId())) {
+            throw new NoAuthorizationException("댓글의 작성자가 아닙니다.");
+        }
+        memberCommentRepository.delete( memberComment);
     }
 }

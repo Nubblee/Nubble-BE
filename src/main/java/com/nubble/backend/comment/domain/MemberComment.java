@@ -1,7 +1,6 @@
 package com.nubble.backend.comment.domain;
 
 
-import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -31,9 +30,7 @@ public class MemberComment extends Comment {
         this.user = user;
     }
 
-    public void validateAuthor(long authorId) {
-        if (authorId != user.getId()) {
-            throw new NoAuthorizationException("댓글의 작성자가 아닙니다.");
-        }
+    public boolean isAuthor(long authorId) {
+        return user.getId() == authorId;
     }
 }
