@@ -5,6 +5,7 @@ import com.nubble.backend.comment.service.CommentQuery.CommentByIdQuery;
 import com.nubble.backend.comment.service.CommentQuery.PostByIdQuery;
 import com.nubble.backend.comment.service.guest.GuestCommentCommand.CreateCommand;
 import com.nubble.backend.comment.service.guest.GuestCommentCommand.DeleteCommand;
+import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
 import java.time.LocalDateTime;
@@ -41,8 +42,12 @@ public class GuestCommentCommandService {
             CommentByIdQuery commentQuery,
             DeleteCommand deleteCommand
     ) {
-        // 댓글을 가져온다.
-        // 댓글 정보와 deleteCommand 정보가 일치하는지 비교한다.
-        // 비교 결과 같다면, 댓글을 삭제한다.
+        GuestComment guestComment = guestCommentRepository.findById(commentQuery.id())
+                .orElseThrow(() -> new RuntimeException("비회원 댓글이 존재하지 않습니다."));
+
+        if (!guestComment.matchCredentials(deleteCommand.guestName(), deleteCommand.guestPassword())) {
+            throw new NoAuthorizationException("이름 또는 비밀번호가 일치하지 않습니다.");
+        }
+        guestCommentRepository.delete(guestComment);
     }
 }
