@@ -17,4 +17,13 @@ public class CommonExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(error);
     }
+
+    @ExceptionHandler(NoAuthorizationException.class)
+    public ResponseEntity<ErrorResponse> handle(NoAuthorizationException exception) {
+        ErrorResponse error = ErrorResponse.builder()
+                .errorCode("NO_AUTHORIZATION")
+                .message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(error);
+    }
 }

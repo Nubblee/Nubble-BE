@@ -12,4 +12,10 @@ public class MemberCommentCommand {
             String comment
     ) {
     }
+
+    @Builder
+    public record DeleteCommand(
+            long userId
+    ) {
+    }
 }
