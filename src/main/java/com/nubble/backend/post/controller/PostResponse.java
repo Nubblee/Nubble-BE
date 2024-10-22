@@ -12,4 +12,11 @@ public class PostResponse {
             long postId
     ) {
     }
+
+    @Builder
+    public record MemberCommentCreateResponse(
+            long memberCommentId
+    ) {
+
+    }
 }

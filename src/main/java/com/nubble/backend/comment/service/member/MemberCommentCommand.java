@@ -9,7 +9,7 @@ public class MemberCommentCommand {
 
     @Builder
     public record CreateCommand(
-            String comment
+            String content
     ) {
     }
 

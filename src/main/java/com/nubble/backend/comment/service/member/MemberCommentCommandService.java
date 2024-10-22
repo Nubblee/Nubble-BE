@@ -35,7 +35,7 @@ public class MemberCommentCommandService {
                 .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
 
         MemberComment newMemberComment = MemberComment.builder()
-                .content(command.comment())
+                .content(command.content())
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .build();

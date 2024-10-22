@@ -91,7 +91,7 @@ class MemberCommentCommandServiceTest {
         PostByIdQuery postQuery = PostByIdQuery.builder()
                 .id(post.getId()).build();
         MemberCommentCommand.CreateCommand command = MemberCommentCommand.CreateCommand.builder()
-                .comment("댓글 내용입니다.").build();
+                .content("댓글 내용입니다.").build();
 
         long commentId = memberCommentCommandService.create(userQuery, postQuery, command);
 
@@ -114,7 +114,7 @@ class MemberCommentCommandServiceTest {
         PostByIdQuery postQuery = PostByIdQuery.builder()
                 .id(unpulishedPost.getId()).build();
         MemberCommentCommand.CreateCommand command = MemberCommentCommand.CreateCommand.builder()
-                .comment("댓글 내용입니다.").build();
+                .content("댓글 내용입니다.").build();
 
         // 댓글을 작성한다.
         // 예외를 발생시킨다.
@@ -130,7 +130,7 @@ class MemberCommentCommandServiceTest {
         PostByIdQuery postQuery = PostByIdQuery.builder()
                 .id(post.getId()).build();
         MemberCommentCommand.CreateCommand createCommand = MemberCommentCommand.CreateCommand.builder()
-                .comment("댓글 내용입니다.").build();
+                .content("댓글 내용입니다.").build();
 
         long commentId = memberCommentCommandService.create(userQuery, postQuery, createCommand);
 
@@ -155,7 +155,7 @@ class MemberCommentCommandServiceTest {
         PostByIdQuery postQuery = PostByIdQuery.builder()
                 .id(post.getId()).build();
         MemberCommentCommand.CreateCommand createCommand = MemberCommentCommand.CreateCommand.builder()
-                .comment("댓글 내용입니다.").build();
+                .content("댓글 내용입니다.").build();
 
         long commentId = memberCommentCommandService.create(userQuery, postQuery, createCommand);
 

@@ -18,10 +18,12 @@ public class PostRequest {
     public static final int CONTENT_MAX_LENGTH = 255;
     public static final int DESCRIPTION_MAX_LENGTH = 500;
     public static final int THUMBNAIL_MAX_LENGTH = 255;
+    public static final int COMMENT_MAX_LENGTH = 1000;
     public static final String TITLE_MAX_LENGTH_MESSAGE = "게시글 제목의 길이는 최대 " + TITLE_MAX_LENGTH + "까지 가능합니다.";
     public static final String CONTENT_MAX_LENGTH_MESSAGE = "게시글 내용의 길이는 최대 " + TITLE_MAX_LENGTH + "까지 가능합니다.";
     public static final String DESCRIPTION_MAX_LENGTH_MESSAGE = "게시글 요약의 길이는 최대 " + DESCRIPTION_MAX_LENGTH + "까지 가능합니다.";
     public static final String THUMBNAIL_MAX_LENGTH_MESSAGE = "썸네일 URL의 길이는 최대 " + THUMBNAIL_MAX_LENGTH + "까지 가능합니다.";
+    public static final String COMMENT_MAX_LENGTH_MESSAGE = "코멘트의 길이는 최대 " + COMMENT_MAX_LENGTH + "까지 가능합니다.";
 
     @Builder
     public record PostCreateRequest(
@@ -71,6 +73,15 @@ public class PostRequest {
             @Nullable
             @Size(max = DESCRIPTION_MAX_LENGTH, message = DESCRIPTION_MAX_LENGTH_MESSAGE)
             String description
+    ) {
+
+    }
+
+    @Builder
+    public record MemberCommentCreateRequest(
+            @NotBlank(message = "댓글 내용은 비어있을 수 없습니다.")
+            @Size(max = COMMENT_MAX_LENGTH, message = COMMENT_MAX_LENGTH_MESSAGE)
+            String content
     ) {
 
     }
