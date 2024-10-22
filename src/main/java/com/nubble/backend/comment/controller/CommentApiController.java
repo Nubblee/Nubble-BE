@@ -2,7 +2,6 @@ package com.nubble.backend.comment.controller;
 
 import com.nubble.backend.comment.controller.CommentRequest.GuestCommentDeleteRequest;
 import com.nubble.backend.comment.mapper.CommentCommandMapper;
-import com.nubble.backend.comment.mapper.CommentResponseMapper;
 import com.nubble.backend.comment.service.CommentCommand.CommentDeleteCommand;
 import com.nubble.backend.comment.service.CommentService;
 import com.nubble.backend.comment.service.CommentType;
@@ -20,13 +19,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/posts/{postId}/comments")
+@RequestMapping("/comments")
 @RequiredArgsConstructor
 public class CommentApiController {
 
     private final CommentCommandMapper commentCommandMapper;
     private final CommentService commentService;
-    private final CommentResponseMapper commentResponseMapper;
 
     @DeleteMapping("/member/{commentId}")
     @SessionRequired
