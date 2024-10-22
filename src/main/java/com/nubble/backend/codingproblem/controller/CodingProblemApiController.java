@@ -7,7 +7,7 @@ import com.nubble.backend.codingproblem.controller.CodingProblemResponse.Problem
 import com.nubble.backend.codingproblem.service.CodingProblemInfo;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
 import com.nubble.backend.config.resolver.UserSession;
-import com.nubble.backend.interceptor.session.SessionRequired;
+import com.nubble.backend.config.interceptor.session.SessionRequired;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

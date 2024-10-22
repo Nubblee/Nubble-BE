@@ -1,6 +1,6 @@
 package com.nubble.backend.config.resolver;
 
-import com.nubble.backend.interceptor.session.SessionRequired;
+import com.nubble.backend.config.interceptor.session.SessionRequired;
 import com.nubble.backend.session.domain.Session;
 import com.nubble.backend.session.service.SessionRepository;
 import lombok.RequiredArgsConstructor;

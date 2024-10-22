@@ -1,7 +1,7 @@
 package com.nubble.backend.config;
 
 import com.nubble.backend.config.resolver.UserSessionResolver;
-import com.nubble.backend.interceptor.session.SessionCheckInterceptor;
+import com.nubble.backend.config.interceptor.session.SessionCheckInterceptor;
 import com.nubble.backend.session.service.SessionRepository;
 import com.nubble.backend.session.service.SessionService;
 import java.util.List;

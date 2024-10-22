@@ -1,6 +1,6 @@
 package com.nubble.backend.session.controller;
 
-import com.nubble.backend.interceptor.session.SessionRequired;
+import com.nubble.backend.config.interceptor.session.SessionRequired;
 import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
 import com.nubble.backend.session.controller.SessionResponse.SessionIssueResponse;
 import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;

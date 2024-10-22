@@ -11,7 +11,7 @@ import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommand;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
 import com.nubble.backend.config.resolver.UserSession;
-import com.nubble.backend.interceptor.session.SessionRequired;
+import com.nubble.backend.config.interceptor.session.SessionRequired;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostResponse.CommentCreateResponse;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;

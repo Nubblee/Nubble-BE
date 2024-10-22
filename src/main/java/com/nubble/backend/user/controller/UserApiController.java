@@ -3,7 +3,7 @@ package com.nubble.backend.user.controller;
 import static com.nubble.backend.user.controller.UserResponse.LoggedInUserGetResponse;
 
 import com.nubble.backend.config.resolver.UserSession;
-import com.nubble.backend.interceptor.session.SessionRequired;
+import com.nubble.backend.config.interceptor.session.SessionRequired;
 import com.nubble.backend.user.service.UserInfo;
 import com.nubble.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;

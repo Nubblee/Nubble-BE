@@ -1,4 +1,4 @@
-package com.nubble.backend.interceptor.session;
+package com.nubble.backend.config.interceptor.session;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

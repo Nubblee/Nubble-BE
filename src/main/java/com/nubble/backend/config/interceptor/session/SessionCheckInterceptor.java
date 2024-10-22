@@ -1,4 +1,4 @@
-package com.nubble.backend.interceptor.session;
+package com.nubble.backend.config.interceptor.session;
 
 import com.nubble.backend.session.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;

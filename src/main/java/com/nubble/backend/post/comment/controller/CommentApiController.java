@@ -10,7 +10,7 @@ import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommand.DeleteCommand;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
 import com.nubble.backend.config.resolver.UserSession;
-import com.nubble.backend.interceptor.session.SessionRequired;
+import com.nubble.backend.config.interceptor.session.SessionRequired;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

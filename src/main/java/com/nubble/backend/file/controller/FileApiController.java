@@ -4,7 +4,7 @@ import com.nubble.backend.file.controller.FileResponse.FileUploadResponse;
 import com.nubble.backend.file.service.FileCommand.FileUploadCommand;
 import com.nubble.backend.file.service.FileInfo;
 import com.nubble.backend.file.service.FileService;
-import com.nubble.backend.interceptor.session.SessionRequired;
+import com.nubble.backend.config.interceptor.session.SessionRequired;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
