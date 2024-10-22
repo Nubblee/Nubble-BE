@@ -7,10 +7,10 @@ import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.interceptor.session.SessionRequired;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
-import com.nubble.backend.post.controller.mapper.CommentQueryMapper;
-import com.nubble.backend.post.controller.mapper.MemberCommentCommandMapper;
-import com.nubble.backend.post.controller.mapper.PostCommandMapper;
-import com.nubble.backend.post.controller.mapper.PostResponseMapper;
+import com.nubble.backend.comment.mapper.CommentQueryMapper;
+import com.nubble.backend.comment.mapper.MemberCommentCommandMapper;
+import com.nubble.backend.post.mapper.PostCommandMapper;
+import com.nubble.backend.post.mapper.PostResponseMapper;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
 import com.nubble.backend.post.service.PostService;
@@ -32,9 +32,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PostApiController {
 
     private final PostService postService;
+    private final MemberCommentCommandService memberCommentCommandService;
     private final PostCommandMapper postCommandMapper;
     private final PostResponseMapper postResponseMapper;
-    private final MemberCommentCommandService memberCommentCommandService;
     private final MemberCommentCommandMapper memberCommentCommandMapper;
     private final CommentQueryMapper commentQueryMapper;
 

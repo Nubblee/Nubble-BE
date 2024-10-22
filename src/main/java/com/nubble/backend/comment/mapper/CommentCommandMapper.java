@@ -1,4 +1,4 @@
-package com.nubble.backend.comment.controller;
+package com.nubble.backend.comment.mapper;
 
 import com.nubble.backend.comment.controller.CommentRequest.GuestCommentCreateRequest;
 import com.nubble.backend.comment.controller.CommentRequest.GuestCommentDeleteRequest;

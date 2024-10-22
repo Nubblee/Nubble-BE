@@ -1,4 +1,4 @@
-package com.nubble.backend.post.controller.mapper;
+package com.nubble.backend.comment.mapper;
 
 import com.nubble.backend.comment.service.CommentQuery.PostByIdQuery;
 import com.nubble.backend.comment.service.CommentQuery.UserByIdQuery;

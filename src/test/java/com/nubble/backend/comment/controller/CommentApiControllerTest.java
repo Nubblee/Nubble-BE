@@ -14,6 +14,8 @@ import com.nubble.backend.comment.controller.CommentRequest.GuestCommentDeleteRe
 import com.nubble.backend.comment.controller.CommentRequest.MemberCommentCreateRequest;
 import com.nubble.backend.comment.controller.CommentResponse.CommentCreateResponse;
 import com.nubble.backend.comment.controller.CommentResponse.CommentFindResponses;
+import com.nubble.backend.comment.mapper.CommentCommandMapper;
+import com.nubble.backend.comment.mapper.CommentResponseMapper;
 import com.nubble.backend.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.comment.service.CommentInfo;
 import com.nubble.backend.comment.service.CommentService;

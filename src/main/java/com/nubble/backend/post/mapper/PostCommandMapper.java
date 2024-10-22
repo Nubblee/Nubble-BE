@@ -1,4 +1,4 @@
-package com.nubble.backend.post.controller.mapper;
+package com.nubble.backend.post.mapper;
 
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostRequest.PostUpdateRequest;

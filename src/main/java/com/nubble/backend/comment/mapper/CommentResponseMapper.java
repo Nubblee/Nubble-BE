@@ -1,4 +1,4 @@
-package com.nubble.backend.comment.controller;
+package com.nubble.backend.comment.mapper;
 
 import com.nubble.backend.comment.controller.CommentResponse.CommentCreateResponse;
 import com.nubble.backend.comment.controller.CommentResponse.CommentFindResponse;
