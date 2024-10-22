@@ -1,7 +1,6 @@
 package com.nubble.backend.comment.domain;
 
 
-import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -26,8 +25,12 @@ public class MemberComment extends Comment {
     private User user;
 
     @Builder
-    public MemberComment(String content, LocalDateTime createdAt, Post post, User user) {
-        super(content, createdAt, post);
+    public MemberComment(String content, LocalDateTime createdAt, User user) {
+        super(content, createdAt);
         this.user = user;
+    }
+
+    public boolean isAuthor(long authorId) {
+        return user.getId() == authorId;
     }
 }

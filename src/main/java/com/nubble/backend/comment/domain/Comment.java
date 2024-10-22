@@ -1,5 +1,6 @@
 package com.nubble.backend.comment.domain;
 
+import com.nubble.backend.common.exception.AlreadyAssignedException;
 import com.nubble.backend.post.domain.Post;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -36,9 +37,17 @@ public abstract class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    protected Comment(String content, LocalDateTime createdAt, Post post) {
+    protected Comment(String content, LocalDateTime createdAt) {
         this.content = content;
         this.createdAt = createdAt;
+    }
+
+    public void assignPost(Post post) {
+        if (this.post != null) {
+            throw new AlreadyAssignedException("이미 다른 게시글에 작성된 댓글입니다.");
+        }
+
+        post.writeComment();
         this.post = post;
     }
 }
