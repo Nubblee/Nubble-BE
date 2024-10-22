@@ -1,4 +1,4 @@
-package com.nubble.backend.session.controller;
+package com.nubble.backend.user.session.controller;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -2,8 +2,8 @@ package com.nubble.backend.config;
 
 import com.nubble.backend.config.resolver.UserSessionResolver;
 import com.nubble.backend.config.interceptor.session.SessionCheckInterceptor;
-import com.nubble.backend.session.service.SessionRepository;
-import com.nubble.backend.session.service.SessionService;
+import com.nubble.backend.user.session.service.SessionRepository;
+import com.nubble.backend.user.session.service.SessionService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

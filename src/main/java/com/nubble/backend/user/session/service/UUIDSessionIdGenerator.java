@@ -1,4 +1,4 @@
-package com.nubble.backend.session.service;
+package com.nubble.backend.user.session.service;
 
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;

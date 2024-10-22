@@ -1,6 +1,6 @@
-package com.nubble.backend.session.service;
+package com.nubble.backend.user.session.service;
 
-import com.nubble.backend.session.domain.Session;
+import com.nubble.backend.user.session.domain.Session;
 import java.time.LocalDateTime;
 import lombok.Builder;
 

@@ -1,8 +1,8 @@
 package com.nubble.backend.config.resolver;
 
 import com.nubble.backend.config.interceptor.session.SessionRequired;
-import com.nubble.backend.session.domain.Session;
-import com.nubble.backend.session.service.SessionRepository;
+import com.nubble.backend.user.session.domain.Session;
+import com.nubble.backend.user.session.service.SessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

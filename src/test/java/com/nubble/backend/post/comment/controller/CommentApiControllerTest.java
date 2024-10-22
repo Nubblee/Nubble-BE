@@ -10,8 +10,8 @@ import com.nubble.backend.post.comment.controller.CommentRequest.GuestCommentDel
 import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
 import com.nubble.backend.fixture.domain.UserFixture;
-import com.nubble.backend.session.domain.Session;
-import com.nubble.backend.session.service.SessionRepository;
+import com.nubble.backend.user.session.domain.Session;
+import com.nubble.backend.user.session.service.SessionRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;

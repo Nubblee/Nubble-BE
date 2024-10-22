@@ -1,4 +1,4 @@
-package com.nubble.backend.session.service;
+package com.nubble.backend.user.session.service;
 
 import lombok.AccessLevel;
 import lombok.Builder;

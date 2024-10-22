@@ -1,7 +1,7 @@
-package com.nubble.backend.session.controller;
+package com.nubble.backend.user.session.controller;
 
-import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
-import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
+import com.nubble.backend.user.session.controller.SessionRequest.SessionIssueRequest;
+import com.nubble.backend.user.session.service.SessionCommand.SessionCreateCommand;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

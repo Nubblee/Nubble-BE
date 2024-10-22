@@ -1,4 +1,4 @@
-package com.nubble.backend.session.domain;
+package com.nubble.backend.user.session.domain;
 
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.Column;

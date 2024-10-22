@@ -1,11 +1,11 @@
-package com.nubble.backend.session.controller;
+package com.nubble.backend.user.session.controller;
 
 import com.nubble.backend.config.interceptor.session.SessionRequired;
-import com.nubble.backend.session.controller.SessionRequest.SessionIssueRequest;
-import com.nubble.backend.session.controller.SessionResponse.SessionIssueResponse;
-import com.nubble.backend.session.service.SessionCommand.SessionCreateCommand;
-import com.nubble.backend.session.service.SessionInfo;
-import com.nubble.backend.session.service.SessionService;
+import com.nubble.backend.user.session.controller.SessionRequest.SessionIssueRequest;
+import com.nubble.backend.user.session.controller.SessionResponse.SessionIssueResponse;
+import com.nubble.backend.user.session.service.SessionCommand.SessionCreateCommand;
+import com.nubble.backend.user.session.service.SessionInfo;
+import com.nubble.backend.user.session.service.SessionService;
 import jakarta.validation.Valid;
 import java.time.ZoneId;
 import lombok.RequiredArgsConstructor;
