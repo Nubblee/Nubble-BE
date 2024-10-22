@@ -1,5 +1,6 @@
 package com.nubble.backend.comment.mapper;
 
+import com.nubble.backend.comment.service.CommentQuery.CommentByIdQuery;
 import com.nubble.backend.comment.service.CommentQuery.PostByIdQuery;
 import com.nubble.backend.comment.service.CommentQuery.UserByIdQuery;
 import org.mapstruct.InjectionStrategy;
@@ -19,4 +20,7 @@ public interface CommentQueryMapper {
 
     @Mapping(target = "id", source = "postId")
     PostByIdQuery toPostByIdQuery(Long postId);
+
+    @Mapping(target = "id", source = "commentId")
+    CommentByIdQuery toCommentByIdQuery(Long commentId);
 }

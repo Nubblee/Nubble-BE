@@ -1,10 +1,14 @@
 package com.nubble.backend.comment.controller;
 
 import com.nubble.backend.comment.controller.CommentRequest.GuestCommentDeleteRequest;
-import com.nubble.backend.comment.mapper.CommentCommandMapper;
-import com.nubble.backend.comment.service.CommentCommand.CommentDeleteCommand;
-import com.nubble.backend.comment.service.CommentService;
-import com.nubble.backend.comment.service.CommentType;
+import com.nubble.backend.comment.mapper.CommentQueryMapper;
+import com.nubble.backend.comment.mapper.GuestCommentCommandMapper;
+import com.nubble.backend.comment.mapper.MemberCommentCommandMapper;
+import com.nubble.backend.comment.service.CommentQuery.CommentByIdQuery;
+import com.nubble.backend.comment.service.guest.GuestCommentCommand;
+import com.nubble.backend.comment.service.guest.GuestCommentCommandService;
+import com.nubble.backend.comment.service.member.MemberCommentCommand.DeleteCommand;
+import com.nubble.backend.comment.service.member.MemberCommentCommandService;
 import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.interceptor.session.SessionRequired;
 import jakarta.validation.Valid;
@@ -23,17 +27,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class CommentApiController {
 
-    private final CommentCommandMapper commentCommandMapper;
-    private final CommentService commentService;
+    private final MemberCommentCommandService memberCommentCommandService;
+    private final GuestCommentCommandService guestCommentCommandService;
+    private final CommentQueryMapper commentQueryMapper;
+    private final MemberCommentCommandMapper memberCommentCommandMapper;
+    private final GuestCommentCommandMapper guestCommentCommandMapper;
 
     @DeleteMapping("/member/{commentId}")
     @SessionRequired
     public ResponseEntity<Void> deleteMemberComment(
             @PathVariable Long commentId, UserSession userSession
     ) {
-        CommentDeleteCommand command = commentCommandMapper.toCommentDeleteCommand(commentId, userSession.userId(),
-                CommentType.MEMBER);
-        commentService.deleteComment(command);
+        CommentByIdQuery commentQuery = commentQueryMapper.toCommentByIdQuery(commentId);
+        DeleteCommand command = memberCommentCommandMapper.toDeleteCommand(commentId);
+        memberCommentCommandService.delete(commentQuery, command);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .build();
@@ -45,9 +52,9 @@ public class CommentApiController {
     public ResponseEntity<Void> deleteGuestComment(
             @PathVariable Long commentId, @Valid @RequestBody GuestCommentDeleteRequest request
     ) {
-        CommentDeleteCommand command = commentCommandMapper.toCommentDeleteCommand(commentId, request,
-                CommentType.GUEST);
-        commentService.deleteComment(command);
+        CommentByIdQuery commentQuery = commentQueryMapper.toCommentByIdQuery(commentId);
+        GuestCommentCommand.DeleteCommand command = guestCommentCommandMapper.toDeleteCommand(request);
+        guestCommentCommandService.delete(commentQuery, command);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .build();

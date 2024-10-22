@@ -1,5 +1,6 @@
 package com.nubble.backend.comment.mapper;
 
+import com.nubble.backend.comment.controller.CommentRequest.GuestCommentDeleteRequest;
 import com.nubble.backend.comment.service.guest.GuestCommentCommand;
 import com.nubble.backend.post.controller.PostRequest;
 import org.mapstruct.InjectionStrategy;
@@ -14,4 +15,6 @@ import org.mapstruct.ReportingPolicy;
 public interface GuestCommentCommandMapper {
 
     GuestCommentCommand.CreateCommand toCreateCommand(PostRequest.GuestCommentCreateRequest request);
+
+    GuestCommentCommand.DeleteCommand toDeleteCommand(GuestCommentDeleteRequest request);
 }
