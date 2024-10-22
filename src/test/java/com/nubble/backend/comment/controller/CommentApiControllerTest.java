@@ -1,34 +1,23 @@
 package com.nubble.backend.comment.controller;
 
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.comment.controller.CommentRequest.GuestCommentDeleteRequest;
-import com.nubble.backend.comment.controller.CommentResponse.CommentFindResponses;
-import com.nubble.backend.comment.mapper.CommentCommandMapper;
-import com.nubble.backend.comment.mapper.CommentResponseMapper;
-import com.nubble.backend.comment.service.CommentInfo;
-import com.nubble.backend.comment.service.CommentService;
-import com.nubble.backend.comment.service.CommentType;
 import com.nubble.backend.fixture.domain.UserFixture;
 import com.nubble.backend.session.domain.Session;
 import com.nubble.backend.session.service.SessionRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -46,23 +35,13 @@ class CommentApiControllerTest {
     private SessionRepository sessionRepository;
 
     @Autowired
-    private CommentCommandMapper commentCommandMapper;
-
-    @MockBean
-    private CommentService commentService;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private CommentResponseMapper commentResponseMapper;
-
-    @DisplayName("멤버가 자신이 작성한 댓글을 작성합니다.")
     @Test
-    void deleteMemberComment_shouldDeleteMemberOwnComment() throws Exception {
+    void 멤버가_자신이_작성한_댓글을_삭제한다() throws Exception {
         // given
         User user = UserFixture.aUser().build();
         userRepository.save(user);
@@ -88,9 +67,8 @@ class CommentApiControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("게스트가 인증을 통해 게스트 댓글을 삭제합니다.")
     @Test
-    void deleteGuestComment_shouldDeleteGuestComment_whenGuestIsAuthenticated() throws Exception {
+    void 게스트가_인증을_통해_게스트댓글을_삭제합니다() throws Exception {
         // given
         GuestCommentDeleteRequest request = GuestCommentDeleteRequest.builder()
                 .guestName("게스트 이름")
@@ -110,46 +88,6 @@ class CommentApiControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(""))
-                .andDo(print());
-    }
-
-    @DisplayName("게시글의 모든 댓글을 가져옵니다.")
-    @Test
-    void findAllCommentsByPostId_shouldFindAllCommentsByPostId() throws Exception {
-        // given
-        Long postId = 123L;
-        List<CommentInfo> commentInfos = List.of(
-                CommentInfo.builder()
-                        .commentId(1L)
-                        .content("댓글 내용1")
-                        .createdAt(LocalDateTime.now())
-                        .userId(1L)
-                        .userName("사용자1")
-                        .type(CommentType.MEMBER)
-                        .build(),
-                CommentInfo.builder()
-                        .commentId(2L)
-                        .content("댓글 내용2")
-                        .createdAt(LocalDateTime.now())
-                        .userId(2L)
-                        .userName("사용자2")
-                        .type(CommentType.GUEST)
-                        .build()
-        );
-
-        given(commentService.findAllByPostId(postId))
-                .willReturn(commentInfos);
-
-        CommentFindResponses responses = commentResponseMapper.toCommentFindResponses(commentInfos);
-        String responsesJson = objectMapper.writeValueAsString(responses);
-
-        MockHttpServletRequestBuilder requestBuilder = get("/posts/{postId}/comments", postId);
-
-        // when & then
-        mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(responsesJson))
                 .andDo(print());
     }
 }

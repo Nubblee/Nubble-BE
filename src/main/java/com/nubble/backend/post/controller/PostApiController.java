@@ -116,7 +116,9 @@ public class PostApiController {
                 .body(postResponseMapper.toCommentCreateResponse(newCommentId));
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            path = "/{postId}/comments",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PostResponse.CommentResponses> findAllCommentsByPostId(
             @PathVariable Long postId) {
         List<CommentInfo> commentInfos = commentService.findAllByPostId(postId);

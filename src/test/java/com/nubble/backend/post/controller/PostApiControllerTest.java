@@ -1,19 +1,21 @@
 package com.nubble.backend.post.controller;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.comment.controller.CommentResponse.CommentCreateResponse;
 import com.nubble.backend.comment.mapper.CommentQueryMapper;
 import com.nubble.backend.comment.mapper.GuestCommentCommandMapper;
 import com.nubble.backend.comment.mapper.MemberCommentCommandMapper;
+import com.nubble.backend.comment.service.CommentInfo;
 import com.nubble.backend.comment.service.CommentQuery;
+import com.nubble.backend.comment.service.CommentService;
+import com.nubble.backend.comment.service.CommentType;
 import com.nubble.backend.comment.service.guest.GuestCommentCommand;
 import com.nubble.backend.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.comment.service.member.MemberCommentCommand;
@@ -32,6 +34,7 @@ import com.nubble.backend.session.service.SessionRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,6 +87,9 @@ class PostApiControllerTest {
 
     @MockBean
     private GuestCommentCommandService guestCommentCommandService;
+
+    @MockBean
+    private CommentService commentService;
 
     private User user;
 
@@ -150,13 +156,13 @@ class PostApiControllerTest {
                 .build();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        // http response
-        Long postId = 1L;
+        long postId = 123L;
         MockHttpServletRequestBuilder requestBuilder = put("/posts/{postId}", postId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("SESSION-ID", session.getAccessId())
                 .content(requestJson);
 
+        // http response
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(""))
@@ -172,6 +178,11 @@ class PostApiControllerTest {
                 .build();
         String requestJson = objectMapper.writeValueAsString(request);
 
+        MockHttpServletRequestBuilder requestBuilder = post("/posts/{postId}/comments/member", postId)
+                .header("SESSION-ID", session.getAccessId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson);
+
         // 댓글을 작성한다.
         CommentQuery.UserByIdQuery userQuery = commentQueryMapper.toUserByIdQuery(user.getId());
         CommentQuery.PostByIdQuery postQuery = commentQueryMapper.toPostByIdQuery(postId);
@@ -181,11 +192,6 @@ class PostApiControllerTest {
                 .willReturn(newCommentId);
 
         // http response
-        MockHttpServletRequestBuilder requestBuilder = post("/posts/{postId}/comments/member", postId)
-                .header("SESSION-ID", session.getAccessId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson);
-
         PostResponse.CommentCreateResponse response = PostResponse.CommentCreateResponse.builder()
                 .newCommentId(newCommentId)
                 .build();
@@ -209,6 +215,10 @@ class PostApiControllerTest {
                 .build();
         String requestJson = objectMapper.writeValueAsString(request);
 
+        MockHttpServletRequestBuilder requestBuilder = post("/posts/{postId}/comments/guest", postId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson);
+
         // 게스트가 댓글을 작성한다.
         Long newCommentId = 123123L;
         CommentQuery.PostByIdQuery postQuery = commentQueryMapper.toPostByIdQuery(postId);
@@ -222,14 +232,49 @@ class PostApiControllerTest {
                 .build();
         String responseJson = objectMapper.writeValueAsString(response);
 
-        MockHttpServletRequestBuilder requestBuilder = post("/posts/{postId}/comments/guest", postId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson);
-
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(responseJson))
+                .andDo(print());
+    }
+
+    @Test
+    void 게시글의_모든_댓글을_가져온다() throws Exception {
+        // http request
+        long postId = 123L;
+        MockHttpServletRequestBuilder requestBuilder = get("/posts/{postId}/comments", postId);
+
+        // 게시글의 모든 댓글을 가져온다.
+        List<CommentInfo> commentInfos = List.of(
+                CommentInfo.builder()
+                        .commentId(1L)
+                        .content("댓글 내용1")
+                        .createdAt(LocalDateTime.now())
+                        .userId(1L)
+                        .userName("사용자1")
+                        .type(CommentType.MEMBER)
+                        .build(),
+                CommentInfo.builder()
+                        .commentId(2L)
+                        .content("댓글 내용2")
+                        .createdAt(LocalDateTime.now())
+                        .userId(2L)
+                        .userName("사용자2")
+                        .type(CommentType.GUEST)
+                        .build()
+        );
+        given(commentService.findAllByPostId(postId))
+                .willReturn(commentInfos);
+
+        // http response
+        PostResponse.CommentResponses responses = postResponseMapper.toCommentResponses(commentInfos);
+        String responsesJson = objectMapper.writeValueAsString(responses);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(responsesJson))
                 .andDo(print());
     }
 }
