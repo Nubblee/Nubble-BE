@@ -5,7 +5,6 @@ import com.nubble.backend.comment.service.CommentQuery.PostByIdQuery;
 import com.nubble.backend.comment.service.CommentQuery.UserByIdQuery;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
@@ -15,12 +14,18 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface CommentQueryMapper {
 
-    @Mapping(target = "id", source = "userId")
-    UserByIdQuery toUserByIdQuery(Long userId);
+    default UserByIdQuery toUserByIdQuery(Long userId) {
+        return UserByIdQuery.builder()
+                .id(userId).build();
+    }
 
-    @Mapping(target = "id", source = "postId")
-    PostByIdQuery toPostByIdQuery(Long postId);
+    default PostByIdQuery toPostByIdQuery(Long postId) {
+        return PostByIdQuery.builder()
+                .id(postId).build();
+    }
 
-    @Mapping(target = "id", source = "commentId")
-    CommentByIdQuery toCommentByIdQuery(Long commentId);
+    default CommentByIdQuery toCommentByIdQuery(Long commentId) {
+        return CommentByIdQuery.builder()
+                .id(commentId).build();
+    }
 }
