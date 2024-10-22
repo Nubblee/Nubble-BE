@@ -8,8 +8,6 @@ import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.comment.domain.GuestComment;
 import com.nubble.backend.comment.domain.MemberComment;
-import com.nubble.backend.comment.service.CommentCommand.CommentCreateCommand;
-import com.nubble.backend.comment.service.CommentCommand.CommentDeleteCommand;
 import com.nubble.backend.fixture.domain.UserFixture;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
@@ -17,7 +15,6 @@ import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,71 +58,6 @@ class CommentServiceTest {
                 .name("게시판 이름")
                 .build();
         boardRepository.save(board);
-    }
-
-    @DisplayName("회원 댓글을 생성합니다.")
-    @Test
-    void createComment_validUser_success() {
-        // given
-        User user = UserFixture.aUser().build();
-        userRepository.save(user);
-
-        Post post = Post.builder()
-                .user(user)
-                .title("제목입니다.")
-                .content("게시글 내용입니다.")
-                .board(board)
-                .build();
-        postRepository.save(post);
-
-        CommentCreateCommand command = CommentCreateCommand.builder()
-                .postId(post.getId())
-                .content("댓글 내용입니다.")
-                .userId(user.getId())
-                .type(CommentType.MEMBER)
-                .build();
-
-        // when
-        Long newCommentId = commentService.createComment(command);
-
-        // then
-        assertThat(newCommentId).isNotNull();
-    }
-
-    @DisplayName("회원 댓글을 삭제합니다.")
-    @Test
-    void test() {
-        // given
-        User user = UserFixture.aUser().build();
-        userRepository.save(user);
-
-        Post post = Post.builder()
-                .user(user)
-                .title("제목입니다.")
-                .content("게시글 내용입니다.")
-                .board(board)
-                .build();
-        postRepository.save(post);
-
-        CommentCreateCommand commentCreateCommand = CommentCreateCommand.builder()
-                .postId(post.getId())
-                .content("댓글 내용입니다.")
-                .userId(user.getId())
-                .type(CommentType.MEMBER)
-                .build();
-
-        long commentId = commentService.createComment(commentCreateCommand);
-
-        CommentDeleteCommand command = CommentDeleteCommand.builder()
-                .userId(user.getId())
-                .commentId(commentId)
-                .type(CommentType.MEMBER)
-                .build();
-
-        // when & then
-        Assertions.assertThatCode(() ->
-                        commentService.deleteComment(command))
-                .doesNotThrowAnyException();
     }
 
     @DisplayName("게시글의 모든 댓글을 가져옵니다.")

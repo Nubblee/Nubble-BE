@@ -8,13 +8,6 @@ import lombok.NoArgsConstructor;
 public class CommentRequest {
 
     @Builder
-    public record MemberCommentCreateRequest(
-            String content
-    ) {
-
-    }
-
-    @Builder
     public record GuestCommentDeleteRequest(
             String guestName,
             String guestPassword

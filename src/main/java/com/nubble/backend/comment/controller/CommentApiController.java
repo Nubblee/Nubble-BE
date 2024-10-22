@@ -39,7 +39,7 @@ public class CommentApiController {
             @PathVariable Long commentId, UserSession userSession
     ) {
         CommentByIdQuery commentQuery = commentQueryMapper.toCommentByIdQuery(commentId);
-        DeleteCommand command = memberCommentCommandMapper.toDeleteCommand(commentId);
+        DeleteCommand command = memberCommentCommandMapper.toDeleteCommand(userSession.userId());
         memberCommentCommandService.delete(commentQuery, command);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
@@ -50,7 +50,8 @@ public class CommentApiController {
             path = "/guest/{commentId}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteGuestComment(
-            @PathVariable Long commentId, @Valid @RequestBody GuestCommentDeleteRequest request
+            @PathVariable Long commentId,
+            @Valid @RequestBody GuestCommentDeleteRequest request
     ) {
         CommentByIdQuery commentQuery = commentQueryMapper.toCommentByIdQuery(commentId);
         GuestCommentCommand.DeleteCommand command = guestCommentCommandMapper.toDeleteCommand(request);
