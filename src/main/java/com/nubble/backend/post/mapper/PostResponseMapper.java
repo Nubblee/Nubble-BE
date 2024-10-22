@@ -1,6 +1,6 @@
 package com.nubble.backend.post.mapper;
 
-import com.nubble.backend.comment.service.CommentInfo;
+import com.nubble.backend.post.comment.service.CommentInfo;
 import com.nubble.backend.post.controller.PostResponse.CommentCreateResponse;
 import com.nubble.backend.post.controller.PostResponse.CommentResponse;
 import com.nubble.backend.post.controller.PostResponse.CommentResponses;

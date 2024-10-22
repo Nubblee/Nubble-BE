@@ -1,15 +1,15 @@
 package com.nubble.backend.post.controller;
 
-import com.nubble.backend.comment.mapper.CommentQueryMapper;
-import com.nubble.backend.comment.mapper.GuestCommentCommandMapper;
-import com.nubble.backend.comment.mapper.MemberCommentCommandMapper;
-import com.nubble.backend.comment.service.CommentInfo;
-import com.nubble.backend.comment.service.CommentQuery;
-import com.nubble.backend.comment.service.CommentService;
-import com.nubble.backend.comment.service.guest.GuestCommentCommand.CreateCommand;
-import com.nubble.backend.comment.service.guest.GuestCommentCommandService;
-import com.nubble.backend.comment.service.member.MemberCommentCommand;
-import com.nubble.backend.comment.service.member.MemberCommentCommandService;
+import com.nubble.backend.post.comment.mapper.CommentQueryMapper;
+import com.nubble.backend.post.comment.mapper.GuestCommentCommandMapper;
+import com.nubble.backend.post.comment.mapper.MemberCommentCommandMapper;
+import com.nubble.backend.post.comment.service.CommentInfo;
+import com.nubble.backend.post.comment.service.CommentQuery;
+import com.nubble.backend.post.comment.service.CommentService;
+import com.nubble.backend.post.comment.service.guest.GuestCommentCommand.CreateCommand;
+import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
+import com.nubble.backend.post.comment.service.member.MemberCommentCommand;
+import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
 import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.interceptor.session.SessionRequired;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;

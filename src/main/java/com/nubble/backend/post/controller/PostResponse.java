@@ -1,6 +1,6 @@
 package com.nubble.backend.post.controller;
 
-import com.nubble.backend.comment.service.CommentTypeDto;
+import com.nubble.backend.post.comment.service.CommentTypeDto;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
