@@ -1,4 +1,4 @@
-package com.nubble.backend.post.controller;
+package com.nubble.backend.post.controller.mapper;
 
 import com.nubble.backend.comment.service.member.MemberCommentCommand.CreateCommand;
 import com.nubble.backend.post.controller.PostRequest.MemberCommentCreateRequest;

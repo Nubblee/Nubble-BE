@@ -1,5 +1,6 @@
-package com.nubble.backend.post.controller;
+package com.nubble.backend.post.controller.mapper;
 
+import com.nubble.backend.post.controller.PostResponse.MemberCommentCreateResponse;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -16,5 +17,5 @@ public interface PostResponseMapper {
     PostCreateResponse toPostCreateResponse(Long postId);
 
     @Mapping(target = "memberCommentId", source = "newCommentId")
-    PostResponse.MemberCommentCreateResponse toMemberCommentCreateResponse(Long newCommentId);
+    MemberCommentCreateResponse toMemberCommentCreateResponse(Long newCommentId);
 }

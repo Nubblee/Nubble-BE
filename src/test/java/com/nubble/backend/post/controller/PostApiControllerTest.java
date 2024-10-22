@@ -12,6 +12,8 @@ import com.nubble.backend.fixture.domain.UserFixture;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostRequest.PostUpdateRequest;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
+import com.nubble.backend.post.controller.mapper.PostCommandMapper;
+import com.nubble.backend.post.controller.mapper.PostResponseMapper;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostService;
 import com.nubble.backend.post.shared.PostStatusDto;
