@@ -93,19 +93,19 @@ class CommentServiceTest {
         guestComment.assignPost(post);
 
         // when
-        List<CommentInfo> result = commentService.findAllByPostId(post.getId());
+        List<CommentInfo.CommentDto> result = commentService.findAllByPostId(post.getId());
 
         // then
         assertThat(result).hasSize(2);
 
         assertThat(result.get(0)).satisfies(comment -> {
             assertThat(comment.content()).isEqualTo("게스트 댓글");
-            assertThat(comment.type()).isEqualTo(CommentType.GUEST);
+            assertThat(comment.type()).isEqualTo(CommentTypeDto.GUEST);
         });
 
         assertThat(result.get(1)).satisfies(comment -> {
             assertThat(comment.content()).isEqualTo("회원 댓글");
-            assertThat(comment.type()).isEqualTo(CommentType.MEMBER);
+            assertThat(comment.type()).isEqualTo(CommentTypeDto.MEMBER);
         });
     }
 }

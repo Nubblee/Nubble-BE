@@ -21,9 +21,9 @@ public interface PostResponseMapper {
 
     CommentCreateResponse toCommentCreateResponse(Long newCommentId);
 
-    CommentResponse toCommentResponse(CommentInfo commentInfo);
+    CommentResponse toCommentResponse(CommentInfo.CommentDto comments);
 
-    default CommentResponses toCommentResponses(List<CommentInfo> infos) {
+    default CommentResponses toCommentResponses(List<CommentInfo.CommentDto> infos) {
         List<CommentResponse> comments = infos.stream()
                 .map(this::toCommentResponse)
                 .toList();

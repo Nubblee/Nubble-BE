@@ -14,7 +14,7 @@ public class CommentCommand {
             String content,
             String guestName,
             String guestPassword,
-            CommentType type
+            CommentTypeDto type
     ) {
 
     }
@@ -25,7 +25,7 @@ public class CommentCommand {
             long userId,
             String guestName,
             String guestPassword,
-            CommentType type
+            CommentTypeDto type
     ) {
 
     }

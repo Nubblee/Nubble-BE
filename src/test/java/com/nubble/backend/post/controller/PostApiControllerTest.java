@@ -15,7 +15,7 @@ import com.nubble.backend.comment.mapper.MemberCommentCommandMapper;
 import com.nubble.backend.comment.service.CommentInfo;
 import com.nubble.backend.comment.service.CommentQuery;
 import com.nubble.backend.comment.service.CommentService;
-import com.nubble.backend.comment.service.CommentType;
+import com.nubble.backend.comment.service.CommentTypeDto;
 import com.nubble.backend.comment.service.guest.GuestCommentCommand;
 import com.nubble.backend.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.comment.service.member.MemberCommentCommand;
@@ -246,22 +246,22 @@ class PostApiControllerTest {
         MockHttpServletRequestBuilder requestBuilder = get("/posts/{postId}/comments", postId);
 
         // 게시글의 모든 댓글을 가져온다.
-        List<CommentInfo> commentInfos = List.of(
-                CommentInfo.builder()
+        List<CommentInfo.CommentDto> commentInfos = List.of(
+                CommentInfo.CommentDto.builder()
                         .commentId(1L)
                         .content("댓글 내용1")
                         .createdAt(LocalDateTime.now())
                         .userId(1L)
                         .userName("사용자1")
-                        .type(CommentType.MEMBER)
+                        .type(CommentTypeDto.MEMBER)
                         .build(),
-                CommentInfo.builder()
+                CommentInfo.CommentDto.builder()
                         .commentId(2L)
                         .content("댓글 내용2")
                         .createdAt(LocalDateTime.now())
                         .userId(2L)
                         .userName("사용자2")
-                        .type(CommentType.GUEST)
+                        .type(CommentTypeDto.GUEST)
                         .build()
         );
         given(commentService.findAllByPostId(postId))

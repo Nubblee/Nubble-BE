@@ -1,6 +1,6 @@
 package com.nubble.backend.post.controller;
 
-import com.nubble.backend.comment.service.CommentType;
+import com.nubble.backend.comment.service.CommentTypeDto;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -32,7 +32,7 @@ public class PostResponse {
             Long userId,
             String userName,
             String guestName,
-            CommentType type
+            CommentTypeDto type
     ) {
 
     }

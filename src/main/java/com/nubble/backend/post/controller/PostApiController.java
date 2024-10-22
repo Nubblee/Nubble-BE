@@ -121,9 +121,9 @@ public class PostApiController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PostResponse.CommentResponses> findAllCommentsByPostId(
             @PathVariable Long postId) {
-        List<CommentInfo> commentInfos = commentService.findAllByPostId(postId);
+        List<CommentInfo.CommentDto> comments = commentService.findAllByPostId(postId);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(postResponseMapper.toCommentResponses(commentInfos));
+                .body(postResponseMapper.toCommentResponses(comments));
     }
 }
