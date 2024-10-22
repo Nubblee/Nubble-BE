@@ -1,9 +1,11 @@
-package com.nubble.backend.board.service;
+package com.nubble.backend.category.board.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.nubble.backend.board.domain.Board;
-import com.nubble.backend.board.service.BoardInfo.BoardDto;
+import com.nubble.backend.category.board.domain.Board;
+import com.nubble.backend.category.board.service.BoardInfo.BoardDto;
+import com.nubble.backend.category.board.service.BoardRepository;
+import com.nubble.backend.category.board.service.BoardService;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import java.util.List;

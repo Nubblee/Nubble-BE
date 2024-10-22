@@ -1,6 +1,6 @@
 package com.nubble.backend.fixture.domain;
 
-import com.nubble.backend.board.domain.Board;
+import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.user.domain.User;

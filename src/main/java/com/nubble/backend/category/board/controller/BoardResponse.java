@@ -1,4 +1,4 @@
-package com.nubble.backend.board.controller;
+package com.nubble.backend.category.board.controller;
 
 import java.util.List;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package com.nubble.backend.board.service;
+package com.nubble.backend.category.board.service;
 
 import lombok.AccessLevel;
 import lombok.Builder;

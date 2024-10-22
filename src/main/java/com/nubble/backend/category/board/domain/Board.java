@@ -1,4 +1,4 @@
-package com.nubble.backend.board.domain;
+package com.nubble.backend.category.board.domain;
 
 import com.nubble.backend.category.domain.Category;
 import jakarta.persistence.Entity;

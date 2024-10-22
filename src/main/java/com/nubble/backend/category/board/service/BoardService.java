@@ -1,6 +1,6 @@
-package com.nubble.backend.board.service;
+package com.nubble.backend.category.board.service;
 
-import com.nubble.backend.board.domain.Board;
+import com.nubble.backend.category.board.domain.Board;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

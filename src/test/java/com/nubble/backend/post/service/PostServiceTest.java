@@ -2,8 +2,8 @@ package com.nubble.backend.post.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.nubble.backend.board.domain.Board;
-import com.nubble.backend.board.service.BoardRepository;
+import com.nubble.backend.category.board.domain.Board;
+import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.customassert.PostAssert;

@@ -1,6 +1,6 @@
 package com.nubble.backend.post.domain;
 
-import com.nubble.backend.board.domain.Board;
+import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.post.exception.DraftPostException;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.Column;

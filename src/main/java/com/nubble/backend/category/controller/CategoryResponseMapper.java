@@ -1,6 +1,6 @@
 package com.nubble.backend.category.controller;
 
-import com.nubble.backend.board.service.BoardInfo;
+import com.nubble.backend.category.board.service.BoardInfo;
 import com.nubble.backend.category.service.CategoryInfo;
 import java.util.List;
 import org.mapstruct.InjectionStrategy;

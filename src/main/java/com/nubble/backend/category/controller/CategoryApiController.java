@@ -1,7 +1,7 @@
 package com.nubble.backend.category.controller;
 
-import com.nubble.backend.board.service.BoardInfo;
-import com.nubble.backend.board.service.BoardService;
+import com.nubble.backend.category.board.service.BoardInfo;
+import com.nubble.backend.category.board.service.BoardService;
 import com.nubble.backend.category.service.CategoryInfo;
 import com.nubble.backend.category.service.CategoryService;
 import java.util.List;

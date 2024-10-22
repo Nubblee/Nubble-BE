@@ -1,6 +1,6 @@
-package com.nubble.backend.board.service;
+package com.nubble.backend.category.board.service;
 
-import com.nubble.backend.board.domain.Board;
+import com.nubble.backend.category.board.domain.Board;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

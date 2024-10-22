@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.board.service.BoardInfo;
-import com.nubble.backend.board.service.BoardService;
+import com.nubble.backend.category.board.service.BoardInfo;
+import com.nubble.backend.category.board.service.BoardService;
 import com.nubble.backend.category.controller.CategoryResponse.CategoriesDto;
 import com.nubble.backend.category.service.CategoryInfo;
 import com.nubble.backend.category.service.CategoryService;

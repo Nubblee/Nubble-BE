@@ -1,4 +1,4 @@
-package com.nubble.backend.board.controller;
+package com.nubble.backend.category.board.controller;
 
 import com.nubble.backend.post.service.PostInfo;
 import com.nubble.backend.post.service.PostService;
