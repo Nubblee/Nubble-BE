@@ -1,5 +1,8 @@
 package com.nubble.backend.post.controller;
 
+import com.nubble.backend.comment.service.CommentType;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -11,12 +14,32 @@ public class PostResponse {
     public record PostCreateResponse(
             long postId
     ) {
+
     }
 
     @Builder
-    public record MemberCommentCreateResponse(
-            long memberCommentId
+    public record CommentCreateResponse(
+            long newCommentId
     ) {
 
+    }
+
+    @Builder
+    public record CommentResponse(
+            long commentId,
+            String content,
+            LocalDateTime createdAt,
+            Long userId,
+            String userName,
+            String guestName,
+            CommentType type
+    ) {
+
+    }
+
+    @Builder
+    public record CommentResponses(
+            List<CommentResponse> comments
+    ) {
     }
 }

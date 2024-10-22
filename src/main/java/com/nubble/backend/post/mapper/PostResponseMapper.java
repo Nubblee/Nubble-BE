@@ -1,10 +1,13 @@
 package com.nubble.backend.post.mapper;
 
-import com.nubble.backend.post.controller.PostResponse.MemberCommentCreateResponse;
+import com.nubble.backend.comment.service.CommentInfo;
+import com.nubble.backend.post.controller.PostResponse.CommentCreateResponse;
+import com.nubble.backend.post.controller.PostResponse.CommentResponse;
+import com.nubble.backend.post.controller.PostResponse.CommentResponses;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
+import java.util.List;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
@@ -16,6 +19,16 @@ public interface PostResponseMapper {
 
     PostCreateResponse toPostCreateResponse(Long postId);
 
-    @Mapping(target = "memberCommentId", source = "newCommentId")
-    MemberCommentCreateResponse toMemberCommentCreateResponse(Long newCommentId);
+    CommentCreateResponse toCommentCreateResponse(Long newCommentId);
+
+    CommentResponse toCommentResponse(CommentInfo commentInfo);
+
+    default CommentResponses toCommentResponses(List<CommentInfo> infos) {
+        List<CommentResponse> comments = infos.stream()
+                .map(this::toCommentResponse)
+                .toList();
+
+        return CommentResponses.builder()
+                .comments(comments).build();
+    }
 }
