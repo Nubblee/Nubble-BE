@@ -15,15 +15,6 @@ public class CommentRequest {
     }
 
     @Builder
-    public record GuestCommentCreateRequest(
-            String content,
-            String guestName,
-            String guestPassword
-    ) {
-
-    }
-
-    @Builder
     public record GuestCommentDeleteRequest(
             String guestName,
             String guestPassword

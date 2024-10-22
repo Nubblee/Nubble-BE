@@ -1,6 +1,5 @@
 package com.nubble.backend.post.controller;
 
-import com.nubble.backend.comment.controller.CommentRequest;
 import com.nubble.backend.comment.mapper.CommentQueryMapper;
 import com.nubble.backend.comment.mapper.GuestCommentCommandMapper;
 import com.nubble.backend.comment.mapper.MemberCommentCommandMapper;
@@ -92,10 +91,10 @@ public class PostApiController {
             UserSession userSession,
             @Valid @RequestBody PostRequest.MemberCommentCreateRequest request
     ) {
-        CommentQuery.UserByIdQuery userQuery = commentQueryMapper.toUserByIdQuery(userSession);
+        CommentQuery.UserByIdQuery userQuery = commentQueryMapper.toUserByIdQuery(userSession.userId());
         CommentQuery.PostByIdQuery postQuery = commentQueryMapper.toPostByIdQuery(postId);
         MemberCommentCommand.CreateCommand command = memberCommentCommandMapper.toCreateCommand(request);
-        long newCommentId = memberCommentCommandService.create(userQuery, postQuery, command);
+        long newCommentId = memberCommentCommandService.createMemberComment(userQuery, postQuery, command);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(postResponseMapper.toCommentCreateResponse(newCommentId));
@@ -107,7 +106,7 @@ public class PostApiController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PostResponse.CommentCreateResponse> createGuestComment(
             @PathVariable Long postId,
-            @Valid @RequestBody CommentRequest.GuestCommentCreateRequest request
+            @Valid @RequestBody PostRequest.GuestCommentCreateRequest request
     ) {
         CommentQuery.PostByIdQuery postQuery = commentQueryMapper.toPostByIdQuery(postId);
         CreateCommand command = guestCommentCommandMapper.toCreateCommand(request);

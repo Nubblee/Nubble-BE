@@ -3,20 +3,15 @@ package com.nubble.backend.comment.controller;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.comment.controller.CommentRequest.GuestCommentCreateRequest;
 import com.nubble.backend.comment.controller.CommentRequest.GuestCommentDeleteRequest;
-import com.nubble.backend.comment.controller.CommentRequest.MemberCommentCreateRequest;
-import com.nubble.backend.comment.controller.CommentResponse.CommentCreateResponse;
 import com.nubble.backend.comment.controller.CommentResponse.CommentFindResponses;
 import com.nubble.backend.comment.mapper.CommentCommandMapper;
 import com.nubble.backend.comment.mapper.CommentResponseMapper;
-import com.nubble.backend.comment.service.CommentCommand.CommentCreateCommand;
 import com.nubble.backend.comment.service.CommentInfo;
 import com.nubble.backend.comment.service.CommentService;
 import com.nubble.backend.comment.service.CommentType;
@@ -64,86 +59,6 @@ class CommentApiControllerTest {
 
     @Autowired
     private CommentResponseMapper commentResponseMapper;
-
-    @DisplayName("멤버가 게시글에 댓글을 작성합니다.")
-    @Test
-    void createMemberComment_shouldCreateNewComment_whenAuthenticatedRequest() throws Exception {
-        // given
-        User user = UserFixture.aUser().build();
-        userRepository.save(user);
-
-        Session session = Session.builder()
-                .user(user)
-                .accessId(UUID.randomUUID().toString())
-                .expireAt(LocalDateTime.now().plusDays(1))
-                .build();
-        sessionRepository.save(session);
-
-        Long postId = 123L;
-
-        MemberCommentCreateRequest request = MemberCommentCreateRequest.builder()
-                .content("댓글의 내용입니다.")
-                .build();
-        String requestJson = objectMapper.writeValueAsString(request);
-
-        CommentCreateCommand command = commentCommandMapper.toCommentCreateCommand(request, postId, user.getId(),
-                CommentType.MEMBER);
-        Long newCommentId = 123123L;
-        given(commentService.createComment(command))
-                .willReturn(newCommentId);
-
-        CommentCreateResponse response = CommentCreateResponse.builder()
-                .commentId(newCommentId)
-                .build();
-        String responseJson = objectMapper.writeValueAsString(response);
-
-        MockHttpServletRequestBuilder requestBuilder = post("/posts/{postId}/comments/member", postId)
-                .header("SESSION-ID", session.getAccessId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson);
-
-        // when & then
-        mockMvc.perform(requestBuilder)
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(responseJson))
-                .andDo(print());
-    }
-
-    @DisplayName("게스트가 게시글에 댓글을 작성합니다.")
-    @Test
-    void createGuestComment_shouldCreateNewComment() throws Exception {
-        // given
-        Long postId = 123L;
-
-        GuestCommentCreateRequest request = GuestCommentCreateRequest.builder()
-                .guestName("게스트 이름")
-                .guestPassword("1234")
-                .content("댓글 내용입니다.")
-                .build();
-        String requestJson = objectMapper.writeValueAsString(request);
-
-        Long newCommentId = 123123L;
-        CommentCreateCommand command = commentCommandMapper.toCommentCreateCommand(request, postId);
-        given(commentService.createComment(command))
-                .willReturn(newCommentId);
-
-        CommentCreateResponse response = CommentCreateResponse.builder()
-                .commentId(newCommentId)
-                .build();
-        String responseJson = objectMapper.writeValueAsString(response);
-
-        MockHttpServletRequestBuilder requestBuilder = post("/posts/{postId}/comments/guest", postId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson);
-
-        // when & then
-        mockMvc.perform(requestBuilder)
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(responseJson))
-                .andDo(print());
-    }
 
     @DisplayName("멤버가 자신이 작성한 댓글을 작성합니다.")
     @Test

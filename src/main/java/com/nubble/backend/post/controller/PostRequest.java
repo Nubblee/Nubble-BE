@@ -85,4 +85,19 @@ public class PostRequest {
     ) {
 
     }
+
+    @Builder
+    public record GuestCommentCreateRequest(
+            @NotBlank(message = "댓글 내용은 비어있을 수 없습니다.")
+            @Size(max = COMMENT_MAX_LENGTH, message = COMMENT_MAX_LENGTH_MESSAGE)
+            String content,
+
+            @NotBlank
+            String guestName,
+
+            @NotBlank
+            String guestPassword
+    ) {
+
+    }
 }

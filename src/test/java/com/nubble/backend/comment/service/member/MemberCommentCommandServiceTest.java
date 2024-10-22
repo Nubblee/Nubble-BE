@@ -93,7 +93,7 @@ class MemberCommentCommandServiceTest {
         MemberCommentCommand.CreateCommand command = MemberCommentCommand.CreateCommand.builder()
                 .content("댓글 내용입니다.").build();
 
-        long commentId = memberCommentCommandService.create(userQuery, postQuery, command);
+        long commentId = memberCommentCommandService.createMemberComment(userQuery, postQuery, command);
 
         // 댓글이 작성되었는지 확인한다.
         assertThat(memberCommentRepository.findById(commentId)).isPresent();
@@ -118,7 +118,7 @@ class MemberCommentCommandServiceTest {
 
         // 댓글을 작성한다.
         // 예외를 발생시킨다.
-        assertThatThrownBy(() -> memberCommentCommandService.create(userQuery, postQuery, command))
+        assertThatThrownBy(() -> memberCommentCommandService.createMemberComment(userQuery, postQuery, command))
                 .isInstanceOf(DraftPostException.class);
     }
 
@@ -132,7 +132,7 @@ class MemberCommentCommandServiceTest {
         MemberCommentCommand.CreateCommand createCommand = MemberCommentCommand.CreateCommand.builder()
                 .content("댓글 내용입니다.").build();
 
-        long commentId = memberCommentCommandService.create(userQuery, postQuery, createCommand);
+        long commentId = memberCommentCommandService.createMemberComment(userQuery, postQuery, createCommand);
 
         // 댓글을 삭제한다.
         CommentByIdQuery commentQuery = CommentByIdQuery.builder()
@@ -157,7 +157,7 @@ class MemberCommentCommandServiceTest {
         MemberCommentCommand.CreateCommand createCommand = MemberCommentCommand.CreateCommand.builder()
                 .content("댓글 내용입니다.").build();
 
-        long commentId = memberCommentCommandService.create(userQuery, postQuery, createCommand);
+        long commentId = memberCommentCommandService.createMemberComment(userQuery, postQuery, createCommand);
 
         // 새로운 유저를 만든다.
         User otherUser = UserFixture.aUser()

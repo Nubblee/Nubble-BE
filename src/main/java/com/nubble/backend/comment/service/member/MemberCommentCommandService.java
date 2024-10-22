@@ -25,7 +25,7 @@ public class MemberCommentCommandService {
     private final MemberCommentRepository memberCommentRepository;
 
     @Transactional
-    public long create(
+    public long createMemberComment(
             UserByIdQuery userQuery,
             PostByIdQuery postQuery,
             CreateCommand command) {
