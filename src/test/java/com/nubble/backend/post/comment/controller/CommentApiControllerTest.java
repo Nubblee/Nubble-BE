@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.post.comment.controller.CommentRequest.GuestCommentDeleteRequest;
 import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
-import com.nubble.backend.fixture.domain.UserFixture;
+import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.user.session.domain.Session;
 import com.nubble.backend.user.session.service.SessionRepository;
 import com.nubble.backend.user.domain.User;

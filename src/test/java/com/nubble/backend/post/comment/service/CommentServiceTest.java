@@ -6,7 +6,7 @@ import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
-import com.nubble.backend.fixture.domain.UserFixture;
+import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.post.comment.domain.GuestComment;
 import com.nubble.backend.post.comment.domain.MemberComment;
 import com.nubble.backend.post.domain.Post;
