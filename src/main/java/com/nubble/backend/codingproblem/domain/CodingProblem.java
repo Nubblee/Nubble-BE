@@ -1,5 +1,6 @@
 package com.nubble.backend.codingproblem.domain;
 
+import com.nubble.backend.common.BaseEntity;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,10 +21,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "coding_problems")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CodingProblem {
+public class CodingProblem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "problem_id")
     private Long id;
 
     @Column(nullable = false)
