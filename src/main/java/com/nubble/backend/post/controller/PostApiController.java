@@ -19,6 +19,7 @@ import com.nubble.backend.post.mapper.PostCommandMapper;
 import com.nubble.backend.post.mapper.PostResponseMapper;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
+import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
 import com.nubble.backend.post.service.PostService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -125,5 +126,16 @@ public class PostApiController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(postResponseMapper.toCommentResponses(comments));
+    }
+
+    @GetMapping(
+            path = "/{postId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<PostResponse.PostDetailResponse> getPost(@PathVariable Long postId) {
+        PostWithUserDto post = postService.getPostById(postId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(postResponseMapper.toPostDetailResponse(post));
     }
 }

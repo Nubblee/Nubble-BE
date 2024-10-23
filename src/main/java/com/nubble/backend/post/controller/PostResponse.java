@@ -1,6 +1,7 @@
 package com.nubble.backend.post.controller;
 
 import com.nubble.backend.post.comment.service.CommentTypeDto;
+import com.nubble.backend.post.shared.PostStatusDto;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -41,5 +42,20 @@ public class PostResponse {
     public record CommentResponses(
             List<CommentResponse> comments
     ) {
+
+    }
+
+    @Builder
+    public record PostDetailResponse(
+            long postId,
+            LocalDateTime createdAt,
+            String title,
+            String content,
+            String thumbnailUrl,
+            PostStatusDto postStatus,
+            long userId,
+            String userNickname
+    ) {
+
     }
 }
