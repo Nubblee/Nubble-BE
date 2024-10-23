@@ -1,4 +1,4 @@
-package com.nubble.backend.fixture.domain;
+package com.nubble.backend.utils.fixture.domain;
 
 import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.post.domain.Post;

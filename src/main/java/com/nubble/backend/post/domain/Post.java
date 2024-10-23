@@ -1,6 +1,7 @@
 package com.nubble.backend.post.domain;
 
 import com.nubble.backend.category.board.domain.Board;
+import com.nubble.backend.common.BaseEntity;
 import com.nubble.backend.post.exception.DraftPostException;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.Column;
@@ -24,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "posts")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Post {
+public class Post extends BaseEntity {
 
     private static final int MAX_TITLE_LENGTH = 100;
     private static final int MAX_CONTENT_LENGTH = 10_000;

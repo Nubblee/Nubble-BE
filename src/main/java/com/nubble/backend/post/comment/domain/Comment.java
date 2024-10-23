@@ -1,5 +1,6 @@
 package com.nubble.backend.post.comment.domain;
 
+import com.nubble.backend.common.BaseEntity;
 import com.nubble.backend.common.exception.AlreadyAssignedException;
 import com.nubble.backend.post.domain.Post;
 import jakarta.persistence.Column;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "comment_type")
 @Getter
-public abstract class Comment {
+public abstract class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

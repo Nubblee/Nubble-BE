@@ -1,4 +1,4 @@
-package com.nubble.backend.customassert;
+package com.nubble.backend.utils.customassert;
 
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;

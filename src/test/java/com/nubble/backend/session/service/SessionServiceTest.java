@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.BDDMockito.given;
 
-import com.nubble.backend.fixture.domain.UserFixture;
+import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.user.session.domain.Session;
 import com.nubble.backend.user.session.service.AbstractSessionIdGenerator;
 import com.nubble.backend.user.session.service.SessionCommand;

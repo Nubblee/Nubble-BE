@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import com.nubble.backend.fixture.domain.UserFixture;
+import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.user.session.service.SessionService;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;

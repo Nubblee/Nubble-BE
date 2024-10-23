@@ -6,11 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.category.board.controller.BoardResponse;
-import com.nubble.backend.category.board.controller.BoardResponseMapper;
-import com.nubble.backend.fixture.service.PostInfoFixture;
 import com.nubble.backend.post.service.PostInfo;
 import com.nubble.backend.post.service.PostService;
+import com.nubble.backend.utils.fixture.service.PostInfoFixture;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

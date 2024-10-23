@@ -20,7 +20,7 @@ import com.nubble.backend.post.comment.service.guest.GuestCommentCommand;
 import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommand;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
-import com.nubble.backend.fixture.domain.UserFixture;
+import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostRequest.PostUpdateRequest;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
