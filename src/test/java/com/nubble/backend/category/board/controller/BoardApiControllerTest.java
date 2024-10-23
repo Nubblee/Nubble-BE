@@ -7,8 +7,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.post.service.PostInfo;
+import com.nubble.backend.post.service.PostInfo.PostDto;
+import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
 import com.nubble.backend.post.service.PostService;
 import com.nubble.backend.utils.fixture.service.PostInfoFixture;
+import com.nubble.backend.utils.fixture.service.UserInfoFixture;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -48,19 +51,23 @@ class BoardApiControllerTest {
 
         // boardId와 매핑된 게시글들
         int postCount = 5;
-        List<PostInfo.PostDto> postsDto = new ArrayList<>();
+        List<PostInfo.PostWithUserDto> postsWithUserDto = new ArrayList<>();
         for (int postId = 1; postId <= postCount; postId++) {
-            postsDto.add(PostInfoFixture.aPostDto()
+            PostDto postDto = PostInfoFixture.aPostDto()
                     .withId(postId)
                     .withUserId(2L)
                     .withBoardId(3L)
-                    .build());
+                    .build();
+            postsWithUserDto.add(PostWithUserDto.builder()
+                    .post(postDto)
+                    .user(UserInfoFixture.aUserDto().build()).build());
         }
         given(postService.findPostsByBoardId(boardId))
-                .willReturn(postsDto);
+                .willReturn(postsWithUserDto);
 
         // http response
-        BoardResponse.PostsDto postsDtoResponse = boardResponseMapper.toPostsDto(postsDto);
+        BoardResponse.PostsWithUserResponse postsDtoResponse = boardResponseMapper.toPostsWithUserResponse(
+                postsWithUserDto);
 
         // 엔드포인트 호출
         String responseJson = objectMapper.writeValueAsString(postsDtoResponse);

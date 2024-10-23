@@ -1,5 +1,6 @@
 package com.nubble.backend.category.board.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,17 +10,20 @@ import lombok.NoArgsConstructor;
 public class BoardResponse {
 
     @Builder
-    public record PostDto(
+    public record PostWithUserResponse(
             long id,
             String title,
             String thumbnailUrl,
-            String description
+            String description,
+            String username,
+            LocalDateTime createdAt
     ) {
 
     }
 
-    public record PostsDto(
-            List<PostDto> posts
+    @Builder
+    public record PostsWithUserResponse(
+            List<PostWithUserResponse> posts
     ) {
 
     }

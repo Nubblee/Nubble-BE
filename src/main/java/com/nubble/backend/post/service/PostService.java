@@ -62,9 +62,9 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostInfo.PostDto> findPostsByBoardId(long boardId) {
-        return postRepository.findAllByBoardIdAndStatusNot(boardId, PostStatus.DRAFT).stream()
-                .map(postInfoMapper::toPostDto)
+    public List<PostInfo.PostWithUserDto> findPostsByBoardId(long boardId) {
+        return postRepository.findAllWithUserByBoardId(boardId).stream()
+                .map(postInfoMapper::toPostWithUserDto)
                 .toList();
     }
 

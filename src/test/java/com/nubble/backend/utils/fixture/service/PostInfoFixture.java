@@ -1,5 +1,6 @@
 package com.nubble.backend.utils.fixture.service;
 
+import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
 import com.nubble.backend.utils.fixture.domain.PostFixture;
 import com.nubble.backend.post.service.PostInfo;
 import com.nubble.backend.post.shared.PostStatusDto;
@@ -11,6 +12,10 @@ public class PostInfoFixture {
 
     public static PostDtoFixture aPostDto() {
         return new PostDtoFixture();
+    }
+
+    public static PostWithUserDtoFixture aPostWithUserDto() {
+        return new PostWithUserDtoFixture();
     }
 
     public static class PostDtoFixture {
@@ -44,5 +49,22 @@ public class PostInfoFixture {
             builder.boardId(boardId);
             return this;
         }
+    }
+
+    public static class PostWithUserDtoFixture {
+
+        private final PostInfo.PostWithUserDto.PostWithUserDtoBuilder builder;
+
+        private PostWithUserDtoFixture() {
+            builder = PostWithUserDto.builder()
+                    .post(aPostDto().build())
+                    .user(UserInfoFixture.aUserDto().build());
+        }
+
+        public PostInfo.PostWithUserDto build() {
+            return builder.build();
+        }
+
+
     }
 }

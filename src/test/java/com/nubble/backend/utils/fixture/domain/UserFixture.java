@@ -3,9 +3,9 @@ package com.nubble.backend.utils.fixture.domain;
 import com.nubble.backend.user.domain.User;
 
 public class UserFixture {
-    private static final String DEFAULT_USERNAME = "user";
-    private static final String DEFAULT_PASSWORD = "1234";
-    private static final String DEFAULT_NICKNAME = "kiki";
+    public static final String DEFAULT_USERNAME = "user";
+    public static final String DEFAULT_PASSWORD = "1234";
+    public static final String DEFAULT_NICKNAME = "kiki";
 
     private final User.UserBuilder builder;
 

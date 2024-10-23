@@ -23,10 +23,10 @@ public class BoardApiController {
     @GetMapping(
             path = "/{boardId}",
             produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BoardResponse.PostsDto> findByBoardId(@PathVariable Long boardId) {
-        List<PostInfo.PostDto> postsByBoardId = postService.findPostsByBoardId(boardId);
+    public ResponseEntity<BoardResponse.PostsWithUserResponse> findByBoardId(@PathVariable Long boardId) {
+        List<PostInfo.PostWithUserDto> postsWithUser = postService.findPostsByBoardId(boardId);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(boardResponseMapper.toPostsDto(postsByBoardId));
+                .body(boardResponseMapper.toPostsWithUserResponse(postsWithUser));
     }
 }

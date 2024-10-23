@@ -6,18 +6,18 @@ import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
-import com.nubble.backend.utils.customassert.PostAssert;
-import com.nubble.backend.utils.fixture.domain.BoardFixture;
-import com.nubble.backend.utils.fixture.domain.PostFixture;
-import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
-import com.nubble.backend.post.service.PostInfo.PostDto;
+import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
 import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
+import com.nubble.backend.utils.customassert.PostAssert;
+import com.nubble.backend.utils.fixture.domain.BoardFixture;
+import com.nubble.backend.utils.fixture.domain.PostFixture;
+import com.nubble.backend.utils.fixture.domain.UserFixture;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -277,11 +277,11 @@ class PostServiceTest {
         postRepository.saveAll(otherPosts);
 
         // 게시판과 매핑된 게시글을 가져온다.
-        List<PostDto> postsByBoardId = postService.findPostsByBoardId(board.getId());
+        List<PostWithUserDto> postsByBoardId = postService.findPostsByBoardId(board.getId());
 
         // 매핑된 게시글들만 가져오는 것을 검증한다.
         assertThat(postsByBoardId).hasSize(postCount)
-                .allMatch(post -> post.boardId() == board.getId());
+                .allMatch(post -> post.post().boardId() == board.getId());
     }
 
     @DisplayName("게시글을 조회할 때, 임시 게시글은 가져오지 않는다.")
@@ -301,7 +301,7 @@ class PostServiceTest {
         postRepository.saveAll(posts);
 
         // 게시판과 매핑된 게시글을 가져온다.
-        List<PostDto> postsByBoardId = postService.findPostsByBoardId(board.getId());
+        List<PostWithUserDto> postsByBoardId = postService.findPostsByBoardId(board.getId());
 
         // 매핑된 게시글들만 가져오는 것을 검증한다.
         assertThat(postsByBoardId).isEmpty();
