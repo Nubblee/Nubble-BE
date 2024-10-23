@@ -68,5 +68,9 @@ public class PostService {
                 .toList();
     }
 
-
+    @Transactional(readOnly = true)
+    public PostInfo.PostWithUserDto getPostById(long postId) {
+        Post post = postRepository.getWithUserById(postId);
+        return postInfoMapper.toPostWithUserDto(post);
+    }
 }

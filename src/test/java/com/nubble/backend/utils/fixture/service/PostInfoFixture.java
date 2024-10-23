@@ -4,6 +4,7 @@ import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
 import com.nubble.backend.utils.fixture.domain.PostFixture;
 import com.nubble.backend.post.service.PostInfo;
 import com.nubble.backend.post.shared.PostStatusDto;
+import java.time.LocalDateTime;
 
 public class PostInfoFixture {
 
@@ -28,7 +29,8 @@ public class PostInfoFixture {
                     .content(PostFixture.DEFAULT_CONTENT)
                     .thumbnailUrl(PostFixture.DEFAULT_THUMBNAIL_URL)
                     .description(PostFixture.DEFAULT_DESCRIPTION)
-                    .status(PostStatusDto.valueOf(PostFixture.DEFAULT_POST_STATUS.name()));
+                    .status(PostStatusDto.valueOf(PostFixture.DEFAULT_POST_STATUS.name()))
+                    .createdAt(LocalDateTime.now());
         }
 
         public PostInfo.PostDto build() {

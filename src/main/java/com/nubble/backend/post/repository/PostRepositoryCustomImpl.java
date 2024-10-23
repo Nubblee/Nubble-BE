@@ -22,4 +22,14 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .where(post.status.ne(PostStatus.DRAFT))
                 .fetch();
     }
+
+    @Override
+    public Post getWithUserById(long postId) {
+        return jpaQueryFactory.selectFrom(post)
+                .from(post)
+                .innerJoin(post.user, user).fetchJoin()
+                .where(post.id.eq(postId))
+                .where(post.status.ne(PostStatus.DRAFT))
+                .fetchOne();
+    }
 }

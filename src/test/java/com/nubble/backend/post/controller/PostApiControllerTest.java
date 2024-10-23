@@ -20,23 +20,27 @@ import com.nubble.backend.post.comment.service.guest.GuestCommentCommand;
 import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommand;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
-import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostRequest.PostUpdateRequest;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
+import com.nubble.backend.post.controller.PostResponse.PostDetailResponse;
 import com.nubble.backend.post.mapper.PostCommandMapper;
 import com.nubble.backend.post.mapper.PostResponseMapper;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
+import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
 import com.nubble.backend.post.service.PostService;
 import com.nubble.backend.post.shared.PostStatusDto;
-import com.nubble.backend.user.session.domain.Session;
-import com.nubble.backend.user.session.service.SessionRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
+import com.nubble.backend.user.session.domain.Session;
+import com.nubble.backend.user.session.service.SessionRepository;
+import com.nubble.backend.utils.fixture.domain.UserFixture;
+import com.nubble.backend.utils.fixture.service.PostInfoFixture;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -126,7 +130,7 @@ class PostApiControllerTest {
                 .header("SESSION-ID", session.getAccessId())
                 .content(requestJson);
 
-        // post를 생성한다.
+        // post를 생성한다
         PostCreateCommand command = postCommandMapper.toPostCreateCommand(request, user.getId());
         long newPostId = 1L;
         given(postService.createPost(command))
@@ -183,7 +187,7 @@ class PostApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson);
 
-        // 댓글을 작성한다.
+        // 댓글을 작성한다
         CommentQuery.UserByIdQuery userQuery = commentQueryMapper.toUserByIdQuery(user.getId());
         CommentQuery.PostByIdQuery postQuery = commentQueryMapper.toPostByIdQuery(postId);
         MemberCommentCommand.CreateCommand command = memberCommentCommandMapper.toCreateCommand(request);
@@ -219,7 +223,7 @@ class PostApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson);
 
-        // 게스트가 댓글을 작성한다.
+        // 게스트가 댓글을 작성한다
         Long newCommentId = 123123L;
         CommentQuery.PostByIdQuery postQuery = commentQueryMapper.toPostByIdQuery(postId);
         GuestCommentCommand.CreateCommand command = guestCommentCommandMapper.toCreateCommand(request);
@@ -245,7 +249,7 @@ class PostApiControllerTest {
         long postId = 123L;
         MockHttpServletRequestBuilder requestBuilder = get("/posts/{postId}/comments", postId);
 
-        // 게시글의 모든 댓글을 가져온다.
+        // 게시글의 모든 댓글을 가져온다
         List<CommentInfo.CommentDto> commentInfos = List.of(
                 CommentInfo.CommentDto.builder()
                         .commentId(1L)
@@ -275,6 +279,27 @@ class PostApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(responsesJson))
+                .andDo(print());
+    }
+
+    @DisplayName("게시글 내용을 가져온다")
+    @Test
+    void getPost_success() throws Exception {
+        // http request
+        long postId = 123L;
+        MockHttpServletRequestBuilder requestBuilder = get("/posts/{postId}", postId);
+
+        // 게시글 내용을 조회한다
+        PostWithUserDto post = PostInfoFixture.aPostWithUserDto().build();
+        given(postService.getPostById(postId))
+                .willReturn(post);
+
+        // http response
+        PostDetailResponse response = postResponseMapper.toPostDetailResponse(post);
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(response)))
                 .andDo(print());
     }
 }
