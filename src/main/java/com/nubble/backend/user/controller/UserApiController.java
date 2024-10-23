@@ -23,12 +23,12 @@ public class UserApiController {
     @SessionRequired
     @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LoggedInUserGetResponse> getLoggedInUser(UserSession userSession) {
-        UserInfo info = userService.getUser(userSession.userId());
+        UserInfo.UserDto userDto = userService.getUser(userSession.userId());
 
         return ResponseEntity.ok()
                 .body(LoggedInUserGetResponse.builder()
-                        .username(info.username())
-                        .nickname(info.nickname())
+                        .username(userDto.username())
+                        .nickname(userDto.nickname())
                         .build());
     }
 }

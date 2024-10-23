@@ -11,11 +11,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserInfo getUser(long userId) {
+    public UserInfo.UserDto getUser(long userId) {
         User foundUser = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
 
-        return UserInfo.builder()
+        return UserInfo.UserDto.builder()
                 .username(foundUser.getUsername())
                 .nickname(foundUser.getNickname())
                 .build();
