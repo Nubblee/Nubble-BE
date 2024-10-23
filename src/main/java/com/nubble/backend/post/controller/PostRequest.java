@@ -2,7 +2,6 @@ package com.nubble.backend.post.controller;
 
 import com.nubble.backend.post.shared.PostStatusDto;
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -44,7 +43,7 @@ public class PostRequest {
 
             String thumbnailUrl,
 
-            @Max(value = DESCRIPTION_MAX_LENGTH, message = DESCRIPTION_MAX_LENGTH_MESSAGE)
+            @Size(max = DESCRIPTION_MAX_LENGTH, message = DESCRIPTION_MAX_LENGTH_MESSAGE)
             String description) {
 
     }
