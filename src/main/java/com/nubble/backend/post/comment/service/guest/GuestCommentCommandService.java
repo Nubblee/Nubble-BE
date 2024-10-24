@@ -30,7 +30,9 @@ public class GuestCommentCommandService {
         GuestComment newGuestComment = GuestComment.builder()
                 .createdAt(LocalDateTime.now())
                 .guestName(createCommand.guestName())
-                .guestPassword(createCommand.guestPassword()).build();
+                .guestPassword(createCommand.guestPassword())
+                .content(createCommand.content())
+                .createdAt(LocalDateTime.now()).build();
 
         newGuestComment.assignPost(post);
         return guestCommentRepository.save(newGuestComment)

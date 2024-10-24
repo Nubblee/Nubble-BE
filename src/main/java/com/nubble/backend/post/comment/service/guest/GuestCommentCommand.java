@@ -10,7 +10,8 @@ public class GuestCommentCommand {
     @Builder
     public record CreateCommand(
             String guestName,
-            String guestPassword
+            String guestPassword,
+            String content
     ) {
 
     }
