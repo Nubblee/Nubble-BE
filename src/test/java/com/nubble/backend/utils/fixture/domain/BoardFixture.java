@@ -4,7 +4,7 @@ import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.domain.Category;
 
 public class BoardFixture {
-    private static final String DEFAULT_NAME = "자바 공부";
+    public static final String DEFAULT_NAME = "자바 공부";
 
     private final Board.BoardBuilder builder;
 

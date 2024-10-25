@@ -1,5 +1,7 @@
 package com.nubble.backend.post.controller;
 
+import com.nubble.backend.config.interceptor.session.SessionRequired;
+import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.post.comment.mapper.CommentQueryMapper;
 import com.nubble.backend.post.comment.mapper.GuestCommentCommandMapper;
 import com.nubble.backend.post.comment.mapper.MemberCommentCommandMapper;
@@ -10,8 +12,6 @@ import com.nubble.backend.post.comment.service.guest.GuestCommentCommand.CreateC
 import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommand;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
-import com.nubble.backend.config.resolver.UserSession;
-import com.nubble.backend.config.interceptor.session.SessionRequired;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostResponse.CommentCreateResponse;
 import com.nubble.backend.post.controller.PostResponse.CommentsResponse;
@@ -20,7 +20,8 @@ import com.nubble.backend.post.mapper.PostCommandMapper;
 import com.nubble.backend.post.mapper.PostResponseMapper;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.post.service.PostCommand.PostUpdateCommand;
-import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
+import com.nubble.backend.post.service.PostFacade;
+import com.nubble.backend.post.service.PostInfo.PostWithCategoryDto;
 import com.nubble.backend.post.service.PostService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -50,6 +51,7 @@ public class PostApiController {
     private final MemberCommentCommandMapper memberCommentCommandMapper;
     private final CommentQueryMapper commentQueryMapper;
     private final GuestCommentCommandMapper guestCommentCommandMapper;
+    private final PostFacade postFacade;
 
 
     @PostMapping(
@@ -134,7 +136,7 @@ public class PostApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PostResponse.PostDetailResponse> getPost(@PathVariable Long postId) {
-        PostWithUserDto post = postService.getPostById(postId);
+        PostWithCategoryDto post = postFacade.getPostById(postId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(postResponseMapper.toPostDetailResponse(post));

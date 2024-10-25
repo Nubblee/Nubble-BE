@@ -4,7 +4,7 @@ import com.nubble.backend.category.domain.Category;
 
 public class CategoryFixture {
 
-    private static final String DEFAULT_NAME = "스터디";
+    public static final String DEFAULT_NAME = "스터디";
 
     private final Category.CategoryBuilder builder;
 

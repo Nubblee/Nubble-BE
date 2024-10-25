@@ -16,7 +16,7 @@ public class PostFacade {
     private final PostService postService;
     private final BoardService boardService;
     private final CategoryService categoryService;
-
+    
     public PostWithCategoryDto getPostById(long postId) {
         PostWithUserDto postWithUserDto = postService.getPostById(postId);
         BoardDto boardDto = boardService.getBoardById(postWithUserDto.post().boardId());

@@ -4,6 +4,7 @@ import com.nubble.backend.category.domain.Category;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+// todo 변경이 없으므로 외부 데이터베이스가 아닌 내부 데이터베이스를 사용하도록 수정
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     List<Category> findAllByParentCategoryIsNull();

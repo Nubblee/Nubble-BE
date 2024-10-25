@@ -18,8 +18,8 @@ public class CategoryService {
                 .toList();
     }
 
-    public CategoryInfo.CategoryDto getCategoryById(long cateogryId) {
-        Category category = categoryRepository.getCategoryById(cateogryId);
+    public CategoryInfo.CategoryDto getCategoryById(long categoryId) {
+        Category category = categoryRepository.getCategoryById(categoryId);
         return categoryInfoMapper.toCategoryDto(category);
     }
 }

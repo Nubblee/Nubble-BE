@@ -28,7 +28,8 @@ import com.nubble.backend.post.controller.PostResponse.PostDetailResponse;
 import com.nubble.backend.post.mapper.PostCommandMapper;
 import com.nubble.backend.post.mapper.PostResponseMapper;
 import com.nubble.backend.post.service.PostCommand.PostCreateCommand;
-import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
+import com.nubble.backend.post.service.PostFacade;
+import com.nubble.backend.post.service.PostInfo.PostWithCategoryDto;
 import com.nubble.backend.post.service.PostService;
 import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
@@ -43,6 +44,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -99,6 +101,9 @@ class PostApiControllerTest {
     private User user;
 
     private Session session;
+
+    @MockBean
+    private PostFacade postFacade;
 
     @BeforeEach
     void initializeFixtures() {
@@ -291,12 +296,12 @@ class PostApiControllerTest {
         MockHttpServletRequestBuilder requestBuilder = get("/posts/{postId}", postId);
 
         // 게시글 내용을 조회한다
-        PostWithUserDto post = PostInfoFixture.aPostWithUserDto().build();
-        given(postService.getPostById(postId))
-                .willReturn(post);
+        PostWithCategoryDto postWithCategory = PostInfoFixture.aPostWithCategoryDto().build();
+        given(postFacade.getPostById(postId))
+                .willReturn(postWithCategory);
 
         // http response
-        PostDetailResponse response = postResponseMapper.toPostDetailResponse(post);
+        PostDetailResponse response = postResponseMapper.toPostDetailResponse(postWithCategory);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

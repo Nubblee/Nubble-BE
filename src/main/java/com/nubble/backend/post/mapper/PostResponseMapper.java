@@ -6,7 +6,7 @@ import com.nubble.backend.post.controller.PostResponse.CommentCreateResponse;
 import com.nubble.backend.post.controller.PostResponse.CommentResponse;
 import com.nubble.backend.post.controller.PostResponse.CommentsResponse;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
-import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
+import com.nubble.backend.post.service.PostInfo.PostWithCategoryDto;
 import java.util.List;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -35,13 +35,17 @@ public interface PostResponseMapper {
                 .comments(comments).build();
     }
 
-    @Mapping(target = "postId", source = "post.id")
-    @Mapping(target = "createdAt", source = "post.createdAt")
-    @Mapping(target = "title", source = "post.title")
-    @Mapping(target = "content", source = "post.content")
-    @Mapping(target = "thumbnailUrl", source = "post.thumbnailUrl")
-    @Mapping(target = "postStatus", source = "post.status")
-    @Mapping(target = "userId", source = "post.userId")
-    @Mapping(target = "userNickname", source = "user.nickname")
-    PostResponse.PostDetailResponse toPostDetailResponse(PostWithUserDto dto);
+    @Mapping(target = "postId", source = "postWithUserDto.post.id")
+    @Mapping(target = "createdAt", source = "postWithUserDto.post.createdAt")
+    @Mapping(target = "title", source = "postWithUserDto.post.title")
+    @Mapping(target = "content", source = "postWithUserDto.post.content")
+    @Mapping(target = "thumbnailUrl", source = "postWithUserDto.post.thumbnailUrl")
+    @Mapping(target = "postStatus", source = "postWithUserDto.post.status")
+    @Mapping(target = "userId", source = "postWithUserDto.post.userId")
+    @Mapping(target = "userNickname", source = "postWithUserDto.user.nickname")
+    @Mapping(target = "boardId", source = "board.id")
+    @Mapping(target = "boardName", source = "board.name")
+    @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(target = "categoryName", source = "category.name")
+    PostResponse.PostDetailResponse toPostDetailResponse(PostWithCategoryDto dto);
 }

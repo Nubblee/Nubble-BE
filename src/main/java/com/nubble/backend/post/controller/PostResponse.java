@@ -47,14 +47,18 @@ public class PostResponse {
 
     @Builder
     public record PostDetailResponse(
-            long postId,
+            Long postId,
             LocalDateTime createdAt,
             String title,
             String content,
             String thumbnailUrl,
             PostStatusDto postStatus,
-            long userId,
-            String userNickname
+            Long userId,
+            String userNickname,
+            Long boardId,
+            String boardName,
+            Long categoryId,
+            String categoryName
     ) {
 
     }
