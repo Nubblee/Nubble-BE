@@ -25,7 +25,7 @@ public interface CommentInfoMapper {
                 .createdAt(comment.getCreatedAt());
 
         if (comment instanceof MemberComment memberComment) {
-            builder.userId(memberComment.getId())
+            builder.userId(memberComment.getUser().getId())
                     .userName(memberComment.getUser().getNickname())
                     .type(CommentTypeDto.MEMBER);
         } else if (comment instanceof GuestComment guestComment) {

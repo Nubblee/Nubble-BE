@@ -39,7 +39,7 @@ public class PostResponse {
     }
 
     @Builder
-    public record CommentResponses(
+    public record CommentsResponse(
             List<CommentResponse> comments
     ) {
 

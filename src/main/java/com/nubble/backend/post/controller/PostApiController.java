@@ -14,6 +14,7 @@ import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.config.interceptor.session.SessionRequired;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostResponse.CommentCreateResponse;
+import com.nubble.backend.post.controller.PostResponse.CommentsResponse;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
 import com.nubble.backend.post.mapper.PostCommandMapper;
 import com.nubble.backend.post.mapper.PostResponseMapper;
@@ -120,12 +121,12 @@ public class PostApiController {
     @GetMapping(
             path = "/{postId}/comments",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PostResponse.CommentResponses> findAllCommentsByPostId(
+    public ResponseEntity<CommentsResponse> findAllCommentsByPostId(
             @PathVariable Long postId) {
         List<CommentInfo.CommentDto> comments = commentService.findAllByPostId(postId);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(postResponseMapper.toCommentResponses(comments));
+                .body(postResponseMapper.toCommentsResponse(comments));
     }
 
     @GetMapping(

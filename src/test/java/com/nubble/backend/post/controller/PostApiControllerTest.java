@@ -22,6 +22,7 @@ import com.nubble.backend.post.comment.service.member.MemberCommentCommand;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostRequest.PostUpdateRequest;
+import com.nubble.backend.post.controller.PostResponse.CommentsResponse;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
 import com.nubble.backend.post.controller.PostResponse.PostDetailResponse;
 import com.nubble.backend.post.mapper.PostCommandMapper;
@@ -272,7 +273,7 @@ class PostApiControllerTest {
                 .willReturn(commentInfos);
 
         // http response
-        PostResponse.CommentResponses responses = postResponseMapper.toCommentResponses(commentInfos);
+        CommentsResponse responses = postResponseMapper.toCommentsResponse(commentInfos);
         String responsesJson = objectMapper.writeValueAsString(responses);
 
         mockMvc.perform(requestBuilder)
