@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserInfoMapper userInfoMapper;
 
     public UserInfo.UserDto getUser(long userId) {
         User foundUser = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
 
-        return UserInfo.UserDto.builder()
-                .username(foundUser.getUsername())
-                .nickname(foundUser.getNickname())
-                .build();
+        return userInfoMapper.toUserInfo(foundUser);
     }
 }

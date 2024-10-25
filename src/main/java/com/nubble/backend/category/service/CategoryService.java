@@ -1,5 +1,6 @@
 package com.nubble.backend.category.service;
 
+import com.nubble.backend.category.domain.Category;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,5 +16,10 @@ public class CategoryService {
         return categoryRepository.findAllByParentCategoryIsNull().stream()
                 .map(categoryInfoMapper::toCategoryDto)
                 .toList();
+    }
+
+    public CategoryInfo.CategoryDto getCategoryById(long cateogryId) {
+        Category category = categoryRepository.getCategoryById(cateogryId);
+        return categoryInfoMapper.toCategoryDto(category);
     }
 }

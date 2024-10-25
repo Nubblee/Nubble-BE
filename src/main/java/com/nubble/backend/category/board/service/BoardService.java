@@ -21,4 +21,10 @@ public class BoardService {
                 .map(boardInfoMapper::toBoardDto)
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public BoardInfo.BoardDto getBoardById(long boardId) {
+        Board board = boardRepository.getBoardById(boardId);
+        return boardInfoMapper.toBoardDto(board);
+    }
 }

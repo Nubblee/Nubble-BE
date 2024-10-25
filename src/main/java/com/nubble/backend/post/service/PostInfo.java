@@ -36,7 +36,7 @@ public class PostInfo {
 
     @Builder
     public record PostWithCategoryDto(
-            PostDto post,
+            PostWithUserDto postWithUserDto,
             BoardDto board,
             CategoryDto category
     ) {

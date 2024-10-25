@@ -12,10 +12,13 @@ import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostInfo.PostDto;
 import com.nubble.backend.post.service.PostInfo.PostWithCategoryDto;
 import com.nubble.backend.user.domain.User;
+import com.nubble.backend.user.service.UserInfo.UserDto;
+import com.nubble.backend.user.service.UserInfoMapper;
 import com.nubble.backend.user.service.UserRepository;
 import com.nubble.backend.utils.customassert.BoardDtoAssert;
 import com.nubble.backend.utils.customassert.CategoryDtoAssert;
 import com.nubble.backend.utils.customassert.PostDtoAssert;
+import com.nubble.backend.utils.customassert.UserDtoAssert;
 import com.nubble.backend.utils.fixture.domain.BoardFixture;
 import com.nubble.backend.utils.fixture.domain.CategoryFixture;
 import com.nubble.backend.utils.fixture.domain.PostFixture;
@@ -54,6 +57,9 @@ class PostFacadeTest {
     @Autowired
     private BoardInfoMapper boardInfoMapper;
 
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+
     @DisplayName("게시글 조회시, Post, Board, Category의 정보를 가져온다")
     @Test
     void test() {
@@ -70,15 +76,18 @@ class PostFacadeTest {
         postRepository.save(post);
 
         PostDto expectedPostDto = postInfoMapper.toPostDto(post);
+        UserDto expectedUserDto = userInfoMapper.toUserInfo(user);
         BoardDto expectedBoardDto = boardInfoMapper.toBoardDto(board);
         CategoryInfo.CategoryDto expectedCategoryDto = categoryInfoMapper.toCategoryDto(category);
 
-        // post 조회
+        // PostFacade 게시글 조회
         PostWithCategoryDto result = postFacade.getPostById(post.getId());
 
-        // Post, Board, Category 데이터 검증
-        PostDtoAssert.assertThat(result.post())
+        // Post, User, Board, Category 데이터 검증
+        PostDtoAssert.assertThat(result.postWithUserDto().post())
                 .isEqualTo(expectedPostDto);
+        UserDtoAssert.assertThat(result.postWithUserDto().user())
+                .isEqualTo(expectedUserDto);
         BoardDtoAssert.assertThat(result.board())
                 .isEqualTo(expectedBoardDto);
         CategoryDtoAssert.assertThat(result.category())
