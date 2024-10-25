@@ -13,7 +13,7 @@ public class CategoryService {
 
     public List<CategoryInfo.CategoryDto> findRootCategory() {
         return categoryRepository.findAllByParentCategoryIsNull().stream()
-                .map(categoryInfoMapper::toCategoryInfo)
+                .map(categoryInfoMapper::toCategoryDto)
                 .toList();
     }
 }

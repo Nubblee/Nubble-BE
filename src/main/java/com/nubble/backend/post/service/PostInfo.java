@@ -1,5 +1,7 @@
 package com.nubble.backend.post.service;
 
+import com.nubble.backend.category.board.service.BoardInfo.BoardDto;
+import com.nubble.backend.category.service.CategoryInfo.CategoryDto;
 import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.service.UserInfo;
 import java.time.LocalDateTime;
@@ -28,6 +30,15 @@ public class PostInfo {
     public record PostWithUserDto(
             PostDto post,
             UserInfo.UserDto user
+    ) {
+
+    }
+
+    @Builder
+    public record PostWithCategoryDto(
+            PostDto post,
+            BoardDto board,
+            CategoryDto category
     ) {
 
     }
