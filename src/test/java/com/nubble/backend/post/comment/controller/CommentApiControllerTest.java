@@ -80,7 +80,6 @@ class CommentApiControllerTest {
     void 게스트가_인증을_통해_게스트댓글을_삭제합니다() throws Exception {
         // http request
         GuestCommentDeleteRequest request = GuestCommentDeleteRequest.builder()
-                .guestName("게스트 이름")
                 .guestPassword("1234")
                 .build();
         String requestJson = objectMapper.writeValueAsString(request);

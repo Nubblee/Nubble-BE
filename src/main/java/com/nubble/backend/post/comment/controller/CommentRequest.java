@@ -9,7 +9,6 @@ public class CommentRequest {
 
     @Builder
     public record GuestCommentDeleteRequest(
-            String guestName,
             String guestPassword
     ) {
     }

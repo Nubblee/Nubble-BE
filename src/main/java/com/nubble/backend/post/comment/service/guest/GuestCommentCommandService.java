@@ -47,8 +47,8 @@ public class GuestCommentCommandService {
         GuestComment guestComment = guestCommentRepository.findById(commentQuery.id())
                 .orElseThrow(() -> new RuntimeException("비회원 댓글이 존재하지 않습니다."));
 
-        if (!guestComment.matchCredentials(deleteCommand.guestName(), deleteCommand.guestPassword())) {
-            throw new NoAuthorizationException("이름 또는 비밀번호가 일치하지 않습니다.");
+        if (!guestComment.matchCredentials(deleteCommand.guestPassword())) {
+            throw new NoAuthorizationException("인증정보가 일치하지 않습니다.");
         }
         guestCommentRepository.delete(guestComment);
     }

@@ -8,9 +8,6 @@ import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.common.exception.NoAuthorizationException;
-import com.nubble.backend.utils.fixture.domain.BoardFixture;
-import com.nubble.backend.utils.fixture.domain.PostFixture;
-import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.post.comment.domain.GuestComment;
 import com.nubble.backend.post.comment.service.CommentQuery;
 import com.nubble.backend.post.comment.service.CommentQuery.CommentByIdQuery;
@@ -22,6 +19,9 @@ import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
+import com.nubble.backend.utils.fixture.domain.BoardFixture;
+import com.nubble.backend.utils.fixture.domain.PostFixture;
+import com.nubble.backend.utils.fixture.domain.UserFixture;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -99,7 +99,7 @@ class GuestCommentCommandServiceTest {
     }
 
     @Test
-    void 이름과_비밀번호가_매칭되면_댓글을_삭제한다() {
+    void 인증정보가_매칭되면_댓글을_삭제한다() {
         // 댓글을 작성한다.
         CommentQuery.PostByIdQuery postQuery = PostByIdQuery.builder()
                 .id(post.getId()).build();
@@ -113,7 +113,6 @@ class GuestCommentCommandServiceTest {
         CommentByIdQuery commentQuery = CommentByIdQuery.builder()
                 .id(guestCommentId).build();
         DeleteCommand deleteCommand = DeleteCommand.builder()
-                .guestName(createCommand.guestName())
                 .guestPassword(createCommand.guestPassword()).build();
 
         guestCommentCommandService.delete(commentQuery, deleteCommand);
@@ -124,7 +123,7 @@ class GuestCommentCommandServiceTest {
     }
 
     @Test
-    void 삭제시_이름_또는_비밀번호가_1개라도_매칭되지않으면_예외를_발생시킨다() {
+    void 인증정보가_매칭되지않으면_삭제되지않고_예외를발생시킨다() {
         // 댓글을 작성한다.
         CommentQuery.PostByIdQuery postQuery = PostByIdQuery.builder()
                 .id(post.getId()).build();
@@ -139,8 +138,7 @@ class GuestCommentCommandServiceTest {
         CommentByIdQuery commentQuery = CommentByIdQuery.builder()
                 .id(guestCommentId).build();
         DeleteCommand deleteCommand = DeleteCommand.builder()
-                .guestName(createCommand.guestName() + "111")
-                .guestPassword(createCommand.guestPassword()).build();
+                .guestPassword(createCommand.guestPassword() + " ").build();
 
         assertThatThrownBy(() -> guestCommentCommandService.delete(commentQuery, deleteCommand))
                 .isInstanceOf(NoAuthorizationException.class);

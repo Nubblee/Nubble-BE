@@ -26,8 +26,7 @@ public class GuestComment extends Comment {
         this.guestPassword = guestPassword;
     }
 
-    public boolean matchCredentials(String name, String password) {
-        return Objects.equals(guestName, name)
-                && Objects.equals(guestPassword, password);
+    public boolean matchCredentials(String password) {
+        return Objects.equals(guestPassword, password);
     }
 }
