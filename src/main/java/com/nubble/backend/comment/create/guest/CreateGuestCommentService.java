@@ -4,6 +4,7 @@ import com.nubble.backend.comment.domain.CommentRepository;
 import com.nubble.backend.comment.domain.GuestComment;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,5 +27,15 @@ public class CreateGuestCommentService {
                 .content(command.content()).build();
         return commentRepository.save(newGuestComment)
                 .getId();
+    }
+
+    @Builder
+    public record CreateGuestCommentCommand(
+            long postId,
+            String guestName,
+            String guestPassword,
+            String content
+    ) {
+
     }
 }

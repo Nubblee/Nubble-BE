@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.comment.create.CreateCommentResponse;
+import com.nubble.backend.comment.create.member.CreateMemberCommentController.CreateMemberCommentRequest;
+import com.nubble.backend.comment.create.member.CreateMemberCommentService.CreateMemberCommentCommand;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.session.domain.Session;
 import com.nubble.backend.user.session.service.SessionRepository;

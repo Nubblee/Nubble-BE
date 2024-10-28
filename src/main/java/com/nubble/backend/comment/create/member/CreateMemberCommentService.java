@@ -6,6 +6,7 @@ import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,5 +30,14 @@ public class CreateMemberCommentService {
                 .user(user).build();
         return commentRepository.save(newMemberComment)
                 .getId();
+    }
+
+    @Builder
+    public record CreateMemberCommentCommand(
+            String content,
+            long postId,
+            long userId
+    ) {
+
     }
 }

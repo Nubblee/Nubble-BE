@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.comment.create.CreateCommentResponse;
+import com.nubble.backend.comment.create.guest.CreateGuestCommentController.CreateGuestCommentRequest;
+import com.nubble.backend.comment.create.guest.CreateGuestCommentService.CreateGuestCommentCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

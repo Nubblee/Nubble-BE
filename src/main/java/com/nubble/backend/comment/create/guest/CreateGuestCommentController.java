@@ -1,7 +1,10 @@
 package com.nubble.backend.comment.create.guest;
 
 import com.nubble.backend.comment.create.CreateCommentResponse;
+import com.nubble.backend.comment.create.guest.CreateGuestCommentService.CreateGuestCommentCommand;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,5 +35,19 @@ public class CreateGuestCommentController {
         CreateCommentResponse response = new CreateCommentResponse(newCommentId);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(response);
+    }
+
+    @Builder
+    public record CreateGuestCommentRequest(
+            @NotBlank(message = "댓글 내용이 비어있습니다.")
+            String content,
+
+            @NotBlank(message = "이름은 비어있습니다.")
+            String guestName,
+
+            @NotBlank(message = "비밀번호가 비어있습니다.")
+            String guestPassword
+    ) {
+
     }
 }

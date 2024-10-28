@@ -1,9 +1,12 @@
 package com.nubble.backend.comment.create.member;
 
 import com.nubble.backend.comment.create.CreateCommentResponse;
+import com.nubble.backend.comment.create.member.CreateMemberCommentService.CreateMemberCommentCommand;
 import com.nubble.backend.config.interceptor.session.SessionRequired;
 import com.nubble.backend.config.resolver.UserSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,5 +39,13 @@ public class CreateMemberCommentController {
         CreateCommentResponse response = new CreateCommentResponse(newCommentId);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(response);
+    }
+
+    @Builder
+    public record CreateMemberCommentRequest(
+            @NotBlank(message = "댓글 내용은 비어있을 수 없습니다.")
+            String content
+    ) {
+
     }
 }

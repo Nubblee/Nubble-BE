@@ -1,5 +1,7 @@
 package com.nubble.backend.comment.create.member;
 
+import com.nubble.backend.comment.create.member.CreateMemberCommentController.CreateMemberCommentRequest;
+import com.nubble.backend.comment.create.member.CreateMemberCommentService.CreateMemberCommentCommand;
 import com.nubble.backend.common.BaseMapperConfig;
 import org.mapstruct.Mapper;
 
