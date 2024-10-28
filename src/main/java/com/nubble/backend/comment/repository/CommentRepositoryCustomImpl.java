@@ -1,4 +1,4 @@
-package com.nubble.backend.post.comment.repository;
+package com.nubble.backend.comment.repository;
 
 import static com.nubble.backend.comment.domain.QComment.comment;
 

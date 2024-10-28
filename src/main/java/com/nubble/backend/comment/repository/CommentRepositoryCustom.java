@@ -1,4 +1,4 @@
-package com.nubble.backend.post.comment.repository;
+package com.nubble.backend.comment.repository;
 
 import com.nubble.backend.comment.domain.Comment;
 import java.util.List;
