@@ -38,8 +38,7 @@ public class MemberComment extends Comment {
         Assert.notNull(user, "user는 null일 수 없습니다.");
     }
 
-    @Override
-    public void validateAuthority(String authorId) {
+    public void validateAuthor(String authorId) {
         Assert.state(user.getId() == Long.parseLong(authorId), "댓글의 작성자가 아닙니다.");
     }
 }

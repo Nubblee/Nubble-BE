@@ -66,8 +66,7 @@ class CreateGuestCommentServiceTest {
         Post post = PostFixture.aPost()
                 .withUser(user)
                 .withBoard(board)
-                .withStatus(PostStatus.PUBLISHED)
-                .build();
+                .withStatus(PostStatus.PUBLISHED).build();
         postRepository.save(post);
 
         // 댓글 작성
@@ -89,8 +88,7 @@ class CreateGuestCommentServiceTest {
         Post post = PostFixture.aPost()
                 .withUser(user)
                 .withBoard(board)
-                .withStatus(PostStatus.DRAFT)
-                .build();
+                .withStatus(PostStatus.DRAFT).build();
         postRepository.save(post);
 
         // 댓글 작성 및 예외 발생

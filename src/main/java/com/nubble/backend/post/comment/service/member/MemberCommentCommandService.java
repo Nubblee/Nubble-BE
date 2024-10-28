@@ -25,7 +25,7 @@ public class MemberCommentCommandService {
         MemberComment memberComment = memberCommentRepository.findById(commentQuery.id())
                 .orElseThrow(() -> new RuntimeException("댓글이 존재하지 않습니다."));
 
-        memberComment.validateAuthority(String.valueOf(command.userId()));
+        memberComment.validateAuthor(String.valueOf(command.userId()));
         memberCommentRepository.delete( memberComment);
     }
 }

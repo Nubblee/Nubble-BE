@@ -11,11 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.comment.domain.CommentInfo;
 import com.nubble.backend.post.comment.mapper.CommentQueryMapper;
-import com.nubble.backend.post.comment.mapper.GuestCommentCommandMapper;
 import com.nubble.backend.post.comment.mapper.MemberCommentCommandMapper;
 import com.nubble.backend.post.comment.service.CommentService;
 import com.nubble.backend.post.comment.service.CommentTypeDto;
-import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostRequest.PostUpdateRequest;
@@ -84,12 +82,6 @@ class PostApiControllerTest {
 
     @MockBean
     private MemberCommentCommandService memberCommentCommandService;
-
-    @Autowired
-    private GuestCommentCommandMapper guestCommentCommandMapper;
-
-    @MockBean
-    private GuestCommentCommandService guestCommentCommandService;
 
     @MockBean
     private CommentService commentService;

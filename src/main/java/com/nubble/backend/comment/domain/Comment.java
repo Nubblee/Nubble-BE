@@ -56,6 +56,4 @@ public abstract class Comment extends BaseEntity {
     private static void validatePost(Post post) {
         Assert.notNull(post, "게시글을 참조해주세요.");
     }
-
-    abstract void validateAuthority(String authorizationCode);
 }

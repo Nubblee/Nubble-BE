@@ -1,5 +1,6 @@
 package com.nubble.backend.comment.domain;
 
+import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.domain.Post;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -44,8 +45,10 @@ public class GuestComment extends Comment {
         Assert.isTrue(guestName.length() <= 100, "게스트 이름은 100글자까지 가능합니다.");
     }
 
-    @Override
-    public void validateAuthority(String password) {
-        Assert.state(Objects.equals(guestPassword, password), "비밀번호가 일치하지 않습니다.");
+
+    public void validatePassword(String password) {
+        if (!Objects.equals(password, this.guestPassword)) {
+            throw new NoAuthorizationException("비밀번호가 일치하지 않습니다.");
+        }
     }
 }
