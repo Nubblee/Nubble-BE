@@ -1,6 +1,6 @@
 package com.nubble.backend.post.comment.service.guest;
 
-import com.nubble.backend.post.comment.domain.GuestComment;
+import com.nubble.backend.comment.domain.GuestComment;
 import com.nubble.backend.post.comment.service.CommentQuery.CommentByIdQuery;
 import com.nubble.backend.post.comment.service.CommentQuery.PostByIdQuery;
 import com.nubble.backend.post.comment.service.guest.GuestCommentCommand.CreateCommand;

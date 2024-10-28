@@ -1,4 +1,4 @@
-package com.nubble.backend.post.comment.domain;
+package com.nubble.backend.comment.domain;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

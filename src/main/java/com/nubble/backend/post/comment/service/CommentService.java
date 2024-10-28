@@ -1,5 +1,7 @@
 package com.nubble.backend.post.comment.service;
 
+import com.nubble.backend.comment.domain.CommentInfo;
+import com.nubble.backend.comment.domain.CommentRepository;
 import com.nubble.backend.post.comment.mapper.CommentInfoMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

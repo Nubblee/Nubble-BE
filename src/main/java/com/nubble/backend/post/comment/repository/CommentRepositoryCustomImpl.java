@@ -1,9 +1,9 @@
 package com.nubble.backend.post.comment.repository;
 
-import static com.nubble.backend.post.comment.domain.QComment.comment;
+import static com.nubble.backend.comment.domain.QComment.comment;
 
-import com.nubble.backend.post.comment.domain.Comment;
-import com.nubble.backend.post.comment.domain.QMemberComment;
+import com.nubble.backend.comment.domain.Comment;
+import com.nubble.backend.comment.domain.QMemberComment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

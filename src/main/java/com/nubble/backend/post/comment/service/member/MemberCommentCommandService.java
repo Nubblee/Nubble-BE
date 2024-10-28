@@ -1,6 +1,6 @@
 package com.nubble.backend.post.comment.service.member;
 
-import com.nubble.backend.post.comment.domain.MemberComment;
+import com.nubble.backend.comment.domain.MemberComment;
 import com.nubble.backend.post.comment.service.CommentQuery.CommentByIdQuery;
 import com.nubble.backend.post.comment.service.CommentQuery.PostByIdQuery;
 import com.nubble.backend.post.comment.service.CommentQuery.UserByIdQuery;

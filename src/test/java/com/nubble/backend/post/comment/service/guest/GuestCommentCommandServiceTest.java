@@ -8,7 +8,7 @@ import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.common.exception.NoAuthorizationException;
-import com.nubble.backend.post.comment.domain.GuestComment;
+import com.nubble.backend.comment.domain.GuestComment;
 import com.nubble.backend.post.comment.service.CommentQuery;
 import com.nubble.backend.post.comment.service.CommentQuery.CommentByIdQuery;
 import com.nubble.backend.post.comment.service.CommentQuery.PostByIdQuery;

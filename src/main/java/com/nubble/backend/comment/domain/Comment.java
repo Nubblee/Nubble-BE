@@ -1,4 +1,4 @@
-package com.nubble.backend.post.comment.domain;
+package com.nubble.backend.comment.domain;
 
 import com.nubble.backend.common.BaseEntity;
 import com.nubble.backend.common.exception.AlreadyAssignedException;
