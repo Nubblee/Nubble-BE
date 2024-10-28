@@ -1,14 +1,10 @@
 package com.nubble.backend.post.comment.service.guest;
 
 import com.nubble.backend.comment.domain.GuestComment;
+import com.nubble.backend.comment.domain.GuestCommentRepository;
 import com.nubble.backend.post.comment.service.CommentQuery.CommentByIdQuery;
-import com.nubble.backend.post.comment.service.CommentQuery.PostByIdQuery;
-import com.nubble.backend.post.comment.service.guest.GuestCommentCommand.CreateCommand;
 import com.nubble.backend.post.comment.service.guest.GuestCommentCommand.DeleteCommand;
-import com.nubble.backend.common.exception.NoAuthorizationException;
-import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,25 +17,6 @@ public class GuestCommentCommandService {
     private final GuestCommentRepository guestCommentRepository;
 
     @Transactional
-    public long create(
-            PostByIdQuery postQuery,
-            CreateCommand createCommand) {
-        Post post = postRepository.findById(postQuery.id())
-                .orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다."));
-
-        GuestComment newGuestComment = GuestComment.builder()
-                .createdAt(LocalDateTime.now())
-                .guestName(createCommand.guestName())
-                .guestPassword(createCommand.guestPassword())
-                .content(createCommand.content())
-                .createdAt(LocalDateTime.now()).build();
-
-        newGuestComment.assignPost(post);
-        return guestCommentRepository.save(newGuestComment)
-                .getId();
-    }
-
-    @Transactional
     public void delete(
             CommentByIdQuery commentQuery,
             DeleteCommand deleteCommand
@@ -47,9 +24,7 @@ public class GuestCommentCommandService {
         GuestComment guestComment = guestCommentRepository.findById(commentQuery.id())
                 .orElseThrow(() -> new RuntimeException("비회원 댓글이 존재하지 않습니다."));
 
-        if (!guestComment.matchCredentials(deleteCommand.guestPassword())) {
-            throw new NoAuthorizationException("인증정보가 일치하지 않습니다.");
-        }
+        guestComment.validateAuthority(deleteCommand.guestPassword());
         guestCommentRepository.delete(guestComment);
     }
 }

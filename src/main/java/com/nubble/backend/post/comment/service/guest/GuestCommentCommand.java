@@ -6,16 +6,6 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GuestCommentCommand {
-
-    @Builder
-    public record CreateCommand(
-            String guestName,
-            String guestPassword,
-            String content
-    ) {
-
-    }
-
     @Builder
     public record DeleteCommand(
             String guestPassword

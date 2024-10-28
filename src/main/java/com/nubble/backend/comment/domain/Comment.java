@@ -1,7 +1,6 @@
 package com.nubble.backend.comment.domain;
 
 import com.nubble.backend.common.BaseEntity;
-import com.nubble.backend.common.exception.AlreadyAssignedException;
 import com.nubble.backend.post.domain.Post;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -13,12 +12,14 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.time.LocalDateTime;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 @Entity
+@Table(name = "comments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "comment_type")
@@ -27,28 +28,34 @@ public abstract class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column(name = "comment_id", nullable = false)
     private Long id;
 
+    @Column(nullable = false, length = 1000)
     private String content;
 
-    private LocalDateTime createdAt;
-
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    protected Comment(String content, LocalDateTime createdAt) {
-        this.content = content;
-        this.createdAt = createdAt;
-    }
+    protected Comment(String content, Post post) {
+        validateContent(content);
+        validatePost(post);
 
-    public void assignPost(Post post) {
-        if (this.post != null) {
-            throw new AlreadyAssignedException("이미 다른 게시글에 작성된 댓글입니다.");
-        }
+        this.content = content;
+        this.post = post;
 
         post.writeComment();
-        this.post = post;
     }
+
+    private static void validateContent(String content) {
+        Assert.hasText(content, "댓글 내용이 필수입니다.");
+        Assert.isTrue(content.length() <= 1000, "댓글 내용은 최대 1000자까지 가능합니다.");
+    }
+
+    private static void validatePost(Post post) {
+        Assert.notNull(post, "게시글을 참조해주세요.");
+    }
+
+    abstract void validateAuthority(String authorizationCode);
 }

@@ -1,19 +1,15 @@
 package com.nubble.backend.post.controller;
 
+import com.nubble.backend.comment.domain.CommentInfo;
 import com.nubble.backend.config.interceptor.session.SessionRequired;
 import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.post.comment.mapper.CommentQueryMapper;
 import com.nubble.backend.post.comment.mapper.GuestCommentCommandMapper;
 import com.nubble.backend.post.comment.mapper.MemberCommentCommandMapper;
-import com.nubble.backend.comment.domain.CommentInfo;
-import com.nubble.backend.post.comment.service.CommentQuery;
 import com.nubble.backend.post.comment.service.CommentService;
-import com.nubble.backend.post.comment.service.guest.GuestCommentCommand.CreateCommand;
 import com.nubble.backend.post.comment.service.guest.GuestCommentCommandService;
-import com.nubble.backend.post.comment.service.member.MemberCommentCommand;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommandService;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
-import com.nubble.backend.post.controller.PostResponse.CommentCreateResponse;
 import com.nubble.backend.post.controller.PostResponse.CommentsResponse;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
 import com.nubble.backend.post.mapper.PostCommandMapper;
@@ -83,41 +79,6 @@ public class PostApiController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .build();
-    }
-
-    @PostMapping(
-            path = "/{postId}/comments/member",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @SessionRequired
-    public ResponseEntity<CommentCreateResponse> createMemberComment(
-            @PathVariable Long postId,
-            UserSession userSession,
-            @Valid @RequestBody PostRequest.MemberCommentCreateRequest request
-    ) {
-        CommentQuery.UserByIdQuery userQuery = commentQueryMapper.toUserByIdQuery(userSession.userId());
-        CommentQuery.PostByIdQuery postQuery = commentQueryMapper.toPostByIdQuery(postId);
-        MemberCommentCommand.CreateCommand command = memberCommentCommandMapper.toCreateCommand(request);
-        long newCommentId = memberCommentCommandService.createMemberComment(userQuery, postQuery, command);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(postResponseMapper.toCommentCreateResponse(newCommentId));
-    }
-
-    @PostMapping(
-            path = "/{postId}/comments/guest",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PostResponse.CommentCreateResponse> createGuestComment(
-            @PathVariable Long postId,
-            @Valid @RequestBody PostRequest.GuestCommentCreateRequest request
-    ) {
-        CommentQuery.PostByIdQuery postQuery = commentQueryMapper.toPostByIdQuery(postId);
-        CreateCommand command = guestCommentCommandMapper.toCreateCommand(request);
-        long newCommentId = guestCommentCommandService.create(postQuery, command);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(postResponseMapper.toCommentCreateResponse(newCommentId));
     }
 
     @GetMapping(

@@ -2,7 +2,6 @@ package com.nubble.backend.post.domain;
 
 import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.common.BaseEntity;
-import com.nubble.backend.post.exception.DraftPostException;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,6 +19,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 @Entity
 @Table(name = "posts")
@@ -164,8 +164,6 @@ public class Post extends BaseEntity {
     }
 
     public void writeComment() {
-        if (status == PostStatus.DRAFT) {
-            throw new DraftPostException("임시글에는 댓글을 달 수 없습니다.");
-        }
+        Assert.state(status != PostStatus.DRAFT, "임시글에는 댓글을 달 수 없습니다.");
     }
 }

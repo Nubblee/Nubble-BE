@@ -19,13 +19,6 @@ public class PostResponse {
     }
 
     @Builder
-    public record CommentCreateResponse(
-            long newCommentId
-    ) {
-
-    }
-
-    @Builder
     public record CommentResponse(
             long commentId,
             String content,

@@ -2,7 +2,6 @@ package com.nubble.backend.post.mapper;
 
 import com.nubble.backend.comment.domain.CommentInfo;
 import com.nubble.backend.post.controller.PostResponse;
-import com.nubble.backend.post.controller.PostResponse.CommentCreateResponse;
 import com.nubble.backend.post.controller.PostResponse.CommentResponse;
 import com.nubble.backend.post.controller.PostResponse.CommentsResponse;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
@@ -21,8 +20,6 @@ import org.mapstruct.ReportingPolicy;
 public interface PostResponseMapper {
 
     PostCreateResponse toPostCreateResponse(Long postId);
-
-    CommentCreateResponse toCommentCreateResponse(Long newCommentId);
 
     CommentResponse toCommentResponse(CommentInfo.CommentDto comments);
 

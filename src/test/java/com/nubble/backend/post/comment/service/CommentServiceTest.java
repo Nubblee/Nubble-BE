@@ -8,14 +8,13 @@ import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.comment.domain.CommentInfo;
 import com.nubble.backend.comment.domain.CommentRepository;
-import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.comment.domain.GuestComment;
 import com.nubble.backend.comment.domain.MemberComment;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
-import java.time.LocalDateTime;
+import com.nubble.backend.utils.fixture.domain.UserFixture;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -79,20 +78,18 @@ class CommentServiceTest {
 
         MemberComment memberComment = MemberComment.builder()
                 .content("회원 댓글")
-                .createdAt(LocalDateTime.now())
+                .post(post)
                 .user(user)
                 .build();
         commentRepository.save(memberComment);
-        memberComment.assignPost(post);
 
         GuestComment guestComment = GuestComment.builder()
+                .post(post)
                 .content("게스트 댓글")
-                .createdAt(LocalDateTime.now().plusMinutes(1))
                 .guestName("게스트")
                 .guestPassword("password")
                 .build();
         commentRepository.save(guestComment);
-        guestComment.assignPost(post);
 
         // when
         List<CommentInfo.CommentDto> result = commentService.findAllByPostId(post.getId());
