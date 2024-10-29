@@ -67,12 +67,12 @@ class PostFacadeTest {
         Category category = CategoryFixture.aCategory().build();
         categoryRepository.save(category);
         Board board = BoardFixture.aBoard()
-                .withCategory(category).build();
+                .category(category).build();
         boardRepository.save(board);
         User user = UserFixture.aUser().build();
         userRepository.save(user);
         Post post = PostFixture.aPost()
-                .withUser(user).withBoard(board).build();
+                .user(user).board(board).build();
         postRepository.save(post);
 
         PostDto expectedPostDto = postInfoMapper.toPostDto(post);

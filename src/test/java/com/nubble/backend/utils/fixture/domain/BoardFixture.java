@@ -21,7 +21,7 @@ public class BoardFixture {
         return this.builder.build();
     }
 
-    public BoardFixture withCategory(Category category) {
+    public BoardFixture category(Category category) {
         builder.category(category);
         return this;
     }

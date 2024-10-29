@@ -32,17 +32,17 @@ public class PostFixture {
         return this.builder.build();
     }
 
-    public PostFixture withUser(User user) {
+    public PostFixture user(User user) {
         builder.user(user);
         return this;
     }
 
-    public PostFixture withBoard(Board board) {
+    public PostFixture board(Board board) {
         builder.board(board);
         return this;
     }
 
-    public PostFixture withStatus(PostStatus status) {
+    public PostFixture status(PostStatus status) {
         builder.status(status);
         return this;
     }
