@@ -1,6 +1,6 @@
 package com.nubble.backend.comment;
 
-import com.nubble.backend.comment.domain.GuestComment;
+import com.nubble.backend.comment.domain.guest.GuestComment;
 import com.nubble.backend.post.domain.Post;
 
 public class GuestCommentFixture {

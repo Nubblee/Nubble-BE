@@ -1,7 +1,7 @@
 package com.nubble.backend.post.comment.service.member;
 
-import com.nubble.backend.comment.domain.MemberComment;
-import com.nubble.backend.comment.domain.MemberCommentRepository;
+import com.nubble.backend.comment.domain.member.MemberComment;
+import com.nubble.backend.comment.domain.member.MemberCommentRepository;
 import com.nubble.backend.post.comment.service.CommentQuery.CommentByIdQuery;
 import com.nubble.backend.post.comment.service.member.MemberCommentCommand.DeleteCommand;
 import com.nubble.backend.post.service.PostRepository;

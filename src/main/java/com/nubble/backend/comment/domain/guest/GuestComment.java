@@ -1,5 +1,6 @@
-package com.nubble.backend.comment.domain;
+package com.nubble.backend.comment.domain.guest;
 
+import com.nubble.backend.comment.domain.Comment;
 import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.domain.Post;
 import jakarta.persistence.Column;

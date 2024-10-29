@@ -1,6 +1,7 @@
-package com.nubble.backend.comment.domain;
+package com.nubble.backend.comment.domain.member;
 
 
+import com.nubble.backend.comment.domain.Comment;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.DiscriminatorValue;

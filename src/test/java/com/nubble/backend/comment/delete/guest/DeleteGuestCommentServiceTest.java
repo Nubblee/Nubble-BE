@@ -7,7 +7,7 @@ import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.comment.GuestCommentFixture;
 import com.nubble.backend.comment.delete.guest.DeleteGuestCommentService.DeleteGuestCommentCommand;
 import com.nubble.backend.comment.domain.CommentRepository;
-import com.nubble.backend.comment.domain.GuestComment;
+import com.nubble.backend.comment.domain.guest.GuestComment;
 import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;

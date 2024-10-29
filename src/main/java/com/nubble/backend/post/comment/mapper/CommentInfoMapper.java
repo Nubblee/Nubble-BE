@@ -1,8 +1,8 @@
 package com.nubble.backend.post.comment.mapper;
 
 import com.nubble.backend.comment.domain.Comment;
-import com.nubble.backend.comment.domain.GuestComment;
-import com.nubble.backend.comment.domain.MemberComment;
+import com.nubble.backend.comment.domain.guest.GuestComment;
+import com.nubble.backend.comment.domain.member.MemberComment;
 import com.nubble.backend.comment.domain.CommentInfo.CommentDto;
 import com.nubble.backend.comment.domain.CommentInfo.CommentDto.CommentDtoBuilder;
 import com.nubble.backend.post.comment.service.CommentTypeDto;

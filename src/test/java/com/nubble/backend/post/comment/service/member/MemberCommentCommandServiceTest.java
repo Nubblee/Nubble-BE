@@ -4,7 +4,7 @@ import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
-import com.nubble.backend.comment.domain.MemberCommentRepository;
+import com.nubble.backend.comment.domain.member.MemberCommentRepository;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostRepository;
