@@ -1,6 +1,6 @@
 package com.nubble.backend.post.controller;
 
-import com.nubble.backend.comment.domain.CommentInfo;
+import com.nubble.backend.comment.shared.CommentInfo;
 import com.nubble.backend.config.interceptor.session.SessionRequired;
 import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.post.comment.service.CommentService;

@@ -1,6 +1,6 @@
 package com.nubble.backend.comment.create.member;
 
-import com.nubble.backend.comment.domain.CommentRepository;
+import com.nubble.backend.comment.shared.CommentRepository;
 import com.nubble.backend.comment.domain.member.MemberComment;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;

@@ -1,4 +1,4 @@
-package com.nubble.backend.comment.domain;
+package com.nubble.backend.comment.shared;
 
 import com.nubble.backend.post.comment.service.CommentTypeDto;
 import java.time.LocalDateTime;

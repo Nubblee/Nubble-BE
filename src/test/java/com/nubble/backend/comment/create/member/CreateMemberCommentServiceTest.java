@@ -5,7 +5,7 @@ import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.comment.create.member.CreateMemberCommentService.CreateMemberCommentCommand;
-import com.nubble.backend.comment.domain.member.MemberCommentRepository;
+import com.nubble.backend.comment.shared.MemberCommentRepository;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostRepository;

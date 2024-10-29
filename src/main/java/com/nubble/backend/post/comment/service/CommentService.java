@@ -1,8 +1,8 @@
 package com.nubble.backend.post.comment.service;
 
-import com.nubble.backend.comment.domain.CommentInfo;
-import com.nubble.backend.comment.domain.CommentRepository;
-import com.nubble.backend.post.comment.mapper.CommentInfoMapper;
+import com.nubble.backend.comment.shared.CommentInfo;
+import com.nubble.backend.comment.shared.CommentMapper;
+import com.nubble.backend.comment.shared.CommentRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final CommentInfoMapper commentInfoMapper;
+    private final CommentMapper commentMapper;
 
     @Transactional(readOnly = true)
     public List<CommentInfo.CommentDto> findAllByPostId(long postId) {
         return commentRepository.findAllByPostId(postId).stream()
-                .map(commentInfoMapper::toCommentDto)
+                .map(commentMapper::toCommentDto)
                 .toList();
     }
 }

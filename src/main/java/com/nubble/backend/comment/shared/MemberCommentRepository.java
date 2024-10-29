@@ -1,5 +1,6 @@
-package com.nubble.backend.comment.domain.member;
+package com.nubble.backend.comment.shared;
 
+import com.nubble.backend.comment.domain.member.MemberComment;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 

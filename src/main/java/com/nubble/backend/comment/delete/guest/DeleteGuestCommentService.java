@@ -1,7 +1,7 @@
 package com.nubble.backend.comment.delete.guest;
 
 import com.nubble.backend.comment.domain.guest.GuestComment;
-import com.nubble.backend.comment.domain.guest.GuestCommentRepository;
+import com.nubble.backend.comment.shared.GuestCommentRepository;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

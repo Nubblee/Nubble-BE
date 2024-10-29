@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.comment.domain.CommentInfo;
+import com.nubble.backend.comment.shared.CommentInfo;
 import com.nubble.backend.post.comment.mapper.CommentQueryMapper;
 import com.nubble.backend.post.comment.service.CommentService;
 import com.nubble.backend.post.comment.service.CommentTypeDto;
