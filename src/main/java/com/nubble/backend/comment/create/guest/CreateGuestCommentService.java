@@ -1,6 +1,6 @@
 package com.nubble.backend.comment.create.guest;
 
-import com.nubble.backend.comment.shared.CommentRepository;
+import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.comment.domain.guest.GuestComment;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.service.PostRepository;
@@ -31,7 +31,7 @@ public class CreateGuestCommentService {
 
     @Builder
     public record CreateGuestCommentCommand(
-            long postId,
+            Long postId,
             String guestName,
             String guestPassword,
             String content

@@ -138,9 +138,6 @@ public class Post extends BaseEntity {
         if (board == null) {
             throw new RuntimeException("게시판은 필수입니다.");
         }
-        if (board.getId() == null) {
-            throw new RuntimeException("저장된 게시판만 참조할 수 있습니다.");
-        }
         this.board = board;
     }
 

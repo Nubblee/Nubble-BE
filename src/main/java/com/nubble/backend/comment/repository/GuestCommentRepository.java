@@ -1,4 +1,4 @@
-package com.nubble.backend.comment.shared;
+package com.nubble.backend.comment.repository;
 
 import com.nubble.backend.comment.domain.guest.GuestComment;
 import org.springframework.data.jpa.repository.JpaRepository;

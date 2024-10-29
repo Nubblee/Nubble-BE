@@ -38,6 +38,9 @@ public abstract class Comment extends BaseEntity {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
+    @Column(name = "comment_type", insertable = false, updatable = false, nullable = false)
+    private String commentType;
+
     protected Comment(String content, Post post) {
         validateContent(content);
         validatePost(post);

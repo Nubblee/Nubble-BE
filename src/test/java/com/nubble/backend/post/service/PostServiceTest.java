@@ -259,15 +259,15 @@ class PostServiceTest {
         List<Post> posts = new ArrayList<>();
         for (int i = 0; i < postCount; i++) {
             Post post = PostFixture.aPost()
-                    .withBoard(board)
-                    .withUser(user)
+                    .board(board)
+                    .user(user)
                     .build();
             posts.add(post);
         }
         postRepository.saveAll(posts);
 
         // 다른 게시판에 게시글을 작성한다
-        Board otherBoard = BoardFixture.aBoard().withCategory(category)
+        Board otherBoard = BoardFixture.aBoard().category(category)
                 .build();
         boardRepository.save(otherBoard);
 
@@ -275,8 +275,8 @@ class PostServiceTest {
         List<Post> otherPosts = new ArrayList<>();
         for (int i = 0; i < otherPostCount; i++) {
             Post post = PostFixture.aPost()
-                    .withBoard(otherBoard)
-                    .withUser(user)
+                    .board(otherBoard)
+                    .user(user)
                     .build();
             otherPosts.add(post);
         }
@@ -298,9 +298,9 @@ class PostServiceTest {
         List<Post> posts = new ArrayList<>();
         for (int i = 0; i < postCount; i++) {
             Post post = PostFixture.aPost()
-                    .withBoard(board)
-                    .withUser(user)
-                    .withStatus(PostStatus.DRAFT)
+                    .board(board)
+                    .user(user)
+                    .status(PostStatus.DRAFT)
                     .build();
             posts.add(post);
         }
@@ -318,8 +318,8 @@ class PostServiceTest {
     void getPostById_success() {
         // 게시글을 생성한다
         Post post = PostFixture.aPost()
-                .withBoard(board)
-                .withUser(user)
+                .board(board)
+                .user(user)
                 .build();
         postRepository.save(post);
         PostDto actualPostDto = postInfoMapper.toPostDto(post);
@@ -343,9 +343,9 @@ class PostServiceTest {
     void getPostById_throwException() {
         // 임시 게시글을 생성한다
         Post post = PostFixture.aPost()
-                .withBoard(board)
-                .withUser(user)
-                .withStatus(PostStatus.DRAFT)
+                .board(board)
+                .user(user)
+                .status(PostStatus.DRAFT)
                 .build();
         postRepository.save(post);
         Long postId = post.getId();

@@ -6,7 +6,7 @@ import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.comment.MemberCommentFixture;
 import com.nubble.backend.comment.delete.member.DeleteMemberCommentService.DeleteMemberCommentCommand;
-import com.nubble.backend.comment.shared.CommentRepository;
+import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.comment.domain.member.MemberComment;
 import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.domain.Post;
@@ -64,9 +64,9 @@ class DeleteMemberCommentServiceTest {
         userRepository.save(user);
 
         Post post = PostFixture.aPost()
-                .withUser(user)
-                .withBoard(board)
-                .withStatus(PostStatus.PUBLISHED).build();
+                .user(user)
+                .board(board)
+                .status(PostStatus.PUBLISHED).build();
         postRepository.save(post);
 
         memberComment = MemberCommentFixture.aMemberComment()

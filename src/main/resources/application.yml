@@ -30,3 +30,4 @@ aws:
   secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
   region: ${AWS_REGION}
   bucketName: ${BUCKET_NAME}
+

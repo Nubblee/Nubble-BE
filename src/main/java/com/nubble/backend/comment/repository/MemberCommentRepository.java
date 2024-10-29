@@ -1,4 +1,4 @@
-package com.nubble.backend.comment.shared;
+package com.nubble.backend.comment.repository;
 
 import com.nubble.backend.comment.domain.member.MemberComment;
 import jakarta.persistence.EntityNotFoundException;

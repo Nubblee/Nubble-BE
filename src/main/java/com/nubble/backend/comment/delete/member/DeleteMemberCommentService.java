@@ -1,7 +1,7 @@
 package com.nubble.backend.comment.delete.member;
 
 import com.nubble.backend.comment.domain.member.MemberComment;
-import com.nubble.backend.comment.shared.MemberCommentRepository;
+import com.nubble.backend.comment.repository.MemberCommentRepository;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,8 +23,8 @@ public class DeleteMemberCommentService {
 
     @Builder
     public record DeleteMemberCommentCommand(
-            long commentId,
-            long userId
+            Long commentId,
+            Long userId
     ) {
 
     }

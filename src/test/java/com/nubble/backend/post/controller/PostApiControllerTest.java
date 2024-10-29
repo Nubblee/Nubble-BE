@@ -9,13 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.comment.shared.CommentInfo;
-import com.nubble.backend.post.comment.mapper.CommentQueryMapper;
-import com.nubble.backend.post.comment.service.CommentService;
-import com.nubble.backend.post.comment.service.CommentTypeDto;
 import com.nubble.backend.post.controller.PostRequest.PostCreateRequest;
 import com.nubble.backend.post.controller.PostRequest.PostUpdateRequest;
-import com.nubble.backend.post.controller.PostResponse.CommentsResponse;
 import com.nubble.backend.post.controller.PostResponse.PostCreateResponse;
 import com.nubble.backend.post.controller.PostResponse.PostDetailResponse;
 import com.nubble.backend.post.mapper.PostCommandMapper;
@@ -32,7 +27,6 @@ import com.nubble.backend.user.session.service.SessionRepository;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
 import com.nubble.backend.utils.fixture.service.PostInfoFixture;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -71,12 +65,6 @@ class PostApiControllerTest {
 
     @MockBean
     private PostService postService;
-
-    @Autowired
-    private CommentQueryMapper commentQueryMapper;
-
-    @MockBean
-    private CommentService commentService;
 
     private User user;
 
@@ -156,45 +144,6 @@ class PostApiControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(""))
-                .andDo(print());
-    }
-
-    @Test
-    void 게시글의_모든_댓글을_가져온다() throws Exception {
-        // http request
-        long postId = 123L;
-        MockHttpServletRequestBuilder requestBuilder = get("/posts/{postId}/comments", postId);
-
-        // 게시글의 모든 댓글을 가져온다
-        List<CommentInfo.CommentDto> commentInfos = List.of(
-                CommentInfo.CommentDto.builder()
-                        .commentId(1L)
-                        .content("댓글 내용1")
-                        .createdAt(LocalDateTime.now())
-                        .userId(1L)
-                        .userName("사용자1")
-                        .type(CommentTypeDto.MEMBER)
-                        .build(),
-                CommentInfo.CommentDto.builder()
-                        .commentId(2L)
-                        .content("댓글 내용2")
-                        .createdAt(LocalDateTime.now())
-                        .userId(2L)
-                        .userName("사용자2")
-                        .type(CommentTypeDto.GUEST)
-                        .build()
-        );
-        given(commentService.findAllByPostId(postId))
-                .willReturn(commentInfos);
-
-        // http response
-        CommentsResponse responses = postResponseMapper.toCommentsResponse(commentInfos);
-        String responsesJson = objectMapper.writeValueAsString(responses);
-
-        mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(responsesJson))
                 .andDo(print());
     }
 

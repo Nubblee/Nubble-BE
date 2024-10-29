@@ -5,7 +5,7 @@ import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.comment.create.member.CreateMemberCommentService.CreateMemberCommentCommand;
-import com.nubble.backend.comment.shared.MemberCommentRepository;
+import com.nubble.backend.comment.repository.MemberCommentRepository;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.service.PostRepository;
@@ -60,14 +60,14 @@ class CreateMemberCommentServiceTest {
         boardRepository.save(board);
     }
 
-    @DisplayName("댓글을 작성한다")
+    @DisplayName("유저가 댓글을 작성한다")
     @Test
     void success() {
         // 게시글 생성
         Post post = PostFixture.aPost()
-                .withUser(user)
-                .withBoard(board)
-                .withStatus(PostStatus.PUBLISHED).build();
+                .user(user)
+                .board(board)
+                .status(PostStatus.PUBLISHED).build();
         postRepository.save(post);
 
         // 댓글 작성
@@ -86,9 +86,9 @@ class CreateMemberCommentServiceTest {
     void throwException() {
         // 임시글 생성
         Post post = PostFixture.aPost()
-                .withUser(user)
-                .withBoard(board)
-                .withStatus(PostStatus.DRAFT).build();
+                .user(user)
+                .board(board)
+                .status(PostStatus.DRAFT).build();
         postRepository.save(post);
 
         // 댓글 작성 및 예외 발생
