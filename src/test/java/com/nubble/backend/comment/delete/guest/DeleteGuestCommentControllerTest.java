@@ -1,6 +1,5 @@
 package com.nubble.backend.comment.delete.guest;
 
-import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -8,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.comment.delete.guest.DeleteGuestCommentController.DeleteGuestCommentRequest;
-import com.nubble.backend.comment.delete.guest.DeleteGuestCommentService.DeleteGuestCommentCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +42,6 @@ class DeleteGuestCommentControllerTest {
         MockHttpServletRequestBuilder requestBuilder = delete("/comments/guest/{commentId}", commentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request));
-
-        // 게스트 댓글 삭제
-        DeleteGuestCommentCommand command = mapper.toCommand(commentId, request);
-        doNothing().when(deleteGuestCommentService).delete(command);
 
         // http response
         mockMvc.perform(requestBuilder)

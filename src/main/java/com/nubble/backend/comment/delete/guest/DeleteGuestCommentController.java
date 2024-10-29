@@ -30,8 +30,7 @@ public class DeleteGuestCommentController {
         DeleteGuestCommentCommand command = mapper.toCommand(commentId, request);
         service.delete(command);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Builder

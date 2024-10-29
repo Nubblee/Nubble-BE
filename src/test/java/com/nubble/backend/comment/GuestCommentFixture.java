@@ -5,31 +5,30 @@ import com.nubble.backend.post.domain.Post;
 
 public class GuestCommentFixture {
 
-    private final GuestComment.GuestCommentBuilder builder;
 
-    private String guestPassword = "1234";
-    private String content = "댓글 내용";
-    private String guestName = "guest";
-    private Post post;
+    public static final String DEFAULT_CONTENT = "댓글 내용";
+    private static final String DEFAULT_GUEST_NAME = "guest";
+    public static final String DEFAULT_GUEST_PASSWORD = "1234";
+
+    private final GuestComment.GuestCommentBuilder builder;
 
     public static GuestCommentFixture aGuestComment() {
         return new GuestCommentFixture();
     }
 
     private GuestCommentFixture() {
-        builder = GuestComment.builder();
+        builder = GuestComment.builder()
+                .content(DEFAULT_CONTENT)
+                .guestName(DEFAULT_GUEST_NAME)
+                .guestPassword(DEFAULT_GUEST_PASSWORD);
     }
 
     public GuestCommentFixture post(Post post) {
-        this.post = post;
+        builder.post(post);
         return this;
     }
 
     public GuestComment build() {
-        return builder
-                .content(content)
-                .guestName(guestName)
-                .guestPassword(guestPassword)
-                .post(post).build();
+        return builder.build();
     }
 }

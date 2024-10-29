@@ -3,7 +3,7 @@ package com.nubble.backend.comment.repository;
 import static com.nubble.backend.comment.domain.QComment.comment;
 
 import com.nubble.backend.comment.domain.Comment;
-import com.nubble.backend.comment.domain.QMemberComment;
+import com.nubble.backend.comment.domain.member.QMemberComment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

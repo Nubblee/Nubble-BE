@@ -2,6 +2,7 @@ package com.nubble.backend.comment.domain.member;
 
 
 import com.nubble.backend.comment.domain.Comment;
+import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.DiscriminatorValue;
@@ -39,7 +40,9 @@ public class MemberComment extends Comment {
         Assert.notNull(user, "user는 null일 수 없습니다.");
     }
 
-    public void validateAuthor(String authorId) {
-        Assert.state(user.getId() == Long.parseLong(authorId), "댓글의 작성자가 아닙니다.");
+    public void validateAuthor(long authorId) {
+        if (user.getId() != authorId) {
+            throw new NoAuthorizationException("댓글의 작성자가 아닙니다.");
+        }
     }
 }
