@@ -1,7 +1,7 @@
 package com.nubble.backend.category.board.controller;
 
-import com.nubble.backend.post.service.PostInfo;
-import com.nubble.backend.post.service.PostService;
+import com.nubble.backend.postold.service.PostInfo;
+import com.nubble.backend.postold.service.PostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

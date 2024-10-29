@@ -1,7 +1,7 @@
 package com.nubble.backend.utils.customassert;
 
-import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.post.domain.PostStatus;
+import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.postold.domain.PostStatus;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 

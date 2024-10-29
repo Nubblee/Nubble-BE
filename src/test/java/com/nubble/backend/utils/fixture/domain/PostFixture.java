@@ -1,8 +1,8 @@
 package com.nubble.backend.utils.fixture.domain;
 
 import com.nubble.backend.category.board.domain.Board;
-import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.post.domain.PostStatus;
+import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.postold.domain.PostStatus;
 import com.nubble.backend.user.domain.User;
 
 public class PostFixture {

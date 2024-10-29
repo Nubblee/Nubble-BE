@@ -1,7 +1,7 @@
 package com.nubble.backend.category.board.controller;
 
 import com.nubble.backend.category.board.controller.BoardResponse.PostsWithUserResponse;
-import com.nubble.backend.post.service.PostInfo;
+import com.nubble.backend.postold.service.PostInfo;
 import java.util.List;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

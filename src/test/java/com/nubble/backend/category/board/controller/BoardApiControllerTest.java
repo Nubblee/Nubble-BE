@@ -6,10 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.post.service.PostInfo;
-import com.nubble.backend.post.service.PostInfo.PostDto;
-import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
-import com.nubble.backend.post.service.PostService;
+import com.nubble.backend.postold.service.PostInfo;
+import com.nubble.backend.postold.service.PostInfo.PostDto;
+import com.nubble.backend.postold.service.PostInfo.PostWithUserDto;
+import com.nubble.backend.postold.service.PostService;
 import com.nubble.backend.utils.fixture.service.PostInfoFixture;
 import com.nubble.backend.utils.fixture.service.UserInfoFixture;
 import java.util.ArrayList;

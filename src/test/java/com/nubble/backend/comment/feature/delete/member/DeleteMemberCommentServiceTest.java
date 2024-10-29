@@ -9,9 +9,9 @@ import com.nubble.backend.comment.feature.delete.member.DeleteMemberCommentServi
 import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.comment.domain.member.MemberComment;
 import com.nubble.backend.common.exception.NoAuthorizationException;
-import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.post.domain.PostStatus;
-import com.nubble.backend.post.service.PostRepository;
+import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.postold.domain.PostStatus;
+import com.nubble.backend.postold.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.CategoryFixture;

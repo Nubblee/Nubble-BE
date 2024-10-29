@@ -1,16 +1,11 @@
 package com.nubble.backend.utils.fixture.service;
 
 import com.nubble.backend.category.board.service.BoardInfo.BoardDto;
-import com.nubble.backend.category.service.CategoryInfo;
 import com.nubble.backend.category.service.CategoryInfo.CategoryDto;
-import com.nubble.backend.category.service.CategoryInfo.CategoryDto.CategoryDtoBuilder;
-import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.post.service.PostInfo.PostDto;
-import com.nubble.backend.post.service.PostInfo.PostWithUserDto;
+import com.nubble.backend.postold.service.PostInfo.PostWithUserDto;
 import com.nubble.backend.utils.fixture.domain.PostFixture;
-import com.nubble.backend.post.service.PostInfo;
-import com.nubble.backend.post.shared.PostStatusDto;
-import com.nubble.backend.utils.fixture.service.CategoryInfoFixture.CategoryDtoFixture;
+import com.nubble.backend.postold.service.PostInfo;
+import com.nubble.backend.postold.shared.PostStatusDto;
 import java.time.LocalDateTime;
 
 public class PostInfoFixture {

@@ -2,8 +2,8 @@ package com.nubble.backend.comment.feature.create.member;
 
 import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.comment.domain.member.MemberComment;
-import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.post.service.PostRepository;
+import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.postold.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import lombok.Builder;

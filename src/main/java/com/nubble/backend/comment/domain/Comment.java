@@ -1,7 +1,7 @@
 package com.nubble.backend.comment.domain;
 
 import com.nubble.backend.common.BaseEntity;
-import com.nubble.backend.post.domain.Post;
+import com.nubble.backend.postold.domain.Post;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
