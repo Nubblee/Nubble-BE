@@ -42,6 +42,11 @@ public class PostDtoFixture {
         return this;
     }
 
+    public PostDtoFixture boardId(long boardId) {
+        this.boardId = boardId;
+        return this;
+    }
+
     public PostDto build() {
         return builder.postId(postId)
                 .title(title)

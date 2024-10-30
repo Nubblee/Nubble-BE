@@ -8,8 +8,8 @@ import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.customassert.PostDtoAssert;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.feature.PostDto;
+import com.nubble.backend.post.feature.PostWithUserDto;
 import com.nubble.backend.post.feature.getpostdetail.GetPostWithUserService.GetPostWithUserQuery;
-import com.nubble.backend.post.feature.getpostdetail.GetPostWithUserService.GetPostWithUserResult;
 import com.nubble.backend.post.fixture.PostFixture;
 import com.nubble.backend.post.repository.PostRepository;
 import com.nubble.backend.userold.domain.User;
@@ -79,7 +79,7 @@ class GetPostWithUserServiceTest {
         // 게시글 조회
         GetPostWithUserQuery query = GetPostWithUserQuery.builder()
                 .postId(post.getId()).build();
-        GetPostWithUserResult result = getPostWithUserService.getPostWithUser(query);
+        PostWithUserDto result = getPostWithUserService.getPostWithUser(query);
 
         // 게시글 내용 확인
         PostDtoAssert.assertThat(result.post())
@@ -101,7 +101,7 @@ class GetPostWithUserServiceTest {
         GetPostWithUserQuery query = GetPostWithUserQuery.builder()
                 .postId(post.getId())
                 .userId(user.getId()).build();
-        GetPostWithUserResult result = getPostWithUserService.getPostWithUser(query);
+        PostWithUserDto result = getPostWithUserService.getPostWithUser(query);
 
         // 게시글 내용 조회
         PostDtoAssert.assertThat(result.post())
