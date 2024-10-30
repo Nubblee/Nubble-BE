@@ -1,6 +1,6 @@
 package com.nubble.backend.postold.repository;
 
-import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.post.domain.Post;
 import java.util.List;
 
 public interface PostRepositoryCustom {

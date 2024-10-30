@@ -1,7 +1,7 @@
 package com.nubble.backend.comment.fixture;
 
 import com.nubble.backend.comment.domain.guest.GuestComment;
-import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.post.domain.Post;
 
 public class GuestCommentFixture {
 

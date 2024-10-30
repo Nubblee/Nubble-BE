@@ -3,7 +3,7 @@ package com.nubble.backend.comment.domain.member;
 
 import com.nubble.backend.comment.domain.Comment;
 import com.nubble.backend.common.exception.NoAuthorizationException;
-import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.user.domain.User;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

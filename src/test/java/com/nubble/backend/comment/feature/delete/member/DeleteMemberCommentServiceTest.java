@@ -4,13 +4,12 @@ import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
-import com.nubble.backend.comment.fixture.MemberCommentFixture;
-import com.nubble.backend.comment.feature.delete.member.DeleteMemberCommentService.DeleteMemberCommentCommand;
-import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.comment.domain.member.MemberComment;
+import com.nubble.backend.comment.feature.delete.member.DeleteMemberCommentService.DeleteMemberCommentCommand;
+import com.nubble.backend.comment.fixture.MemberCommentFixture;
+import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.common.exception.NoAuthorizationException;
-import com.nubble.backend.postold.domain.Post;
-import com.nubble.backend.postold.domain.PostStatus;
+import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.postold.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
@@ -63,10 +62,9 @@ class DeleteMemberCommentServiceTest {
         user = UserFixture.aUser().build();
         userRepository.save(user);
 
-        Post post = PostFixture.aPost()
+        Post post = PostFixture.aPublishedPost()
                 .user(user)
-                .board(board)
-                .status(PostStatus.PUBLISHED).build();
+                .board(board).build();
         postRepository.save(post);
 
         memberComment = MemberCommentFixture.aMemberComment()

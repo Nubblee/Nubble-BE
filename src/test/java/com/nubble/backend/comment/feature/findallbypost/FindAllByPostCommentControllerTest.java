@@ -17,7 +17,7 @@ import com.nubble.backend.comment.domain.member.MemberComment;
 import com.nubble.backend.comment.feature.findallbypost.FindAllByPostCommentController.FindAllByPostCommentResponse;
 import com.nubble.backend.comment.feature.findallbypost.FindAllByPostCommentController.FindByPostCommentResponse;
 import com.nubble.backend.comment.repository.CommentRepository;
-import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.postold.service.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
@@ -83,7 +83,7 @@ class FindAllByPostCommentControllerTest {
                 .category(category).build();
         boardRepository.save(board);
 
-        Post post = PostFixture.aPost()
+        Post post = PostFixture.aPublishedPost()
                 .board(board)
                 .user(user).build();
         postRepository.save(post);

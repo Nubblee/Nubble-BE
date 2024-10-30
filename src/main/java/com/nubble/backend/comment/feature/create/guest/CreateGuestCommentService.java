@@ -2,7 +2,7 @@ package com.nubble.backend.comment.feature.create.guest;
 
 import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.comment.domain.guest.GuestComment;
-import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.postold.service.PostRepository;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;

@@ -6,8 +6,8 @@ import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
-import com.nubble.backend.postold.domain.Post;
-import com.nubble.backend.postold.domain.PostStatus;
+import com.nubble.backend.post.domain.Post;
+import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.postold.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.postold.service.PostCommand.PostUpdateCommand;
 import com.nubble.backend.postold.service.PostInfo.PostDto;
@@ -112,13 +112,13 @@ class PostServiceTest {
     void createPost_shouldCreatePostWithPublishedStatus() {
         // given
         PostCreateCommand command = PostCreateCommand.builder()
-                .title("제목입니다.")
-                .content("내용입니다.")
+                .title(PostFixture.DEFAULT_TITLE)
+                .content(PostFixture.DEFAULT_CONTENT)
                 .userId(user.getId())
                 .boardId(board.getId())
                 .status(PostStatusDto.PUBLISHED)
-                .thumbnailUrl("https://example.com")
-                .description("요약 내용입니다.")
+                .thumbnailUrl(PostFixture.DEFAULT_THUMBNAIL_URL)
+                .description(PostFixture.DEFAULT_DESCRIPTION)
                 .build();
 
         // when
@@ -143,13 +143,13 @@ class PostServiceTest {
     void updatePost_shouldUpdatePost() {
         // 임시 게시글을 생성한다
         PostCreateCommand postCreateCommand = PostCreateCommand.builder()
-                .title("제목입니다.")
-                .content("내용입니다.")
+                .title(PostFixture.DEFAULT_TITLE)
+                .content(PostFixture.DEFAULT_CONTENT)
                 .userId(user.getId())
                 .boardId(board.getId())
                 .status(PostStatusDto.DRAFT)
-                .thumbnailUrl("https://example.com")
-                .description("요약 내용입니다.")
+                .thumbnailUrl(null)
+                .description(null)
                 .build();
         long postId = postService.createPost(postCreateCommand);
 
@@ -161,8 +161,8 @@ class PostServiceTest {
                 .userId(user.getId())
                 .boardId(board.getId())
                 .status(PostStatusDto.DRAFT)
-                .thumbnailUrl("https://example.com22")
-                .description("수정된 요약 내용")
+                .thumbnailUrl(null)
+                .description(null)
                 .build();
 
         postService.updatePost(postUpdateCommand);
@@ -175,9 +175,7 @@ class PostServiceTest {
                 .hasId(postUpdateCommand.postId())
                 .hasTitle(postUpdateCommand.title())
                 .hasContent(postUpdateCommand.content())
-                .hasStatus(PostStatus.valueOf(PostStatusDto.DRAFT.name()))
-                .hasThumbnailUrl(postUpdateCommand.thumbnailUrl())
-                .hasDescription(postUpdateCommand.description());
+                .hasStatus(PostStatus.valueOf(PostStatusDto.DRAFT.name()));
     }
 
     @DisplayName("임시 게시글을 게시한다")
@@ -185,26 +183,26 @@ class PostServiceTest {
     void updatePost_shouldBePublished() {
         // 임시 게시글을 생성한다
         PostCreateCommand postCreateCommand = PostCreateCommand.builder()
-                .title("제목입니다.")
-                .content("내용입니다.")
+                .title(PostFixture.DEFAULT_TITLE)
+                .content(PostFixture.DEFAULT_CONTENT)
                 .userId(user.getId())
                 .boardId(board.getId())
                 .status(PostStatusDto.DRAFT)
-                .thumbnailUrl("https://example.com")
-                .description("요약 내용입니다.")
+                .thumbnailUrl(null)
+                .description(null)
                 .build();
         long postId = postService.createPost(postCreateCommand);
 
         // 게시글을 게시한다
         PostUpdateCommand postUpdateCommand = PostUpdateCommand.builder()
                 .postId(postId)
-                .title(postCreateCommand.title())
-                .content(postCreateCommand.content())
+                .title(PostFixture.DEFAULT_TITLE)
+                .content(PostFixture.DEFAULT_CONTENT)
                 .userId(user.getId())
                 .boardId(board.getId())
                 .status(PostStatusDto.PUBLISHED)
-                .thumbnailUrl(postCreateCommand.thumbnailUrl())
-                .description(postCreateCommand.description())
+                .thumbnailUrl(PostFixture.DEFAULT_THUMBNAIL_URL)
+                .description(PostFixture.DEFAULT_DESCRIPTION)
                 .build();
 
         postService.updatePost(postUpdateCommand);
@@ -258,7 +256,7 @@ class PostServiceTest {
         int postCount = 5;
         List<Post> posts = new ArrayList<>();
         for (int i = 0; i < postCount; i++) {
-            Post post = PostFixture.aPost()
+            Post post = PostFixture.aPublishedPost()
                     .board(board)
                     .user(user)
                     .build();
@@ -274,7 +272,7 @@ class PostServiceTest {
         int otherPostCount = 3;
         List<Post> otherPosts = new ArrayList<>();
         for (int i = 0; i < otherPostCount; i++) {
-            Post post = PostFixture.aPost()
+            Post post = PostFixture.aPublishedPost()
                     .board(otherBoard)
                     .user(user)
                     .build();
@@ -297,10 +295,9 @@ class PostServiceTest {
         int postCount = 5;
         List<Post> posts = new ArrayList<>();
         for (int i = 0; i < postCount; i++) {
-            Post post = PostFixture.aPost()
+            Post post = PostFixture.aDraftPost()
                     .board(board)
                     .user(user)
-                    .status(PostStatus.DRAFT)
                     .build();
             posts.add(post);
         }
@@ -317,7 +314,7 @@ class PostServiceTest {
     @Test
     void getPostById_success() {
         // 게시글을 생성한다
-        Post post = PostFixture.aPost()
+        Post post = PostFixture.aPublishedPost()
                 .board(board)
                 .user(user)
                 .build();
@@ -342,10 +339,9 @@ class PostServiceTest {
     @Test
     void getPostById_throwException() {
         // 임시 게시글을 생성한다
-        Post post = PostFixture.aPost()
+        Post post = PostFixture.aDraftPost()
                 .board(board)
                 .user(user)
-                .status(PostStatus.DRAFT)
                 .build();
         postRepository.save(post);
         Long postId = post.getId();

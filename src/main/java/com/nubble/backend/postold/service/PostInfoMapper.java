@@ -1,6 +1,6 @@
 package com.nubble.backend.postold.service;
 
-import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.postold.service.PostInfo.PostWithUserDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserInfo;

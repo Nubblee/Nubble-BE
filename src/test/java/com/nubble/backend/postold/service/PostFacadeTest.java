@@ -8,7 +8,7 @@ import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryInfo;
 import com.nubble.backend.category.service.CategoryInfoMapper;
 import com.nubble.backend.category.service.CategoryRepository;
-import com.nubble.backend.postold.domain.Post;
+import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.postold.service.PostInfo.PostDto;
 import com.nubble.backend.postold.service.PostInfo.PostWithCategoryDto;
 import com.nubble.backend.user.domain.User;
@@ -71,7 +71,7 @@ class PostFacadeTest {
         boardRepository.save(board);
         User user = UserFixture.aUser().build();
         userRepository.save(user);
-        Post post = PostFixture.aPost()
+        Post post = PostFixture.aPublishedPost()
                 .user(user).board(board).build();
         postRepository.save(post);
 

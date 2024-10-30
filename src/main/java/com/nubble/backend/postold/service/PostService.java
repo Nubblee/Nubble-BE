@@ -2,10 +2,10 @@ package com.nubble.backend.postold.service;
 
 import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardRepository;
-import com.nubble.backend.postold.domain.Post;
-import com.nubble.backend.postold.domain.PostStatus;
+import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.postold.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.postold.service.PostCommand.PostUpdateCommand;
+import com.nubble.backend.postold.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import java.util.List;
@@ -29,15 +29,26 @@ public class PostService {
         Board board = boardRepository.findById(command.boardId())
                 .orElseThrow(() -> new RuntimeException("게시판이 존재하지 않습니다."));
 
-        Post newPost = Post.builder()
-                .title(command.title())
-                .content(command.content())
-                .user(user)
-                .board(board)
-                .status(PostStatus.valueOf(command.status().name()))
-                .thumbnailUrl(command.thumbnailUrl())
-                .description(command.description())
-                .build();
+        Post newPost = null;
+        if (command.status() == PostStatusDto.PUBLISHED) {
+            newPost = Post.publishedBuilder()
+                    .title(command.title())
+                    .content(command.content())
+                    .user(user)
+                    .board(board)
+                    .thumbnailUrl(command.thumbnailUrl())
+                    .description(command.description())
+                    .build();
+        } else if (command.status() == PostStatusDto.DRAFT) {
+            newPost = Post.draftBuilder()
+                    .title(command.title())
+                    .content(command.content())
+                    .user(user)
+                    .board(board)
+                    .build();
+        } else {
+            throw new IllegalArgumentException("해당 상태의 게시글을 생성할 수 없습니다.");
+        }
 
         return postRepository.save(newPost)
                 .getId();
@@ -51,14 +62,12 @@ public class PostService {
                 .orElseThrow(() -> new RuntimeException("게시판이 존재하지 않습니다."));
         post.validateOwner(command.userId());
 
-        post.update(
-                command.title(),
-                command.content(),
-                command.thumbnailUrl(),
-                command.description(),
-                PostStatus.valueOf(command.status().name()),
-                board
-        );
+        post.updateTitle(command.title());
+        post.updateContent(command.content());
+        post.updateBoard(board);
+        if (command.status() == PostStatusDto.PUBLISHED) {
+            post.publish(command.thumbnailUrl(), command.description());
+        }
     }
 
     @Transactional(readOnly = true)
