@@ -5,8 +5,8 @@ import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.post.repository.PostRepository;
-import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.service.UserRepository;
+import com.nubble.backend.userold.domain.User;
+import com.nubble.backend.userold.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,53 +118,5 @@ class PostServiceTest {
 //        // 매핑된 게시글들만 가져오는 것을 검증한다
 //        assertThat(postsByBoardId).isEmpty();
 //    }
-//
-//    @DisplayName("원하는 게시글과 작성자의 정보를 조회한다")
-//    @Test
-//    void getPostById_success() {
-//        // 게시글을 생성한다
-//        Post post = PostFixture.aPublishedPost()
-//                .board(board)
-//                .user(user)
-//                .build();
-//        postRepository.save(post);
-//        PostDto actualPostDto = postInfoMapper.toPostDto(post);
-//        UserDto acutualUserDto = UserDto.builder()
-//                .nickname(user.getNickname())
-//                .username(user.getUsername()).build();
-//
-//        // 게시글을 조회한다
-//        PostWithUserDto result = postService.getPostById(post.getId());
-//
-//        // 게시글을 검증한다
-//        PostDtoAssert.assertThat(actualPostDto)
-//                .isEqualTo(result.post());
-//        // 유저를 검증한다
-//        UserDtoAssert.assertThat(acutualUserDto)
-//                .isEqualTo(result.user());
-//    }
-//
-//    @DisplayName("임시 게시글은 가져올 수 없다")
-//    @Test
-//    void getPostById_throwException() {
-//        // 임시 게시글을 생성한다
-//        Post post = PostFixture.aDraftPost()
-//                .board(board)
-//                .user(user)
-//                .build();
-//        postRepository.save(post);
-//        Long postId = post.getId();
-//
-//        // 게시글을 조회시, 예외를 발생시킨다
-//        Assertions.assertThatThrownBy(() -> postService.getPostById(postId))
-//                .isInstanceOf(RuntimeException.class);
-//    }
-//
-//    @DisplayName("존재하지 않는 게시글은 가져올 수 없다")
-//    @Test
-//    void getPostById_throwException2() {
-//        // 게시글을 조회시, 예외를 발생시킨다
-//        Assertions.assertThatThrownBy(() -> postService.getPostById(1L))
-//                .isInstanceOf(RuntimeException.class);
-//    }
+
 }

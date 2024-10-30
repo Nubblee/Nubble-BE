@@ -4,7 +4,7 @@ import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.feature.create.CreatePostService.CreatePostCommand;
-import com.nubble.backend.user.domain.User;
+import com.nubble.backend.userold.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

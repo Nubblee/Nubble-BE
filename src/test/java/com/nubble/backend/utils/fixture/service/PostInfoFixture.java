@@ -5,7 +5,7 @@ import com.nubble.backend.category.service.CategoryInfo.CategoryDto;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.postold.service.PostInfo;
 import com.nubble.backend.postold.service.PostInfo.PostWithUserDto;
-import com.nubble.backend.utils.fixture.domain.PostFixture;
+import com.nubble.backend.post.fixture.PostFixture;
 import java.time.LocalDateTime;
 
 public class PostInfoFixture {

@@ -1,6 +1,6 @@
 package com.nubble.backend.utils.fixture.service;
 
-import com.nubble.backend.user.service.UserInfo;
+import com.nubble.backend.userold.service.UserInfo;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
 
 public class UserInfoFixture {

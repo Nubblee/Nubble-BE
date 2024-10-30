@@ -3,7 +3,7 @@ package com.nubble.backend.post.domain;
 import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.common.BaseEntity;
 import com.nubble.backend.common.exception.NoAuthorizationException;
-import com.nubble.backend.user.domain.User;
+import com.nubble.backend.userold.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

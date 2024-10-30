@@ -9,10 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.post.feature.update.UpdatePostController.UpdatePostRequest;
-import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.session.domain.Session;
-import com.nubble.backend.user.session.service.SessionRepository;
-import com.nubble.backend.user.session.service.SessionService;
+import com.nubble.backend.userold.domain.User;
+import com.nubble.backend.userold.session.domain.Session;
+import com.nubble.backend.userold.session.service.SessionRepository;
+import com.nubble.backend.userold.session.service.SessionService;
 import com.nubble.backend.utils.fixture.domain.AuthSessionFixture;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
 import java.util.Optional;

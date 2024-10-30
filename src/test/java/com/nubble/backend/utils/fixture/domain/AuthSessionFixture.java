@@ -1,7 +1,7 @@
 package com.nubble.backend.utils.fixture.domain;
 
-import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.session.domain.Session;
+import com.nubble.backend.userold.domain.User;
+import com.nubble.backend.userold.session.domain.Session;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

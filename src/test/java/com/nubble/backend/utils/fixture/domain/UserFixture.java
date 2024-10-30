@@ -1,6 +1,6 @@
 package com.nubble.backend.utils.fixture.domain;
 
-import com.nubble.backend.user.domain.User;
+import com.nubble.backend.userold.domain.User;
 
 public class UserFixture {
     public static final String DEFAULT_USERNAME = "user";

@@ -24,6 +24,11 @@ public class BoardInfoFixture {
                     .name(BoardFixture.DEFAULT_NAME);
         }
 
+        public BoardDtoFixture boardId(Long id) {
+            builder.id(id);
+            return this;
+        }
+
         public BoardInfo.BoardDto build() {
             return builder.build();
         }

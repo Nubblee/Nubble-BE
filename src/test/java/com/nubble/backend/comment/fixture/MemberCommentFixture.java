@@ -2,7 +2,7 @@ package com.nubble.backend.comment.fixture;
 
 import com.nubble.backend.comment.domain.member.MemberComment;
 import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.user.domain.User;
+import com.nubble.backend.userold.domain.User;
 
 public class MemberCommentFixture {
     public static final String DEFAULT_CONTENT = "댓글 내용";

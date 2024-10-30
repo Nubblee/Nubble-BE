@@ -25,7 +25,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostInfo.PostWithUserDto getPostById(long postId) {
-        Post post = postRepository.getWithUserById(postId);
+        Post post = postRepository.getPostWithUserById(postId);
         return postInfoMapper.toPostWithUserDto(post);
     }
 }

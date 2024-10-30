@@ -8,10 +8,10 @@ import com.nubble.backend.comment.feature.create.guest.CreateGuestCommentService
 import com.nubble.backend.comment.repository.GuestCommentRepository;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.repository.PostRepository;
-import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.service.UserRepository;
+import com.nubble.backend.userold.domain.User;
+import com.nubble.backend.userold.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.CategoryFixture;
-import com.nubble.backend.utils.fixture.domain.PostFixture;
+import com.nubble.backend.post.fixture.PostFixture;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

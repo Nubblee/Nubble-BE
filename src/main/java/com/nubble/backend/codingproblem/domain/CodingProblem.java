@@ -1,7 +1,7 @@
 package com.nubble.backend.codingproblem.domain;
 
 import com.nubble.backend.common.BaseEntity;
-import com.nubble.backend.user.domain.User;
+import com.nubble.backend.userold.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

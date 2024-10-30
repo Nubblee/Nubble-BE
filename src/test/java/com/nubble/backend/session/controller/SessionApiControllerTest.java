@@ -9,11 +9,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.user.session.controller.SessionCommandMapper;
-import com.nubble.backend.user.session.controller.SessionRequest.SessionIssueRequest;
-import com.nubble.backend.user.session.service.SessionCommand.SessionCreateCommand;
-import com.nubble.backend.user.session.service.SessionInfo;
-import com.nubble.backend.user.session.service.SessionService;
+import com.nubble.backend.userold.session.controller.SessionCommandMapper;
+import com.nubble.backend.userold.session.controller.SessionRequest.SessionIssueRequest;
+import com.nubble.backend.userold.session.service.SessionCommand.SessionCreateCommand;
+import com.nubble.backend.userold.session.service.SessionInfo;
+import com.nubble.backend.userold.session.service.SessionService;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
