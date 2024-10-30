@@ -6,10 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.session.domain.Session;
-import com.nubble.backend.user.session.service.SessionRepository;
-import com.nubble.backend.user.session.service.SessionService;
+import com.nubble.backend.userold.domain.User;
+import com.nubble.backend.userold.session.domain.Session;
+import com.nubble.backend.userold.session.service.SessionRepository;
+import com.nubble.backend.userold.session.service.SessionService;
 import com.nubble.backend.utils.fixture.domain.AuthSessionFixture;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
 import java.util.Optional;

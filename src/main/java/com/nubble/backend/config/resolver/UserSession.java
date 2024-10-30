@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record UserSession(
-        long userId,
+        Long userId,
         String sessionId
 ) {
 

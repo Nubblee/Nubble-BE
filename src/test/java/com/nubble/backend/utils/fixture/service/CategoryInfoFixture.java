@@ -25,5 +25,10 @@ public class CategoryInfoFixture {
         public CategoryInfo.CategoryDto build() {
             return builder.build();
         }
+
+        public CategoryDtoFixture categoryId(Long id) {
+            builder.id(id);
+            return this;
+        }
     }
 }

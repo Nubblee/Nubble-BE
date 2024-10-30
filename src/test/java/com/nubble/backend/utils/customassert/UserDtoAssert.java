@@ -1,6 +1,6 @@
 package com.nubble.backend.utils.customassert;
 
-import com.nubble.backend.user.service.UserInfo;
+import com.nubble.backend.userold.service.UserInfo;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 

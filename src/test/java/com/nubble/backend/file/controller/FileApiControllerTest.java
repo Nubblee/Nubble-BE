@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.file.service.FileCommand.FileUploadCommand;
 import com.nubble.backend.file.service.FileInfo;
 import com.nubble.backend.file.service.FileService;
-import com.nubble.backend.user.session.service.SessionService;
+import com.nubble.backend.userold.session.service.SessionService;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

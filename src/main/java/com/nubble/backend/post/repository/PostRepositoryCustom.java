@@ -7,5 +7,5 @@ public interface PostRepositoryCustom {
 
     List<Post> findAllWithUserByBoardId(long boardId);
 
-    Post getWithUserById(long postId);
+    Post getPostWithUserById(long postId);
 }

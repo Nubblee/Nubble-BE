@@ -7,6 +7,7 @@ import com.nubble.backend.comment.domain.member.QMemberComment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
@@ -14,6 +15,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Comment> findAllByPostId(Long postId) {
         return jpaQueryFactory.selectFrom(comment)
                 .leftJoin(comment.as(QMemberComment.class).user).fetchJoin()

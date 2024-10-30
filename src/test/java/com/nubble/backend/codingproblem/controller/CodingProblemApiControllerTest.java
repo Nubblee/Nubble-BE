@@ -17,10 +17,10 @@ import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemSear
 import com.nubble.backend.codingproblem.service.CodingProblemInfo;
 import com.nubble.backend.codingproblem.service.CodingProblemService;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
-import com.nubble.backend.user.session.domain.Session;
-import com.nubble.backend.user.session.service.SessionRepository;
-import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.service.UserRepository;
+import com.nubble.backend.userold.session.domain.Session;
+import com.nubble.backend.userold.session.service.SessionRepository;
+import com.nubble.backend.userold.domain.User;
+import com.nubble.backend.userold.service.UserRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;

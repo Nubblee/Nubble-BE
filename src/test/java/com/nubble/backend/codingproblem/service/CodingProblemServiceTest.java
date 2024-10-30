@@ -7,8 +7,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemDeleteCommand;
 import com.nubble.backend.codingproblem.service.CodingProblemCommand.ProblemSearchCommand;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
-import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.service.UserRepository;
+import com.nubble.backend.userold.domain.User;
+import com.nubble.backend.userold.service.UserRepository;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -81,7 +81,7 @@ class CodingProblemServiceTest {
         // given
         for (int ui = 1; ui <= 2; ui++) {
             User user = UserFixture.aUser()
-                    .withUsername("user%d".formatted(ui))
+                    .username("user%d".formatted(ui))
                     .build();
             userRepository.save(user);
 
@@ -112,7 +112,7 @@ class CodingProblemServiceTest {
         // given
         for (int ui = 1; ui <= 2; ui++) {
             User user = UserFixture.aUser()
-                    .withUsername("user%d".formatted(ui))
+                    .username("user%d".formatted(ui))
                     .build();
             userRepository.save(user);
 

@@ -4,18 +4,17 @@ import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
-import com.nubble.backend.comment.fixture.MemberCommentFixture;
-import com.nubble.backend.comment.feature.delete.member.DeleteMemberCommentService.DeleteMemberCommentCommand;
-import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.comment.domain.member.MemberComment;
+import com.nubble.backend.comment.feature.delete.member.DeleteMemberCommentService.DeleteMemberCommentCommand;
+import com.nubble.backend.comment.fixture.MemberCommentFixture;
+import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.post.domain.PostStatus;
-import com.nubble.backend.post.service.PostRepository;
-import com.nubble.backend.user.domain.User;
-import com.nubble.backend.user.service.UserRepository;
+import com.nubble.backend.post.repository.PostRepository;
+import com.nubble.backend.userold.domain.User;
+import com.nubble.backend.userold.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.CategoryFixture;
-import com.nubble.backend.utils.fixture.domain.PostFixture;
+import com.nubble.backend.post.fixture.PostFixture;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,10 +62,9 @@ class DeleteMemberCommentServiceTest {
         user = UserFixture.aUser().build();
         userRepository.save(user);
 
-        Post post = PostFixture.aPost()
+        Post post = PostFixture.aPublishedPost()
                 .user(user)
-                .board(board)
-                .status(PostStatus.PUBLISHED).build();
+                .board(board).build();
         postRepository.save(post);
 
         memberComment = MemberCommentFixture.aMemberComment()
