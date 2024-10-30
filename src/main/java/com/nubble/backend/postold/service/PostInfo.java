@@ -2,7 +2,7 @@ package com.nubble.backend.postold.service;
 
 import com.nubble.backend.category.board.service.BoardInfo.BoardDto;
 import com.nubble.backend.category.service.CategoryInfo.CategoryDto;
-import com.nubble.backend.postold.shared.PostStatusDto;
+import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.service.UserInfo;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;

@@ -10,7 +10,7 @@ import com.nubble.backend.comment.fixture.MemberCommentFixture;
 import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.common.exception.NoAuthorizationException;
 import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.postold.service.PostRepository;
+import com.nubble.backend.post.repository.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.CategoryFixture;

@@ -1,6 +1,6 @@
 package com.nubble.backend.postold.controller;
 
-import com.nubble.backend.postold.shared.PostStatusDto;
+import com.nubble.backend.post.shared.PostStatusDto;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

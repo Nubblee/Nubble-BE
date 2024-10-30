@@ -1,6 +1,6 @@
 package com.nubble.backend.postold.service;
 
-import com.nubble.backend.postold.shared.PostStatusDto;
+import com.nubble.backend.post.shared.PostStatusDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

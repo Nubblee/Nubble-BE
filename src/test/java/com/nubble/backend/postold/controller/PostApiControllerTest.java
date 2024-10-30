@@ -19,7 +19,7 @@ import com.nubble.backend.postold.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.postold.service.PostFacade;
 import com.nubble.backend.postold.service.PostInfo.PostWithCategoryDto;
 import com.nubble.backend.postold.service.PostService;
-import com.nubble.backend.postold.shared.PostStatusDto;
+import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import com.nubble.backend.user.session.domain.Session;

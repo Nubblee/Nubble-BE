@@ -7,7 +7,7 @@ import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.comment.feature.create.guest.CreateGuestCommentService.CreateGuestCommentCommand;
 import com.nubble.backend.comment.repository.GuestCommentRepository;
 import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.postold.service.PostRepository;
+import com.nubble.backend.post.repository.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.CategoryFixture;

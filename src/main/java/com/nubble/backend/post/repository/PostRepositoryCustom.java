@@ -1,4 +1,4 @@
-package com.nubble.backend.postold.repository;
+package com.nubble.backend.post.repository;
 
 import com.nubble.backend.post.domain.Post;
 import java.util.List;

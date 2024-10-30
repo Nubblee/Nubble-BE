@@ -1,4 +1,4 @@
-package com.nubble.backend.postold.repository;
+package com.nubble.backend.post.repository;
 
 import static com.nubble.backend.post.domain.QPost.post;
 import static com.nubble.backend.user.domain.QUser.user;

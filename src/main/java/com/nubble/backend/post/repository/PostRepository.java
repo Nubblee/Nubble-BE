@@ -1,7 +1,6 @@
-package com.nubble.backend.postold.service;
+package com.nubble.backend.post.repository;
 
 import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.postold.repository.PostRepositoryCustom;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

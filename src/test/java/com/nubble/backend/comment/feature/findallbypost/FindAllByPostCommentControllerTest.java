@@ -18,7 +18,7 @@ import com.nubble.backend.comment.feature.findallbypost.FindAllByPostCommentCont
 import com.nubble.backend.comment.feature.findallbypost.FindAllByPostCommentController.FindByPostCommentResponse;
 import com.nubble.backend.comment.repository.CommentRepository;
 import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.postold.service.PostRepository;
+import com.nubble.backend.post.repository.PostRepository;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.BoardFixture;
