@@ -1,6 +1,6 @@
 package com.nubble.backend.postold.controller;
 
-import com.nubble.backend.post.shared.PostStatusDto;
+import com.nubble.backend.post.domain.PostStatus;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,7 +23,7 @@ public class PostResponse {
             String title,
             String content,
             String thumbnailUrl,
-            PostStatusDto postStatus,
+            PostStatus postStatus,
             Long userId,
             String userNickname,
             Long boardId,

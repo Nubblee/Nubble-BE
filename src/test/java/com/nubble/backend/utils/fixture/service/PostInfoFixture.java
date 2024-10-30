@@ -3,10 +3,9 @@ package com.nubble.backend.utils.fixture.service;
 import com.nubble.backend.category.board.service.BoardInfo.BoardDto;
 import com.nubble.backend.category.service.CategoryInfo.CategoryDto;
 import com.nubble.backend.post.domain.PostStatus;
+import com.nubble.backend.postold.service.PostInfo;
 import com.nubble.backend.postold.service.PostInfo.PostWithUserDto;
 import com.nubble.backend.utils.fixture.domain.PostFixture;
-import com.nubble.backend.postold.service.PostInfo;
-import com.nubble.backend.post.shared.PostStatusDto;
 import java.time.LocalDateTime;
 
 public class PostInfoFixture {
@@ -39,7 +38,7 @@ public class PostInfoFixture {
                     .content(PostFixture.DEFAULT_CONTENT)
                     .thumbnailUrl(PostFixture.DEFAULT_THUMBNAIL_URL)
                     .description(PostFixture.DEFAULT_DESCRIPTION)
-                    .status(PostStatusDto.valueOf(PostStatus.PUBLISHED.name()))
+                    .status(PostStatus.valueOf(PostStatus.PUBLISHED.name()))
                     .createdAt(LocalDateTime.now());
         }
 
@@ -79,6 +78,7 @@ public class PostInfoFixture {
     }
 
     public static class PostWithCategoryDtoFixture {
+
         private final PostInfo.PostWithCategoryDto.PostWithCategoryDtoBuilder builder;
 
         private PostWithCategoryDtoFixture() {

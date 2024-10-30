@@ -2,24 +2,20 @@ package com.nubble.backend.postold.controller;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.postold.controller.PostRequest.PostCreateRequest;
+import com.nubble.backend.post.domain.PostStatus;
 import com.nubble.backend.postold.controller.PostRequest.PostUpdateRequest;
-import com.nubble.backend.postold.controller.PostResponse.PostCreateResponse;
 import com.nubble.backend.postold.controller.PostResponse.PostDetailResponse;
 import com.nubble.backend.postold.mapper.PostCommandMapper;
 import com.nubble.backend.postold.mapper.PostResponseMapper;
-import com.nubble.backend.postold.service.PostCommand.PostCreateCommand;
 import com.nubble.backend.postold.service.PostFacade;
 import com.nubble.backend.postold.service.PostInfo.PostWithCategoryDto;
 import com.nubble.backend.postold.service.PostService;
-import com.nubble.backend.post.shared.PostStatusDto;
 import com.nubble.backend.user.domain.User;
 import com.nubble.backend.user.service.UserRepository;
 import com.nubble.backend.user.session.domain.Session;
@@ -87,48 +83,13 @@ class PostApiControllerTest {
     }
 
     @Test
-    void 로그인된_유저가_임시_게시글을_작성한다() throws Exception {
-        // http request
-        PostCreateRequest request = PostCreateRequest.builder()
-                .title("제목입니다.")
-                .content("내용입니다")
-                .boardId(1L)
-                .status(PostStatusDto.DRAFT)
-                .thumbnailUrl(null)
-                .description(null)
-                .build();
-        String requestJson = objectMapper.writeValueAsString(request);
-
-        MockHttpServletRequestBuilder requestBuilder = post("/posts")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("SESSION-ID", session.getAccessId())
-                .content(requestJson);
-
-        // post를 생성한다
-        PostCreateCommand command = postCommandMapper.toPostCreateCommand(request, user.getId());
-        long newPostId = 1L;
-        given(postService.createPost(command))
-                .willReturn(newPostId);
-
-        // http response
-        PostCreateResponse response = postResponseMapper.toPostCreateResponse(newPostId);
-        String responseJson = objectMapper.writeValueAsString(response);
-
-        mockMvc.perform(requestBuilder)
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(responseJson))
-                .andDo(print());
-    }
-
-    @Test
     void 작성자가_게시글을_수정한다() throws Exception {
         // http request
         PostUpdateRequest request = PostUpdateRequest.builder()
                 .title("수정할 제목")
                 .content("수정할 내용")
                 .boardId(1L)
-                .status(PostStatusDto.PUBLISHED)
+                .status(PostStatus.PUBLISHED)
                 .thumbnailUrl("https://example.com/thumbnail.jpg")
                 .description("설명입니다.")
                 .build();

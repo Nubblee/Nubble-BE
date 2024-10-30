@@ -1,6 +1,6 @@
 package com.nubble.backend.postold.service;
 
-import com.nubble.backend.post.shared.PostStatusDto;
+import com.nubble.backend.post.domain.PostStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -9,26 +9,13 @@ import lombok.NoArgsConstructor;
 public class PostCommand {
 
     @Builder
-    public record PostCreateCommand(
-            String title,
-            String content,
-            long userId,
-            long boardId,
-            PostStatusDto status,
-            String thumbnailUrl,
-            String description
-    ) {
-
-    }
-
-    @Builder
     public record PostUpdateCommand(
             long postId,
             String title,
             String content,
             long userId,
             long boardId,
-            PostStatusDto status,
+            PostStatus status,
             String thumbnailUrl,
             String description
     ) {
