@@ -24,7 +24,7 @@ public class UserFixture {
         return this.builder.build();
     }
 
-    public UserFixture withUsername(String username) {
+    public UserFixture username(String username) {
         this.builder.username(username);
         return this;
     }

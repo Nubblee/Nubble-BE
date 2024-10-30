@@ -2,14 +2,11 @@ package com.nubble.backend.postold.controller;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nubble.backend.post.domain.PostStatus;
-import com.nubble.backend.postold.controller.PostRequest.PostUpdateRequest;
 import com.nubble.backend.postold.controller.PostResponse.PostDetailResponse;
 import com.nubble.backend.postold.mapper.PostCommandMapper;
 import com.nubble.backend.postold.mapper.PostResponseMapper;
@@ -80,32 +77,6 @@ class PostApiControllerTest {
                 .expireAt(LocalDateTime.now().plusDays(1))
                 .build();
         sessionRepository.save(session);
-    }
-
-    @Test
-    void 작성자가_게시글을_수정한다() throws Exception {
-        // http request
-        PostUpdateRequest request = PostUpdateRequest.builder()
-                .title("수정할 제목")
-                .content("수정할 내용")
-                .boardId(1L)
-                .status(PostStatus.PUBLISHED)
-                .thumbnailUrl("https://example.com/thumbnail.jpg")
-                .description("설명입니다.")
-                .build();
-        String requestJson = objectMapper.writeValueAsString(request);
-
-        long postId = 123L;
-        MockHttpServletRequestBuilder requestBuilder = put("/posts/{postId}", postId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("SESSION-ID", session.getAccessId())
-                .content(requestJson);
-
-        // http response
-        mockMvc.perform(requestBuilder)
-                .andExpect(status().isNoContent())
-                .andExpect(content().string(""))
-                .andDo(print());
     }
 
     @DisplayName("게시글 내용을 가져온다")

@@ -133,7 +133,7 @@ public class Post extends BaseEntity {
 
     public void validateOwner(Long userId) {
         if (!user.getId().equals(userId)) {
-            throw new NoAuthorizationException("게시글의 주인이 아닙니다.");
+            throw new NoAuthorizationException("게시글의 작성자가 아닙니다.");
         }
     }
 

@@ -81,7 +81,7 @@ class CodingProblemServiceTest {
         // given
         for (int ui = 1; ui <= 2; ui++) {
             User user = UserFixture.aUser()
-                    .withUsername("user%d".formatted(ui))
+                    .username("user%d".formatted(ui))
                     .build();
             userRepository.save(user);
 
@@ -112,7 +112,7 @@ class CodingProblemServiceTest {
         // given
         for (int ui = 1; ui <= 2; ui++) {
             User user = UserFixture.aUser()
-                    .withUsername("user%d".formatted(ui))
+                    .username("user%d".formatted(ui))
                     .build();
             userRepository.save(user);
 
