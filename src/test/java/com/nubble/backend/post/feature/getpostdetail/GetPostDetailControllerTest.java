@@ -11,7 +11,7 @@ import com.nubble.backend.category.board.service.BoardInfo.BoardDto;
 import com.nubble.backend.category.service.CategoryInfo.CategoryDto;
 import com.nubble.backend.post.feature.PostDto;
 import com.nubble.backend.post.feature.getpostdetail.GetPostDetailController.GetPostDetailResponse;
-import com.nubble.backend.post.feature.getpostdetail.GetPostDetailFacade.GetPostDetailFacadeResult;
+import com.nubble.backend.post.feature.getpostdetail.GetPostDetailFacade.GetPostDetailFacadeInfo;
 import com.nubble.backend.post.feature.getpostdetail.GetPostWithUserService.GetPostWithUserQuery;
 import com.nubble.backend.post.fixture.PostDtoFixture;
 import com.nubble.backend.user.feature.UserDto;
@@ -61,7 +61,7 @@ class GetPostDetailControllerTest {
         CategoryDto category = CategoryInfoFixture.aCategoryDto()
                 .categoryId(board.categoryId()).build();
 
-        GetPostDetailFacadeResult result = GetPostDetailFacadeResult.builder()
+        GetPostDetailFacadeInfo result = GetPostDetailFacadeInfo.builder()
                 .post(post)
                 .user(user)
                 .board(board)

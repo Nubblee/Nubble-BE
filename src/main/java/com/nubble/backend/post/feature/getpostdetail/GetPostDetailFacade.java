@@ -20,12 +20,12 @@ public class GetPostDetailFacade {
     private final CategoryService categoryService;
     private final BoardService boardService;
 
-    public GetPostDetailFacadeResult getPostDetailById(GetPostWithUserQuery query) {
+    public GetPostDetailFacadeInfo getPostDetailById(GetPostWithUserQuery query) {
         PostWithUserDto postWithUser = getPostWithUserService.getPostWithUser(query);
         BoardDto board = boardService.getBoardById(postWithUser.post().boardId());
         CategoryDto category = categoryService.getCategoryById(board.categoryId());
 
-        return GetPostDetailFacadeResult.builder()
+        return GetPostDetailFacadeInfo.builder()
                 .post(postWithUser.post())
                 .user(postWithUser.user())
                 .board(board)
@@ -33,7 +33,7 @@ public class GetPostDetailFacade {
     }
 
     @Builder
-    public record GetPostDetailFacadeResult(
+    public record GetPostDetailFacadeInfo(
             PostDto post,
             UserDto user,
             BoardDto board,

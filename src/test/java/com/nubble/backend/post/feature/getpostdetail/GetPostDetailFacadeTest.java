@@ -11,7 +11,7 @@ import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.post.customassert.PostDtoAssert;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.feature.PostDto;
-import com.nubble.backend.post.feature.getpostdetail.GetPostDetailFacade.GetPostDetailFacadeResult;
+import com.nubble.backend.post.feature.getpostdetail.GetPostDetailFacade.GetPostDetailFacadeInfo;
 import com.nubble.backend.post.feature.getpostdetail.GetPostWithUserService.GetPostWithUserQuery;
 import com.nubble.backend.post.fixture.PostFixture;
 import com.nubble.backend.post.repository.PostRepository;
@@ -81,7 +81,7 @@ class GetPostDetailFacadeTest {
         // 게시글 상세 조회
         GetPostWithUserQuery query = GetPostWithUserQuery.builder()
                 .postId(post.getId()).build();
-        GetPostDetailFacadeResult actualResult = getPostDetailFacade.getPostDetailById(query);
+        GetPostDetailFacadeInfo actualResult = getPostDetailFacade.getPostDetailById(query);
 
         // 값 검증
         PostDtoAssert.assertThat(actualResult.post())

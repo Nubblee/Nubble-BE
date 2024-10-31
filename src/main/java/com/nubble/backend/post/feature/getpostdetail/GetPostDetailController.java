@@ -2,7 +2,7 @@ package com.nubble.backend.post.feature.getpostdetail;
 
 import com.nubble.backend.config.resolver.UserSession;
 import com.nubble.backend.post.domain.PostStatus;
-import com.nubble.backend.post.feature.getpostdetail.GetPostDetailFacade.GetPostDetailFacadeResult;
+import com.nubble.backend.post.feature.getpostdetail.GetPostDetailFacade.GetPostDetailFacadeInfo;
 import com.nubble.backend.post.feature.getpostdetail.GetPostWithUserService.GetPostWithUserQuery;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class GetPostDetailController {
     public ResponseEntity<GetPostDetailResponse> getPostDetail(
             @PathVariable Long postId, UserSession userSession) {
         GetPostWithUserQuery query = mapper.toQuery(userSession, postId);
-        GetPostDetailFacadeResult result = getPostDetailFacade.getPostDetailById(query);
+        GetPostDetailFacadeInfo result = getPostDetailFacade.getPostDetailById(query);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(mapper.toResponse(result));
