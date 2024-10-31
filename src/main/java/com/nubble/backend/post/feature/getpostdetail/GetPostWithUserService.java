@@ -7,6 +7,7 @@ import com.nubble.backend.post.feature.PostDto;
 import com.nubble.backend.post.feature.PostWithUserDto;
 import com.nubble.backend.post.repository.PostRepository;
 import com.nubble.backend.user.feature.UserDto;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Objects;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,9 @@ public class GetPostWithUserService {
 
     @Transactional(readOnly = true)
     public PostWithUserDto getPostWithUser(GetPostWithUserQuery query) {
-        Post post = postRepository.getPostWithUserById(query.postId);
+        Post post = postRepository.findPostWithUserById(query.postId)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+
         if (post.getStatus() == PostStatus.DRAFT && !Objects.equals(post.getUser().getId(), query.userId)) {
             throw new NoAuthorizationException("글이 공개되지 않은 상태입니다.");
         }
@@ -36,5 +39,6 @@ public class GetPostWithUserService {
             Long postId,
             Long userId
     ) {
+
     }
 }

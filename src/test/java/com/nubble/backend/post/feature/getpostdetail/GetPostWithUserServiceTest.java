@@ -15,13 +15,13 @@ import com.nubble.backend.post.repository.PostRepository;
 import com.nubble.backend.userold.domain.User;
 import com.nubble.backend.userold.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
+import jakarta.persistence.EntityNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -131,7 +131,7 @@ class GetPostWithUserServiceTest {
         GetPostWithUserQuery query = GetPostWithUserQuery.builder()
                 .postId(1L).build();
         Assertions.assertThatThrownBy(() -> getPostWithUserService.getPostWithUser(query))
-                .isInstanceOf(DataAccessException.class)
+                .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("게시글이 존재하지 않습니다.");
     }
 }
