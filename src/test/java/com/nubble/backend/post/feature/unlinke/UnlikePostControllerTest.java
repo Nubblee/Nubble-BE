@@ -1,12 +1,11 @@
-package com.nubble.backend.post.feature.like;
+package com.nubble.backend.post.feature.unlinke;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.nubble.backend.post.feature.like.LikePostService.LikePostCommand;
 import com.nubble.backend.userold.domain.User;
 import com.nubble.backend.userold.session.domain.Session;
 import com.nubble.backend.userold.session.service.SessionRepository;
@@ -22,13 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class LikePostControllerTest {
+class UnlikePostControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,7 +38,7 @@ class LikePostControllerTest {
     private SessionRepository sessionRepository;
 
     @MockBean
-    private LikePostService likePostService;
+    private UnlikePostService unlikePostService;
 
     private Session session;
     private User user;
@@ -58,32 +56,19 @@ class LikePostControllerTest {
                 .willReturn(Optional.ofNullable(session));
     }
 
-    @DisplayName("멤버가 게시글에 좋아요를 누른다")
+    @DisplayName("게시글 좋아요를 취소한다")
     @Test
     void success() throws Exception {
         // http request
         long postId = 23L;
-        MockHttpServletRequestBuilder requestBuilder = put("/posts/{postId}/likes", postId)
+        MockHttpServletRequestBuilder requestBuilder = delete("/posts/{postId}/likes", postId)
                 .header("SESSION-ID", session.getAccessId());
-
-        // 좋아요를 누른다
-        LikePostCommand command = LikePostCommand.builder()
-                .userId(user.getId())
-                .postId(postId).build();
-
-        long newLikeId = 102L;
-        given(likePostService.likePost(command))
-                .willReturn(newLikeId);
 
         // http response
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(String.format("""
-                        {
-                            "newLikeId": %d
-                        }
-                        """, newLikeId)))
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(""))
                 .andDo(print());
+
     }
 }

@@ -22,10 +22,7 @@ public class LikePostController {
             path = "/posts/{postId:\\d+}/likes",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<LikePostResponse> likePost(
-            @PathVariable long postId,
-            UserSession userSession
-    ) {
+    public ResponseEntity<LikePostResponse> likePost(@PathVariable long postId, UserSession userSession) {
         LikePostCommand command = LikePostCommand.builder()
                 .postId(postId)
                 .userId(userSession.userId()).build();
