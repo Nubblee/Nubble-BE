@@ -38,7 +38,7 @@ class UnlikePostControllerTest {
     private SessionRepository sessionRepository;
 
     @MockBean
-    private UnlikePostService unlikePostService;
+    private UnlikePostFacade unlikePostFacade;
 
     private Session session;
     private User user;
