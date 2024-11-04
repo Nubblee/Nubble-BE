@@ -63,6 +63,8 @@ public class Post extends BaseEntity {
     @Column(nullable = false)
     private PostStatus status;
 
+    @Column(nullable = false)
+    private int likeCount = 0;
 
     @Builder(builderClassName = "PublishedBuilder", builderMethodName = "publishedBuilder")
     protected Post(
