@@ -16,6 +16,7 @@ public class PostDtoFixture {
     private LocalDateTime createdAt;
     private Long userId;
     private Long boardId;
+    private int likeCount;
 
     public static PostDtoFixture aPostDto() {
         PostDtoFixture fixture = new PostDtoFixture();
@@ -47,6 +48,11 @@ public class PostDtoFixture {
         return this;
     }
 
+    public PostDtoFixture likeCount(int likeCount) {
+        this.likeCount = likeCount;
+        return this;
+    }
+
     public PostDto build() {
         return builder.postId(postId)
                 .title(title)
@@ -56,6 +62,7 @@ public class PostDtoFixture {
                 .status(status)
                 .createdAt(createdAt)
                 .userId(userId)
-                .boardId(boardId).build();
+                .boardId(boardId)
+                .likeCount(likeCount).build();
     }
 }

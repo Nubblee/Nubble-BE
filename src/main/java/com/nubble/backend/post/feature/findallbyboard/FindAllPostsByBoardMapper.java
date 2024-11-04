@@ -15,5 +15,6 @@ public interface FindAllPostsByBoardMapper {
     @Mapping(target = "description", source = "post.description")
     @Mapping(target = "username", source = "user.username")
     @Mapping(target = "createdAt", source = "post.createdAt")
+    @Mapping(target = "likeCount", source = "post.likeCount")
     FindPostByBoardResponse toResponse(PostWithUserDto postWithUserDto);
 }

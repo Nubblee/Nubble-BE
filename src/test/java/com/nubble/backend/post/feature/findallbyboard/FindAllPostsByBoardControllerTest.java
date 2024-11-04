@@ -57,7 +57,8 @@ class FindAllPostsByBoardControllerTest {
             PostDto postDto = PostDtoFixture.aPostDto()
                     .postId(postId)
                     .userId(user.id())
-                    .boardId(3L).build();
+                    .boardId(3L)
+                    .likeCount(2).build();
             posts.add(PostWithUserDto.builder()
                     .post(postDto)
                     .user(user).build());

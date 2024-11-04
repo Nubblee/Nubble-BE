@@ -42,7 +42,8 @@ public class FindAllPostsByBoardController {
             String thumbnailUrl,
             String description,
             String username,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            int likeCount
     ) {
     }
 }
