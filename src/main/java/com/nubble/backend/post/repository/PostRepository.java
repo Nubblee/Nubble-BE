@@ -1,5 +1,6 @@
 package com.nubble.backend.post.repository;
 
+import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.post.domain.Post;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -24,5 +25,5 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     void decrementLikeCount(Long postId);
 
     @EntityGraph(attributePaths = {"user"}) // 연관 데이터를 즉시 로딩
-    List<Post> findAllByOrderByLikeCountDesc();
+    List<Post> findAllByBoardOrderByLikeCountDesc(Board board);
 }

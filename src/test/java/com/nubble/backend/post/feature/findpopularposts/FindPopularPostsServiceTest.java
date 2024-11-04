@@ -41,6 +41,8 @@ class FindPopularPostsServiceTest {
     @Autowired
     private FindPopularPostsService findPopularPostsService;
 
+    Board board;
+
     @BeforeEach
     void setUp() {
         // 유저 생성
@@ -53,7 +55,7 @@ class FindPopularPostsServiceTest {
                 .build();
         categoryRepository.save(category);
 
-        Board board = Board.builder()
+        board = Board.builder()
                 .category(category)
                 .name("게시판 이름")
                 .build();
@@ -80,7 +82,7 @@ class FindPopularPostsServiceTest {
     @Test
     void success() {
         // 좋아요 내림차순으로 게시글들을 가져온다
-        List<PostWithUserDto> result = findPopularPostsService.findPopularPosts();
+        List<PostWithUserDto> result = findPopularPostsService.findPopularPosts(board.getId());
 
         // 좋아요가 0 보다 높은 값들만 가져오는지 확인
         // 좋아요 내림차순으로 가져오는지 확인
