@@ -1,4 +1,4 @@
-package com.nubble.backend.post.feature.findallbyboard;
+package com.nubble.backend.post.feature.findpopularposts;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nubble.backend.post.feature.PostDto;
 import com.nubble.backend.post.feature.PostWithUserDto;
 import com.nubble.backend.post.feature.findallbyboard.FindAllPostsByBoardController.FindAllPostsByBoardResponse;
+import com.nubble.backend.post.feature.findallbyboard.FindAllPostsByBoardMapper;
 import com.nubble.backend.post.fixture.PostDtoFixture;
 import com.nubble.backend.user.feature.UserDto;
 import com.nubble.backend.user.feature.UserDtoFixture;
@@ -26,10 +27,10 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class FindAllPostsByBoardControllerTest {
+class FindPopularPostsControllerTest {
 
     @MockBean
-    private FindAllPostsByBoardService service;
+    private FindPopularPostsService service;
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,14 +41,14 @@ class FindAllPostsByBoardControllerTest {
     @Autowired
     private FindAllPostsByBoardMapper mapper;
 
-    @DisplayName("게시판에 있는 게시된 글들을 가져온다")
+    @DisplayName("게시판의 인기 게시글들을 가져온다")
     @Test
     void success() throws Exception {
         // http request
         long boardId = 2L;
-        MockHttpServletRequestBuilder requestBuilder = get("/boards/{boardId}", boardId);
+        MockHttpServletRequestBuilder requestBuilder = get("/boards/{boardId}/posts/popular", boardId);
 
-        // 게시판에 있는 글들을 조회
+        // 게시판 내의 인기 게시글들을 조회
         UserDto user = UserDtoFixture.aUserDto().build();
 
         int postCount = 5;
@@ -63,7 +64,7 @@ class FindAllPostsByBoardControllerTest {
                     .user(user).build());
         }
 
-        given(service.findAllByBoardId(boardId))
+        given(service.findPopularPosts(boardId))
                 .willReturn(posts);
 
         // http response
