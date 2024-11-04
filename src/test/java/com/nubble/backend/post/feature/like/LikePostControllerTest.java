@@ -40,7 +40,7 @@ class LikePostControllerTest {
     private SessionRepository sessionRepository;
 
     @MockBean
-    private LikePostService likePostService;
+    private LikePostFacade likePostFacade;
 
     private Session session;
     private User user;
@@ -72,18 +72,18 @@ class LikePostControllerTest {
                 .postId(postId).build();
 
         long newLikeId = 102L;
-        given(likePostService.likePost(command))
+        given(likePostFacade.likePost(command))
                 .willReturn(newLikeId);
 
         // http response
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(String.format("""
+                .andExpect(content().json("""
                         {
                             "newLikeId": %d
                         }
-                        """, newLikeId)))
+                        """.formatted(newLikeId)))
                 .andDo(print());
     }
 }

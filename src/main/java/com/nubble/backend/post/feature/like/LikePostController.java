@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LikePostController {
 
-    private final LikePostService likePostService;
+    private final LikePostFacade likePostFacade;
 
     @SessionRequired
     @PutMapping(
@@ -27,7 +27,7 @@ public class LikePostController {
                 .postId(postId)
                 .userId(userSession.userId()).build();
 
-        Long newLikeId = likePostService.likePost(command);
+        Long newLikeId = likePostFacade.likePost(command);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new LikePostResponse(newLikeId));
     }
