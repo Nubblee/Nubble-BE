@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UnlikePostController {
 
-    private final UnlikePostService unlikePostService;
+    private final UnlikePostFacade unlikePostFacade;
 
     @SessionRequired
     @DeleteMapping(path = "/posts/{postId:\\d+}/likes")
@@ -24,7 +24,7 @@ public class UnlikePostController {
                 .postId(postId)
                 .userId(userSession.userId()).build();
 
-        unlikePostService.unlikePost(command);
+        unlikePostFacade.unlikePost(command);
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .build();
     }

@@ -1,4 +1,6 @@
-package com.nubble.backend.post.feature.unlinke;
+package com.nubble.backend.post.feature.isliked;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardRepository;
@@ -6,7 +8,7 @@ import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.post.domain.Post;
 import com.nubble.backend.post.domain.PostLike;
-import com.nubble.backend.post.feature.unlinke.UnlikePostService.UnlikePostCommand;
+import com.nubble.backend.post.feature.isliked.IsPostLikedService.IsPostLikedQuery;
 import com.nubble.backend.post.fixture.PostFixture;
 import com.nubble.backend.post.repository.PostLikeRepository;
 import com.nubble.backend.post.repository.PostRepository;
@@ -15,18 +17,16 @@ import com.nubble.backend.userold.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.BoardFixture;
 import com.nubble.backend.utils.fixture.domain.CategoryFixture;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-class UnlikePostServiceTest {
+class IsPostLikedServiceTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -41,10 +41,10 @@ class UnlikePostServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private PostLikeRepository postLikeRepository;
+    private IsPostLikedService isPostLikedService;
 
     @Autowired
-    private UnlikePostService unlikePostService;
+    private PostLikeRepository postLikeRepository;
 
     private User user;
     private Post publishedPost;
@@ -67,37 +67,33 @@ class UnlikePostServiceTest {
         postRepository.save(publishedPost);
     }
 
-    @DisplayName("좋아요를 취소한다")
+    @DisplayName("게시글에 좋아요를 눌렀다면 true를 반환한다")
     @Test
-    void success() {
-        // 좋아요를 한다
+    void sucess_returnTrue() {
+        // 게시글 좋아요를 누른다
         PostLike postLike = PostLike.builder()
                 .post(publishedPost)
                 .user(user).build();
-        Long postLikeId = postLikeRepository.save(postLike).getId();
+        postLikeRepository.save(postLike);
 
-        // 좋아요를 취소한다
-        UnlikePostCommand command = UnlikePostCommand.builder()
+        // 게시글 좋아요 검사
+        IsPostLikedQuery query = IsPostLikedQuery.builder()
                 .postId(publishedPost.getId())
                 .userId(user.getId()).build();
+        boolean result = isPostLikedService.isPostLiked(query);
 
-        unlikePostService.unlikePost(command);
-
-        // 좋아요 취소를 확인한다
-        Assertions.assertThat(postLikeRepository.findById(postLikeId)).isEmpty();
+        assertThat(result).isTrue();
     }
 
-    @DisplayName("좋아요를 누른 적이 없다면, 취소할 수 없다")
+    @DisplayName("게시글에 좋아요를 누르지 않았다면 false를 반환한다")
     @Test
-    void throwException() {
-        // 좋아요 취소를 한다
-        // 좋아요 한 적이 없으므로 예외를 발생시킨다
-        UnlikePostCommand command = UnlikePostCommand.builder()
+    void sucess_returnFalse() {
+        // 게시글 좋아요 검사
+        IsPostLikedQuery query = IsPostLikedQuery.builder()
                 .postId(publishedPost.getId())
                 .userId(user.getId()).build();
+        boolean result = isPostLikedService.isPostLiked(query);
 
-        Assertions.assertThatThrownBy(() -> unlikePostService.unlikePost(command))
-                .isInstanceOf(JpaObjectRetrievalFailureException.class)
-                .hasMessage("좋아요가 존재하지 않습니다.");
+        assertThat(result).isFalse();
     }
 }

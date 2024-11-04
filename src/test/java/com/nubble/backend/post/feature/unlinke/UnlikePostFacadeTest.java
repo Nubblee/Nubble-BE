@@ -1,11 +1,15 @@
 package com.nubble.backend.post.feature.unlinke;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardRepository;
 import com.nubble.backend.category.domain.Category;
 import com.nubble.backend.category.service.CategoryRepository;
 import com.nubble.backend.post.domain.Post;
-import com.nubble.backend.post.domain.PostLike;
+import com.nubble.backend.post.feature.like.LikePostFacade;
+import com.nubble.backend.post.feature.like.LikePostService;
+import com.nubble.backend.post.feature.like.LikePostService.LikePostCommand;
 import com.nubble.backend.post.feature.unlinke.UnlikePostService.UnlikePostCommand;
 import com.nubble.backend.post.fixture.PostFixture;
 import com.nubble.backend.post.repository.PostLikeRepository;
@@ -15,18 +19,16 @@ import com.nubble.backend.userold.service.UserRepository;
 import com.nubble.backend.utils.fixture.domain.BoardFixture;
 import com.nubble.backend.utils.fixture.domain.CategoryFixture;
 import com.nubble.backend.utils.fixture.domain.UserFixture;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-class UnlikePostServiceTest {
+class UnlikePostFacadeTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -41,10 +43,16 @@ class UnlikePostServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private PostLikeRepository postLikeRepository;
+    private LikePostFacade likePostFacade;
 
     @Autowired
-    private UnlikePostService unlikePostService;
+    private UnlikePostFacade unlikePostFacade;
+
+    @Autowired
+    private LikePostService likePostService;
+
+    @Autowired
+    private PostLikeRepository postLikeRepository;
 
     private User user;
     private Post publishedPost;
@@ -70,34 +78,42 @@ class UnlikePostServiceTest {
     @DisplayName("좋아요를 취소한다")
     @Test
     void success() {
-        // 좋아요를 한다
-        PostLike postLike = PostLike.builder()
-                .post(publishedPost)
-                .user(user).build();
-        Long postLikeId = postLikeRepository.save(postLike).getId();
+        // 좋아요를 누른다
+        LikePostCommand likePostCommand = LikePostCommand.builder()
+                .postId(publishedPost.getId())
+                .userId(user.getId()).build();
+        likePostFacade.likePost(likePostCommand);
 
         // 좋아요를 취소한다
-        UnlikePostCommand command = UnlikePostCommand.builder()
+        UnlikePostCommand unlikePostCommand = UnlikePostCommand.builder()
                 .postId(publishedPost.getId())
                 .userId(user.getId()).build();
+        unlikePostFacade.unlikePost(unlikePostCommand);
 
-        unlikePostService.unlikePost(command);
-
-        // 좋아요 취소를 확인한다
-        Assertions.assertThat(postLikeRepository.findById(postLikeId)).isEmpty();
+        // 취소되었는지 확인
+        Post post = postRepository.getPostById(publishedPost.getId());
+        assertThat(post.getLikeCount()).isZero();
     }
 
-    @DisplayName("좋아요를 누른 적이 없다면, 취소할 수 없다")
+    @DisplayName("좋아요가 0이하로 내려가지 않는다")
     @Test
-    void throwException() {
-        // 좋아요 취소를 한다
-        // 좋아요 한 적이 없으므로 예외를 발생시킨다
-        UnlikePostCommand command = UnlikePostCommand.builder()
+    void not_fall_below_zero() {
+        // 강제로 좋아요는 누르지만, 좋아요 카운트는 증가시키지 않는다
+        LikePostCommand likePostCommand = LikePostCommand.builder()
                 .postId(publishedPost.getId())
                 .userId(user.getId()).build();
+        Long postLikeId = likePostService.likePost(likePostCommand);
 
-        Assertions.assertThatThrownBy(() -> unlikePostService.unlikePost(command))
-                .isInstanceOf(JpaObjectRetrievalFailureException.class)
-                .hasMessage("좋아요가 존재하지 않습니다.");
+        assertThat(postLikeRepository.findById(postLikeId)).isPresent();
+        assertThat(postRepository.getPostById(publishedPost.getId()).getLikeCount()).isZero();
+
+        // 좋아요를 취소해도 0이하로 떨어지지 않는다
+        UnlikePostCommand unlikePostCommand = UnlikePostCommand.builder()
+                .postId(publishedPost.getId())
+                .userId(user.getId()).build();
+        unlikePostFacade.unlikePost(unlikePostCommand);
+
+        assertThat(postLikeRepository.findById(postLikeId)).isEmpty();
+        assertThat(postRepository.getPostById(publishedPost.getId()).getLikeCount()).isZero();
     }
 }

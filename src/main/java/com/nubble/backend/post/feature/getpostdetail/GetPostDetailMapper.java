@@ -23,6 +23,7 @@ public interface GetPostDetailMapper {
     @Mapping(target = "boardName", source = "board.name")
     @Mapping(target = "categoryId", source = "category.id")
     @Mapping(target = "categoryName", source = "category.name")
+    @Mapping(target = "likeCount", source = "post.likeCount")
     GetPostDetailResponse toResponse(GetPostDetailFacadeInfo result);
 
     GetPostWithUserQuery toQuery(UserSession userSession, Long postId);

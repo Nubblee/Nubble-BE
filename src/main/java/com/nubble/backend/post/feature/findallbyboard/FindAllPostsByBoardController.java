@@ -23,12 +23,9 @@ public class FindAllPostsByBoardController {
             produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FindAllPostsByBoardResponse> findAllByBoardId(@PathVariable Long boardId) {
         List<PostWithUserDto> dtos = findAllPostsByBoardService.findAllByBoardId(boardId);
-        List<FindPostByBoardResponse> list = dtos.stream()
-                .map(mapper::toResponse)
-                .toList();
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new FindAllPostsByBoardResponse(list));
+                .body(mapper.toResponse(dtos));
     }
 
     public record FindAllPostsByBoardResponse(
@@ -42,7 +39,8 @@ public class FindAllPostsByBoardController {
             String thumbnailUrl,
             String description,
             String username,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            int likeCount
     ) {
     }
 }
