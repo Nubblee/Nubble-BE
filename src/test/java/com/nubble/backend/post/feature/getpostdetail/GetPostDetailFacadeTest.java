@@ -1,5 +1,7 @@
 package com.nubble.backend.post.feature.getpostdetail;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.nubble.backend.category.board.domain.Board;
 import com.nubble.backend.category.board.service.BoardInfo.BoardDto;
 import com.nubble.backend.category.board.service.BoardInfoMapper;
@@ -92,5 +94,6 @@ class GetPostDetailFacadeTest {
                 .isEqualTo(expectedBoardDto);
         CategoryDtoAssert.assertThat(actualResult.category())
                 .isEqualTo(expectedCategoryDto);
+        assertThat(actualResult.postLiked()).isFalse();
     }
 }
