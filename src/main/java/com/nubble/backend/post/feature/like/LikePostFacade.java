@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 public class LikePostFacade {
 
     private final LikePostService likePostService;
-    private final PostRepository postRepository;
+    private final IncrementLikeCountService incrementLikeCountService;
 
     public Long likePost(LikePostCommand command) {
         Long newPostLikeId = likePostService.likePost(command);
-        postRepository.incrementLikeCount(command.postId());
+        incrementLikeCountService.increment(command.postId());
 
         return newPostLikeId;
     }

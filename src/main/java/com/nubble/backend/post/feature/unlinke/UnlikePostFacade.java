@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class UnlikePostFacade {
 
     private final UnlikePostService unlikePostService;
-    private final PostRepository postRepository;
+    private final DecrementLikeCountService decrementLikeCountService;
 
     @Transactional
     public void unlikePost(UnlikePostCommand command) {
         unlikePostService.unlikePost(command);
-        postRepository.decrementLikeCount(command.postId());
+        decrementLikeCountService.decrement(command.postId());
     }
 }
