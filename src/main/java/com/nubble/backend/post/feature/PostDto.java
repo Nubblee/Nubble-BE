@@ -15,7 +15,8 @@ public record PostDto(
         PostStatus status,
         LocalDateTime createdAt,
         Long userId,
-        Long boardId
+        Long boardId,
+        int likeCount
 ) {
 
     public static PostDto fromDomain(Post post) {
@@ -28,6 +29,7 @@ public record PostDto(
                 .status(post.getStatus())
                 .createdAt(post.getCreatedAt())
                 .userId(post.getUser().getId())
-                .boardId(post.getBoard().getId()).build();
+                .boardId(post.getBoard().getId())
+                .likeCount(post.getLikeCount()).build();
     }
 }
