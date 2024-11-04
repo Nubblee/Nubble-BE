@@ -46,7 +46,8 @@ public class GetPostDetailController {
             String boardName,
             Long categoryId,
             String categoryName,
-            int likeCount
+            int likeCount,
+            boolean postLiked
     ) {
 
     }

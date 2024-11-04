@@ -65,7 +65,8 @@ class GetPostDetailControllerTest {
                 .post(post)
                 .user(user)
                 .board(board)
-                .category(category).build();
+                .category(category)
+                .postLiked(true).build();
         GetPostWithUserQuery query = GetPostWithUserQuery.builder()
                 .postId(post.postId()).build();
         given(getPostDetailFacade.getPostDetailById(query))
