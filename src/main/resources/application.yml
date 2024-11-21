@@ -1,19 +1,16 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:nubble
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}
+    username: ${dbUsername}
+    password: ${dbPassword}
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
     open-in-view: false
     defer-datasource-initialization: true
