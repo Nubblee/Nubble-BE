@@ -1,16 +1,21 @@
-FROM bellsoft/liberica-openjdk-alpine:21 AS builder
+# 빌드 스테이지
+FROM eclipse-temurin:21-jdk-alpine AS builder
 WORKDIR /build
 
-COPY . .
+# Gradle Wrapper 관련 파일 복사
+COPY build.gradle settings.gradle ./
+COPY gradle gradle/
+COPY gradlew .
 
-RUN chmod +x ./gradlew \
-    && ./gradlew bootJar --no-daemon
+# Gradle 종속성 다운로드 (캐싱 활용)
+RUN chmod +x ./gradlew && ./gradlew --no-daemon dependencies
+
+# 전체 소스 복사 및 빌드
+COPY . .
+RUN ./gradlew --no-daemon bootJar
 
 # 실행 스테이지
-FROM bellsoft/liberica-runtime-container:jre-21-slim-musl
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-
-# 빌드 스테이지에서 생성된 jar 파일만 복사
 COPY --from=builder /build/build/libs/*-SNAPSHOT.jar app.jar
-
 ENTRYPOINT ["java", "-jar", "app.jar"]
